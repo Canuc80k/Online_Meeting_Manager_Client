@@ -38,6 +38,19 @@ public class Client {
 		return register_successful;
 	}
 
+	public static boolean createMeeting(String new_meeting_data) throws Exception {	
+		Client.start();
+		dos.writeUTF("CREATE_MEETING\n" + new_meeting_data);
+
+		boolean create_meeting_successful = Boolean.parseBoolean(dis.readUTF());
+		
+		dos.close();
+		dis.close();
+		socket.close();
+		
+		return create_meeting_successful;
+	}
+
 	public static void start() {
 		try {
 			socket = new Socket(hostname, port);

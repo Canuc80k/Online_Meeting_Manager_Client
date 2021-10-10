@@ -1,7 +1,5 @@
 package user_interface;
 
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,13 +50,6 @@ public class Main_interface extends JFrame {
 		settingMenu = new JMenu("Cài đặt");
 		helplMenu = new JMenu("Trợ giúp");
 		logOutButton = new JButton("Đăng Xuất");
-		logOutButton.addActionListener(e -> {
-			try {
-				FileTool.write_file("false", IS_LOGINED_FILE_PATH);
-				Login_interface.create_new_window();
-				dispose();
-			} catch (Exception e1) {}
-		});
 		
 		createMeetingMenuItem = new JMenuItem("Tạo cuộc họp");
 		joinMeetingMenuItem = new JMenuItem("Tham gia cuộc họp");
@@ -88,5 +79,17 @@ public class Main_interface extends JFrame {
 		menuBar.add(helplMenu);
 		menuBar.add(logOutButton);
 		setJMenuBar(menuBar);
+		
+		createMeetingMenuItem.addActionListener(e -> {
+			Meeting_creator_interface.create_new_window();
+		});
+		
+		logOutButton.addActionListener(e -> {
+			try {
+				FileTool.write_file("false", IS_LOGINED_FILE_PATH);
+				Login_interface.create_new_window();
+				dispose();
+			} catch (Exception e1) {}
+		});
 	}
 }

@@ -13,7 +13,6 @@ public class Laucher implements Runnable {
 	private static void init() throws Exception {
 		main_thread = new Thread(new Laucher());
 		isLogined = Boolean.parseBoolean(FileTool.read_file(IS_LOGINED_FILE_PATH).trim());
-		System.out.println(isLogined);
 	}
 
 	public static void main(String[] args) throws Exception {
