@@ -1,5 +1,6 @@
 package user_interface;
 
+import java.awt.Font;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,6 +17,7 @@ import general_function.FileTool;
 @SuppressWarnings("serial")
 public class Main_interface extends JFrame {
 	public static final String IS_LOGINED_FILE_PATH = "config/is_logined.txt"; 
+	public static final Font FONT = new Font("SansSerif", Font.BOLD, 14);
 	
 	private JPanel contentPane;
 	private static List<JMenuItem> notificationMenuItem;
@@ -82,6 +84,10 @@ public class Main_interface extends JFrame {
 		
 		createMeetingMenuItem.addActionListener(e -> {
 			Meeting_creator_interface.create_new_window();
+		});
+		
+		joinMeetingMenuItem.addActionListener(e -> {
+			Meeting_joiner_interface.create_new_window();
 		});
 		
 		logOutButton.addActionListener(e -> {

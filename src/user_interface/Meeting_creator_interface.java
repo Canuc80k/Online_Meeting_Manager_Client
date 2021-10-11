@@ -5,10 +5,12 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import client.Client;
+import general_function.FileTool;
 
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
+import java.awt.Font;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -22,7 +24,8 @@ import javax.swing.JRadioButton;
 
 @SuppressWarnings("serial")
 public class Meeting_creator_interface extends JFrame {
-	public static final String IS_LOGINED_FILE_PATH = "config/is_logined.txt";
+	public static final String MEETING_CREATED_FOLDER_PATH = "meeting/meeting_created/";
+	public static final Font FONT = new Font("SansSerif", Font.BOLD, 14);
 
 	private JPanel contentPane;
 
@@ -242,7 +245,12 @@ public class Meeting_creator_interface extends JFrame {
 							daysInWeekHaveMeeting
 					);
 					
-					if (Client.createMeeting(meetingDataString)) System.out.println("CREATE MEETING SUCCESSFUL");
+					String meeting_id = Client.create_meeting(meetingDataString);
+					if (meeting_id != null) {
+						Meeting_creator_notify_interface.set_meeting_ID(meeting_id);
+						Meeting_creator_notify_interface.create_new_window();
+						FileTool.write_file(meetingDataString, MEETING_CREATED_FOLDER_PATH + meeting_id + ".txt");
+					}
 				} catch (Exception e1) {}
 				dispose();
 			});

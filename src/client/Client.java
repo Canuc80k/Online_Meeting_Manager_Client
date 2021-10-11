@@ -38,17 +38,30 @@ public class Client {
 		return register_successful;
 	}
 
-	public static boolean createMeeting(String new_meeting_data) throws Exception {	
+	public static String create_meeting(String meeting_data) throws Exception {	
 		Client.start();
-		dos.writeUTF("CREATE_MEETING\n" + new_meeting_data);
+		dos.writeUTF("CREATE_MEETING\n" + meeting_data);
 
-		boolean create_meeting_successful = Boolean.parseBoolean(dis.readUTF());
+		String meeting_id = dis.readUTF();
 		
 		dos.close();
 		dis.close();
 		socket.close();
 		
-		return create_meeting_successful;
+		return meeting_id;
+	}
+	
+	public static String join_meeting(String meeting_id) throws Exception {	
+		Client.start();
+		dos.writeUTF("JOIN_MEETING\n" + meeting_id);
+
+		String meeting_data = dis.readUTF();
+		
+		dos.close();
+		dis.close();
+		socket.close();
+		
+		return meeting_data;
 	}
 
 	public static void start() {

@@ -9,6 +9,7 @@ import client.Client;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
+import java.awt.Font;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
@@ -16,7 +17,8 @@ import javax.swing.JButton;
 
 @SuppressWarnings("serial")
 public class Register_interface extends JFrame {
-
+	public static final Font FONT = new Font("SansSerif", Font.BOLD, 14);
+	
 	private JPanel contentPane;
 	private static JTextField username_textField;
 	private static JTextField password_textField;
