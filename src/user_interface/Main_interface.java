@@ -42,7 +42,7 @@ public class Main_interface extends JFrame {
 		
 		JMenuBar menuBar = new JMenuBar();  
 		JMenu notificationMenu, featureMenu, settingMenu, helplMenu;
-		JMenuItem createMeetingMenuItem, joinMeetingMenuItem, getMeetingDataMenuItem, sendMeetingDataMenuItem;
+		JMenuItem createMeetingMenuItem, joinMeetingMenuItem, createdMeetingMenuItem, joinedMeetingMenuItem, sendMeetingDataMenuItem;
 		JMenuItem setAccountInfomationMenuItem, changePasswordMenuItem; 
 		JMenuItem helpingMenuItem, bugReportMenuItem;
 		JButton logOutButton;
@@ -55,7 +55,8 @@ public class Main_interface extends JFrame {
 		
 		createMeetingMenuItem = new JMenuItem("Tạo cuộc họp");
 		joinMeetingMenuItem = new JMenuItem("Tham gia cuộc họp");
-		getMeetingDataMenuItem = new JMenuItem("Xem thông tin cuộc họp");
+		createdMeetingMenuItem = new JMenuItem("Cuộc họp đã tạo");
+		joinedMeetingMenuItem = new JMenuItem("Cuộc họp đã tham gia");
 		sendMeetingDataMenuItem = new JMenuItem("Gửi thông tin cuộc họp");
 		setAccountInfomationMenuItem = new JMenuItem("Sửa thông tin tài khoản");
 		changePasswordMenuItem = new JMenuItem("Đổi mật khẩu");
@@ -68,7 +69,8 @@ public class Main_interface extends JFrame {
 		
 		featureMenu.add(createMeetingMenuItem);
 		featureMenu.add(joinMeetingMenuItem);
-		featureMenu.add(getMeetingDataMenuItem);
+		featureMenu.add(createdMeetingMenuItem);
+		featureMenu.add(joinedMeetingMenuItem);
 		featureMenu.add(sendMeetingDataMenuItem);
 		settingMenu.add(setAccountInfomationMenuItem);
 		settingMenu.add(changePasswordMenuItem);
@@ -88,6 +90,14 @@ public class Main_interface extends JFrame {
 		
 		joinMeetingMenuItem.addActionListener(e -> {
 			Meeting_joiner_interface.create_new_window();
+		});
+		
+		createdMeetingMenuItem.addActionListener(e -> {
+			try {Created_meeting_interface.create_new_window();} catch (Exception e1) {}
+		});
+		
+		joinedMeetingMenuItem.addActionListener(e -> {
+			try {Joined_meeting_interface.create_new_window();} catch (Exception e1) {}
 		});
 		
 		logOutButton.addActionListener(e -> {
