@@ -19,6 +19,7 @@ import javax.swing.JButton;
 @SuppressWarnings("serial")
 public class Login_interface extends JFrame {
 	public static final String IS_LOGINED_FILE_PATH = "config/is_logined.txt"; 
+	public static final String ACCOUNT_ID_FILE_PATH = "config/account_id.txt";
 	public static final Font FONT = new Font("SansSerif", Font.BOLD, 14);
 	
 	private JPanel contentPane;
@@ -87,8 +88,10 @@ public class Login_interface extends JFrame {
 		login_submit_button.setFont(FONT);
 		login_submit_button.addActionListener(e -> {
 			try {
-				if (Client.login(username_textField.getText(), password_textField.getText())) {
+				String account_id = Client.login(username_textField.getText(), password_textField.getText());
+				if (account_id != null) {
 					FileTool.write_file("true", IS_LOGINED_FILE_PATH);
+					FileTool.write_file(account_id, ACCOUNT_ID_FILE_PATH);
 					Main_interface.create_new_window();
 					dispose();
 				}

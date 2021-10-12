@@ -12,17 +12,17 @@ public class Client {
 	private static DataOutputStream dos;
 	private static Socket socket;
 	
-	public static boolean login(String username, String password) throws Exception {
+	public static String login(String username, String password) throws Exception {
 		Client.start();
 		dos.writeUTF("LOGIN\n" + username + " " + password);
 
-		boolean able_to_login = Boolean.parseBoolean(dis.readUTF()); 
+		String account_id = dis.readUTF(); 
 		
 		dos.close();
 		dis.close();
 		socket.close();
 		
-		return able_to_login;
+		return account_id;
 	}
 	
 	public static boolean register(String username, String password) throws Exception {
@@ -51,9 +51,9 @@ public class Client {
 		return meeting_id;
 	}
 	
-	public static String join_meeting(String meeting_id) throws Exception {	
+	public static String join_meeting(String meeting_id, String joiner_meeting_id) throws Exception {	
 		Client.start();
-		dos.writeUTF("JOIN_MEETING\n" + meeting_id);
+		dos.writeUTF("JOIN_MEETING\n" + meeting_id + '\n' + joiner_meeting_id);
 
 		String meeting_data = dis.readUTF();
 		

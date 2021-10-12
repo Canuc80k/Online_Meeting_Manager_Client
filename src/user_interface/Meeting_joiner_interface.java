@@ -10,19 +10,22 @@ import general_function.FileTool;
 import javax.swing.JLabel;
 
 import java.awt.Font;
+import java.io.File;
+
 import javax.swing.JTextField;
 import javax.swing.JButton;
 
 @SuppressWarnings("serial")
 public class Meeting_joiner_interface extends JFrame {
 	public static final String MEETING_JOINED_FOLDER_PATH = "meeting/meeting_joined/";
+	public static final String ACCOUNT_ID_FILE_PATH = "config/account_id.txt";
 	public static final Font FONT = new Font("SansSerif", Font.BOLD, 14);
 
 	private JPanel contentPane;
 	private static String meetingID;
 	private JTextField meetingIDTextField;
-	
 	private static String meetingData;
+	private static String accountID;
 	
 	public static void create_new_window() {
 		Meeting_joiner_interface frame = new Meeting_joiner_interface();
@@ -51,12 +54,20 @@ public class Meeting_joiner_interface extends JFrame {
 		joinMeetingButton.setBounds(241, 184, 104, 54);
 		joinMeetingButton.addActionListener(e -> {
 			meetingID = meetingIDTextField.getText();
-			try {
-				meetingData = Client.join_meeting(meetingID);
-				if (meetingData != null) {
-					FileTool.write_file(meetingData, MEETING_JOINED_FOLDER_PATH + meetingID + ".txt");
-				}
-			} catch (Exception e1) {}
+			try {accountID = FileTool.read_file(ACCOUNT_ID_FILE_PATH).trim();} catch (Exception e2) {}
+
+			File meetingIDFile = new File(MEETING_JOINED_FOLDER_PATH + meetingID + ".txt");
+			if (!meetingIDFile.exists()) {
+				System.out.println(meetingIDFile.getPath());
+				
+				try {
+					meetingData = Client.join_meeting(meetingID, accountID);
+					if (meetingData != null) {
+						FileTool.write_file(meetingData, meetingIDFile.getPath());
+						dispose();
+					}
+				} catch (Exception e1) {}
+			}
 		});
 		contentPane.add(joinMeetingButton);
 	}
