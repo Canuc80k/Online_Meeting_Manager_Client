@@ -1,0 +1,101 @@
+package app_activity;
+
+import com.sun.jna.Native;
+import com.sun.jna.Pointer;
+import com.sun.jna.platform.win32.WinDef.HWND;
+import com.sun.jna.ptr.PointerByReference;
+ 
+public class App_activity_reader implements Runnable {
+     private static final int MAX_TITLE_LENGTH = 1024;	
+     private static final int TIME_THREAD_SLEEP = 200;
+     private static final String SPLIT_SIGNAL = " !~//*-=-<>()}[{]\\|.,-=asd ";
+     
+     private static boolean is_reading_app_activity;
+     private static String app_activity_log;
+     
+     @Override
+     public void run() {
+    	  app_activity_log = "";
+          String lastTitle = "", lastProcess = "";
+          
+          double lastChange = System.currentTimeMillis();
+          double time = 0, change;
+          
+          while (is_reading_app_activity) {
+               String currentTitle = getActiveWindowTitle();
+               String currentProcess = getActiveWindowProcess();
+               if (!lastTitle.equals(currentTitle)) {
+                    change = System.currentTimeMillis();
+                    time = (change - lastChange) / 1000;
+                    lastChange = change;
+                    
+                    app_activity_log += lastTitle + SPLIT_SIGNAL + lastProcess + SPLIT_SIGNAL + String.valueOf(time) + "\n";
+                    
+                    lastTitle = currentTitle;
+                    lastProcess = currentProcess;
+               }
+               try {Thread.sleep(TIME_THREAD_SLEEP);} catch (Exception ex){}
+          }
+          
+          change = System.currentTimeMillis();
+          time = (change - lastChange) / 1000;
+          app_activity_log += lastTitle + SPLIT_SIGNAL + lastProcess + SPLIT_SIGNAL + String.valueOf(time) + "\n";
+     }
+     
+     public static void set_running_state(boolean running_state) {
+    	 is_reading_app_activity = running_state;
+     }
+     
+     public static String get_app_activity_log() {
+		return app_activity_log;
+    	 
+     }
+     
+     private static String getActiveWindowTitle() {
+          char[] buffer = new char[MAX_TITLE_LENGTH * 2];
+          HWND foregroundWindow = User32DLL.GetForegroundWindow();
+          User32DLL.GetWindowTextW(foregroundWindow, buffer, MAX_TITLE_LENGTH);
+          String title = Native.toString(buffer);
+          return title;
+     }
+ 
+     private static String getActiveWindowProcess() {
+          char[] buffer = new char[MAX_TITLE_LENGTH * 2];
+          PointerByReference pointer = new PointerByReference();
+          HWND foregroundWindow = User32DLL.GetForegroundWindow();
+          User32DLL.GetWindowThreadProcessId(foregroundWindow, pointer);
+          Pointer process = Kernel32.OpenProcess(Kernel32.PROCESS_QUERY_INFORMATION | Kernel32.PROCESS_VM_READ, false, pointer.getValue());
+          Psapi.GetModuleBaseNameW(process, null, buffer, MAX_TITLE_LENGTH);
+          String processName = Native.toString(buffer);
+          return processName;
+     }
+ 
+     static class Psapi {
+          static {
+               Native.register("psapi");
+          }
+ 
+          public static native int GetModuleBaseNameW(Pointer hProcess, Pointer hmodule, char[] lpBaseName, int size);
+   }
+ 
+     static class Kernel32 {
+          static {
+               Native.register("kernel32");
+          }
+ 
+          public static int PROCESS_QUERY_INFORMATION = 0x0400;
+          public static int PROCESS_VM_READ = 0x0010;
+ 
+          public static native Pointer OpenProcess(int dwDesiredAccess, boolean bInheritHandle, Pointer pointer);
+     }
+ 
+     static class User32DLL {
+          static {
+               Native.register("user32");
+          }
+ 
+          public static native int GetWindowThreadProcessId(HWND hWnd, PointerByReference pref);
+          public static native HWND GetForegroundWindow();
+          public static native int GetWindowTextW(HWND hWnd, char[] lpString, int nMaxCount);
+     }
+}

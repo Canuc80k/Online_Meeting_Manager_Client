@@ -64,6 +64,19 @@ public class Client {
 		return meeting_data;
 	}
 
+	public static boolean send_meeting_data(String user_id, String meeting_id, String app_activity_log) throws Exception {
+		Client.start();
+		dos.writeUTF("SEND_MEETING_DATA\n" + user_id + '\n' + meeting_id + '\n' + app_activity_log);
+
+		boolean send_succesfully = Boolean.parseBoolean(dis.readUTF());
+		
+		dos.close();
+		dis.close();
+		socket.close();
+		
+		return send_succesfully;
+	}
+	
 	public static void start() {
 		try {
 			socket = new Socket(hostname, port);
