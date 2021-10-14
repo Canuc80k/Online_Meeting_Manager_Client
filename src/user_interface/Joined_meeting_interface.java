@@ -7,6 +7,7 @@ import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 
 import general_function.FileTool;
+import init.Font_init;
 import javafx.util.Pair;
 
 import javax.swing.JLabel;
@@ -23,7 +24,7 @@ import java.util.List;
 public class Joined_meeting_interface extends JFrame {
 	public static final String JOINED_MEETING_FILE_PATH = "meeting/meeting_joined/";
 	public static final Font FONT = new Font("SansSerif", Font.BOLD, 14);
-	public static final Dimension BUTTON_SIZE = new Dimension(400, 100);
+	public static final Dimension BUTTON_SIZE = new Dimension(400, 150);
 	
 	private JPanel contentPane;
 	public static JPanel panel = new JPanel();
@@ -39,7 +40,7 @@ public class Joined_meeting_interface extends JFrame {
 
 	public Joined_meeting_interface() {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 500, 500);
+		setBounds(100, 100, 600, 600);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -55,13 +56,15 @@ public class Joined_meeting_interface extends JFrame {
 		contentPane.setLayout(null);
 
 		JScrollPane scrollPane = new JScrollPane(panel);
-		scrollPane.setBounds(10, 93, 476, 370);
+		scrollPane.setBounds(25, 115, 551, 438);
+		scrollPane.getVerticalScrollBar().setUnitIncrement(16);
 		scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		contentPane.add(scrollPane);
 
-		JLabel title = new JLabel("Những Cuộc Họp Đã Tạo");
-		title.setBounds(38, 29, 272, 54);
+		JLabel title = new JLabel("Những Cuộc Họp Đã Tham Gia");
+		title.setBounds(25, 10, 349, 84);
+		title.setFont(Font_init.SanFranciscoText_Bold.deriveFont(20f));
 		contentPane.add(title);
 	}
 	
@@ -81,6 +84,7 @@ public class Joined_meeting_interface extends JFrame {
 	
 	public static JButton create_created_meeting_button(String meeting_id, String meeting_data) {
 		JButton button = new JButton();
+		button.setFont(Font_init.SanFranciscoText_Medium.deriveFont(15f));
 		List<String> meeting_data_list = Arrays.asList(meeting_data.split("\n"));
 		String button_text = "";
 		button_text += meeting_data_list.get(0) + "\n";

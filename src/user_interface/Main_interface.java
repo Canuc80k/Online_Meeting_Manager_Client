@@ -1,23 +1,32 @@
 package user_interface;
 
+import java.awt.Color;
 import java.awt.Font;
+import java.awt.GraphicsEnvironment;
+import java.awt.Insets;
+import java.io.File;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.List;
 
+import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
+import javax.swing.plaf.FontUIResource;
 
 import general_function.FileTool;
+import init.Font_init;
 
 @SuppressWarnings("serial")
 public class Main_interface extends JFrame {
 	public static final String IS_LOGINED_FILE_PATH = "config/is_logined.txt"; 
-	public static final Font FONT = new Font("SansSerif", Font.BOLD, 14);
+	public static final Font FONT = new Font("Comic Sans MS", Font.PLAIN, 12);
 	
 	private JPanel contentPane;
 	private static List<JMenuItem> notificationMenuItem;
@@ -25,16 +34,16 @@ public class Main_interface extends JFrame {
 	private static void init() {
 		notificationMenuItem = new ArrayList<JMenuItem>();
 	}
-	
+    
 	public static void create_new_window() {
 		init();
 		Main_interface frame = new Main_interface();
 		frame.setVisible(true);
 	}
-	
+    
 	public Main_interface() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 400, 300);
+		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -81,7 +90,10 @@ public class Main_interface extends JFrame {
 		menuBar.add(featureMenu);
 		menuBar.add(settingMenu);
 		menuBar.add(helplMenu);
+		menuBar.add(Box.createHorizontalGlue());
 		menuBar.add(logOutButton);
+		
+		menuBar.setFont(Font_init.SanFranciscoText_Medium.deriveFont(12f));
 		setJMenuBar(menuBar);
 		
 		createMeetingMenuItem.addActionListener(e -> {

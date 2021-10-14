@@ -6,6 +6,7 @@ import javax.swing.border.EmptyBorder;
 
 import client.Client;
 import general_function.FileTool;
+import init.Font_init;
 
 import javax.swing.JLabel;
 import javax.swing.JTextField;
@@ -70,7 +71,7 @@ public class Meeting_creator_interface extends JFrame {
 
 	public Meeting_creator_interface() {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 500, 600);
+		setBounds(100, 100, 700, 700);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -83,13 +84,21 @@ public class Meeting_creator_interface extends JFrame {
 		meetingStateLabel = new JLabel("Cuộc Họp Này");
 		dayStartLabel = new JLabel("Ngày Diễn Ra");
 		dayRepeatLabel = new JLabel("Lặp Lại Hàng Tuần");
-		meetingStateLabel.setBounds(29, 218, 83, 13);
+		
+		meetingNameLabel.setFont(Font_init.SanFranciscoText_Medium.deriveFont(16f));
+		startTimeLabel.setFont(Font_init.SanFranciscoText_Medium.deriveFont(16f));
+		meetingLengthLabel.setFont(Font_init.SanFranciscoText_Medium.deriveFont(16f));
+		meetingStateLabel.setFont(Font_init.SanFranciscoText_Medium.deriveFont(16f));
+		dayStartLabel.setFont(Font_init.SanFranciscoText_Medium.deriveFont(16f));
+		dayRepeatLabel.setFont(Font_init.SanFranciscoText_Medium.deriveFont(16f));
+		
+		meetingStateLabel.setBounds(60, 227, 108, 39);
 		contentPane.add(meetingStateLabel);
-		meetingNameLabel.setBounds(29, 10, 96, 39);
-		startTimeLabel.setBounds(29, 75, 179, 33);
-		dayStartLabel.setBounds(22, 328, 129, 39);
-		meetingLengthLabel.setBounds(29, 130, 200, 52);
-		dayRepeatLabel.setBounds(29, 396, 45, 13);
+		meetingNameLabel.setBounds(60, 27, 129, 52);
+		startTimeLabel.setBounds(60, 93, 179, 48);
+		dayStartLabel.setBounds(60, 312, 129, 39);
+		meetingLengthLabel.setBounds(60, 151, 200, 52);
+		dayRepeatLabel.setBounds(60, 396, 163, 42);
 		contentPane.add(meetingNameLabel);
 		contentPane.add(startTimeLabel);
 		contentPane.add(dayStartLabel);
@@ -103,29 +112,36 @@ public class Meeting_creator_interface extends JFrame {
 		hourStartTextField = new JTextField();
 		minuteStartTextField = new JTextField();
 		
-		meetingNameTextField.setBounds(168, 7, 239, 46);
+		meetingNameTextField.setBounds(330, 31, 239, 46);
 		contentPane.add(meetingNameTextField);
 		meetingNameTextField.setColumns(10);
 
-		hourLengthTextField.setBounds(291, 134, 53, 46);
+		hourLengthTextField.setBounds(330, 155, 60, 50);
 		contentPane.add(hourLengthTextField);
 		hourLengthTextField.setColumns(10);
 
 		minuteLengthTextField.setColumns(10);
-		minuteLengthTextField.setBounds(354, 134, 53, 46);
+		minuteLengthTextField.setBounds(400, 155, 60, 50);
 		contentPane.add(minuteLengthTextField);
 
 		hourStartTextField.setColumns(10);
-		hourStartTextField.setBounds(291, 62, 53, 46);
+		hourStartTextField.setBounds(330, 90, 60, 50);
 		contentPane.add(hourStartTextField);
 
 		minuteStartTextField.setColumns(10);
-		minuteStartTextField.setBounds(354, 62, 53, 46);
+		minuteStartTextField.setBounds(400, 90, 60, 50);
 		contentPane.add(minuteStartTextField);
 
+		meetingNameTextField.setFont(Font_init.SanFranciscoText_Medium.deriveFont(16f));
+		hourLengthTextField.setFont(Font_init.SanFranciscoText_Medium.deriveFont(16f));
+		minuteLengthTextField.setFont(Font_init.SanFranciscoText_Medium.deriveFont(16f));
+		hourStartTextField.setFont(Font_init.SanFranciscoText_Medium.deriveFont(16f));
+		minuteStartTextField.setFont(Font_init.SanFranciscoText_Medium.deriveFont(16f));
+		
 		// @part JRadioButton setup
 		oneTimeMeetingRadioButton = new JRadioButton("Chỉ Diễn Ra Một Lần");
-		oneTimeMeetingRadioButton.setBounds(126, 214, 179, 21);
+		oneTimeMeetingRadioButton.setBounds(330, 227, 179, 21);
+		oneTimeMeetingRadioButton.setFont(Font_init.SanFranciscoText_Medium.deriveFont(12f));
 		oneTimeMeetingRadioButton.addActionListener(e -> {
 			if (oneTimeMeetingRadioButton.isSelected()) {
 				weeklyMeetingRadioButton.setSelected(false);
@@ -152,7 +168,8 @@ public class Meeting_creator_interface extends JFrame {
 		contentPane.add(oneTimeMeetingRadioButton);
 		
 		weeklyMeetingRadioButton = new JRadioButton("Diễn Ra Hàng Tuần");
-		weeklyMeetingRadioButton.setBounds(126, 250, 179, 21);
+		weeklyMeetingRadioButton.setBounds(330, 265, 179, 21);
+		weeklyMeetingRadioButton.setFont(Font_init.SanFranciscoText_Medium.deriveFont(12f));
 		weeklyMeetingRadioButton.addActionListener(e -> {
 			if (weeklyMeetingRadioButton.isSelected()) {
 				oneTimeMeetingRadioButton.setSelected(false);
@@ -178,24 +195,27 @@ public class Meeting_creator_interface extends JFrame {
 		dayDate = new JComboBox<Integer>();
 		monthDate = new JComboBox<Integer>();
 		yearDate = new JComboBox<Integer>();
+		dayDate.setFont(Font_init.SanFranciscoText_Medium.deriveFont(12f));
+		monthDate.setFont(Font_init.SanFranciscoText_Medium.deriveFont(12f));
+		yearDate.setFont(Font_init.SanFranciscoText_Medium.deriveFont(12f));
 		
 		dayDate.addItem(0);
 		monthDate.addItem(0);
 		yearDate.addItem(0);
 
-		dayDate.setBounds(135, 324, 53, 46);
+		dayDate.setBounds(330, 308, 53, 46);
 		if (dayDate.getItemCount() == 1)
 			for (Integer i = 1; i <= 31; i++)
 				dayDate.addItem(i);
 		contentPane.add(dayDate);
 
-		monthDate.setBounds(228, 324, 53, 46);
+		monthDate.setBounds(424, 308, 53, 46);
 		if (monthDate.getItemCount() == 1)
 			for (Integer i = 1; i <= 12; i++)
 				monthDate.addItem(i);
 		contentPane.add(monthDate);
 
-		yearDate.setBounds(330, 324, 53, 46);
+		yearDate.setBounds(516, 308, 53, 46);
 		if (yearDate.getItemCount() == 1)
 			for (Integer i = 2021; i <= 2121; i++)
 				yearDate.addItem(i);
@@ -210,30 +230,39 @@ public class Meeting_creator_interface extends JFrame {
 		saturdayBox = new JCheckBox("Thứ Bảy");
 		sundayBox = new JCheckBox("Chủ Nhật");
 		
-		mondayBox.setBounds(80, 392, 93, 21);
+		mondayBox.setFont(Font_init.SanFranciscoText_Medium.deriveFont(12f));
+		tuesdayBox.setFont(Font_init.SanFranciscoText_Medium.deriveFont(12f));
+		wednesdayBox.setFont(Font_init.SanFranciscoText_Medium.deriveFont(12f));
+		thursdayBox.setFont(Font_init.SanFranciscoText_Medium.deriveFont(12f));
+		fridayBox.setFont(Font_init.SanFranciscoText_Medium.deriveFont(12f));
+		saturdayBox.setFont(Font_init.SanFranciscoText_Medium.deriveFont(12f));
+		sundayBox.setFont(Font_init.SanFranciscoText_Medium.deriveFont(12f));
+		
+		mondayBox.setBounds(330, 400, 100, 30);
 		contentPane.add(mondayBox);
 
-		tuesdayBox.setBounds(183, 392, 93, 21);
+		tuesdayBox.setBounds(430, 400, 100, 30);
 		contentPane.add(tuesdayBox);
 
-		wednesdayBox.setBounds(280, 392, 93, 21);
+		wednesdayBox.setBounds(530, 400, 100, 30);
 		contentPane.add(wednesdayBox);
 
-		thursdayBox.setBounds(80, 421, 93, 21);
+		thursdayBox.setBounds(330, 440, 100, 30);
 		contentPane.add(thursdayBox);
 
-		fridayBox.setBounds(183, 421, 93, 21);
+		fridayBox.setBounds(430, 440, 100, 30);
 		contentPane.add(fridayBox);
 
-		saturdayBox.setBounds(280, 421, 93, 21);
+		saturdayBox.setBounds(530, 440, 100, 30);
 		contentPane.add(saturdayBox);
 
-		sundayBox.setBounds(80, 450, 93, 21);
+		sundayBox.setBounds(330, 480, 100, 30);
 		contentPane.add(sundayBox);
 
 		// @part JButton setup
 		JButton createMeetingButton = new JButton("Tạo cuộc họp");
-		createMeetingButton.setBounds(360, 506, 116, 46);
+		createMeetingButton.setBounds(505, 558, 158, 80);
+		createMeetingButton.setFont(Font_init.SanFranciscoText_Medium.deriveFont(15f));
 		createMeetingButton.addActionListener(e -> {
 				updateInputMeetingData();				
 				try {
@@ -257,7 +286,8 @@ public class Meeting_creator_interface extends JFrame {
 		contentPane.add(createMeetingButton);
 
 		JButton cancelButton = new JButton("Huỷ");
-		cancelButton.setBounds(228, 506, 116, 47);
+		cancelButton.setBounds(400, 558, 80, 80);
+		cancelButton.setFont(Font_init.SanFranciscoText_Medium.deriveFont(15f));
 		cancelButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {

@@ -4,6 +4,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import init.Font_init;
+
 import javax.swing.JLabel;
 
 import java.awt.Font;
@@ -22,7 +24,7 @@ public class Meeting_creator_notify_interface extends JFrame {
 
 	public Meeting_creator_notify_interface() {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 400, 300);
+		setBounds(100, 100, 350, 230);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -30,7 +32,8 @@ public class Meeting_creator_notify_interface extends JFrame {
 		
 		JLabel notifyLabel = new JLabel();
 		notifyLabel.setText("ID cuộc họp là: " + meetingID);
-		notifyLabel.setBounds(10, 32, 172, 116);
+		notifyLabel.setFont(Font_init.SanFranciscoText_Medium.deriveFont(20f));
+		notifyLabel.setBounds(37, 31, 270, 116);
 		contentPane.add(notifyLabel);
 	}
 	

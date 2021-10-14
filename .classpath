@@ -10,5 +10,7 @@
 	<classpathentry kind="lib" path="jna-platform-5.9.0.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/JavaFX"/>
 	<classpathentry kind="lib" path="C:/Users/Lenovo/eclipse-workspace/KHKT_Testing_002/javax.xml.bind.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Lenovo/eclipse-workspace/Online_Meeting_Manager_Client/flatlaf-1.6.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Lenovo/eclipse-workspace/Online_Meeting_Manager_Client/flatlaf-intellij-themes-1.6.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -6,6 +6,7 @@ import javax.swing.border.EmptyBorder;
 
 import client.Client;
 import general_function.FileTool;
+import init.Font_init;
 
 import javax.swing.JLabel;
 
@@ -34,24 +35,27 @@ public class Meeting_joiner_interface extends JFrame {
 
 	public Meeting_joiner_interface() {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 400, 300);
+		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
 		JLabel meetingIDLabel = new JLabel();
+		meetingIDLabel.setFont(Font_init.SanFranciscoText_Medium.deriveFont(15f));
 		meetingIDLabel.setText("Nhập ID cuộc họp");
-		meetingIDLabel.setBounds(10, 52, 110, 60);
+		meetingIDLabel.setBounds(33, 47, 119, 82);
 		contentPane.add(meetingIDLabel);
 		
 		meetingIDTextField = new JTextField();
-		meetingIDTextField.setBounds(174, 62, 136, 54);
+		meetingIDTextField.setBounds(216, 62, 173, 54);
+		meetingIDTextField.setFont(Font_init.SanFranciscoText_Medium.deriveFont(15f));
 		contentPane.add(meetingIDTextField);
 		meetingIDTextField.setColumns(10);
 		
 		JButton joinMeetingButton = new JButton("Tham gia");
-		joinMeetingButton.setBounds(241, 184, 104, 54);
+		joinMeetingButton.setBounds(270, 175, 119, 60);
+		joinMeetingButton.setFont(Font_init.SanFranciscoText_Medium.deriveFont(15f));
 		joinMeetingButton.addActionListener(e -> {
 			meetingID = meetingIDTextField.getText();
 			try {accountID = FileTool.read_file(ACCOUNT_ID_FILE_PATH).trim();} catch (Exception e2) {}
