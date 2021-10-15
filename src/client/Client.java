@@ -55,13 +55,13 @@ public class Client {
 		Client.start();
 		dos.writeUTF("JOIN_MEETING\n" + meeting_id + '\n' + joiner_meeting_id);
 
-		String meeting_data = dis.readUTF();
+		String meeting_information = dis.readUTF();
 		
 		dos.close();
 		dis.close();
 		socket.close();
 		
-		return meeting_data;
+		return meeting_information;
 	}
 
 	public static boolean send_meeting_data(String user_id, String meeting_id, String app_activity_log) throws Exception {
@@ -75,6 +75,18 @@ public class Client {
 		socket.close();
 		
 		return send_succesfully;
+	}
+	
+	public static String get_joiner_app_activity(String meeting_id) throws Exception {
+		Client.start();
+		dos.writeUTF("GET_MEETING_DATA\n" + meeting_id);
+		String meeting_data = dis.readUTF();
+		
+		dos.close();
+		dis.close();
+		socket.close();
+		
+		return meeting_data;
 	}
 	
 	public static void start() {

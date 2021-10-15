@@ -21,7 +21,7 @@ import javax.swing.JButton;
 @SuppressWarnings("serial")
 public class Login_interface extends JFrame {
 	public static final String IS_LOGINED_FILE_PATH = "config/is_logined.txt"; 
-	public static final String ACCOUNT_ID_FILE_PATH = "config/account_id.txt";
+	public static final String ACCOUNT_ID_FILE_PATH = "account/account_id.txt";
 	
 	private JPanel contentPane;
 	private static JTextField username_textField;
@@ -34,7 +34,7 @@ public class Login_interface extends JFrame {
 	
 	public Login_interface() {			
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 500, 500);
+		setBounds(100, 100, 500, 500);	
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);

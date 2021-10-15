@@ -14,23 +14,21 @@ import general_function.FileTool;
 
 public class Meeting_thread implements Runnable {
 	public static final String JOINED_MEETING_FILE_PATH = "meeting/meeting_joined/";
-	public static final String ACCOUNT_ID_FILE_PATH = "config/account_id.txt";
+	public static final String ACCOUNT_ID_FILE_PATH = "account/account_id.txt";
 	
 	@Override
 	public void run() {
+		String last_running_meeting_id = "";
 		String user_account_id = null;
-		try {
-			user_account_id = FileTool.read_file(ACCOUNT_ID_FILE_PATH).trim();
-		} catch (Exception e2) {}
+		try {user_account_id = FileTool.read_file(ACCOUNT_ID_FILE_PATH).trim();} catch (Exception e2) {}
 		
 		Thread read_app_activity_thread = new Thread(new App_activity_reader());
-		
-		String last_running_meeting_id = "";
 		try {
 			while (true) {
 				String running_meeting_id = get_running_meeting_id();
 				
 				if (running_meeting_id != null) {
+					System.out.println("Meeting is running");
 					last_running_meeting_id = running_meeting_id;
 					
 					App_activity_reader.set_running_state(true);

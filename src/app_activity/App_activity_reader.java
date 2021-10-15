@@ -8,11 +8,22 @@ import com.sun.jna.ptr.PointerByReference;
 public class App_activity_reader implements Runnable {
      private static final int MAX_TITLE_LENGTH = 1024;	
      private static final int TIME_THREAD_SLEEP = 200;
-     private static final String SPLIT_SIGNAL = " !~//*-=-<>()}[{]\\|.,-=asd ";
+     private static final String APP_ACTIVITY_DATA_SPLIT_SIGNAL = " !~//*-=-<>()}[{]\\|.,-=asd ";
      
      private static boolean is_reading_app_activity;
      private static String app_activity_log;
      
+     /*
+      * @do update global variable String app_activity_log
+      * 	> app_activity_log = String contain data of app activity in LAST RUN
+      * 	> app activity data include
+      * 		- app title 
+      * 		- app processer
+      * 		- app running time
+      * 	> update in 2 way:
+      * 		(1) when app title change (means change tab / change app)
+      * 		(2) last update, when thread.join()
+      */
      @Override
      public void run() {
     	  app_activity_log = "";
@@ -29,7 +40,7 @@ public class App_activity_reader implements Runnable {
                     time = (change - lastChange) / 1000;
                     lastChange = change;
                     
-                    app_activity_log += lastTitle + SPLIT_SIGNAL + lastProcess + SPLIT_SIGNAL + String.valueOf(time) + "\n";
+                    app_activity_log += lastTitle + APP_ACTIVITY_DATA_SPLIT_SIGNAL + lastProcess + APP_ACTIVITY_DATA_SPLIT_SIGNAL + String.valueOf(time) + "\n";
                     
                     lastTitle = currentTitle;
                     lastProcess = currentProcess;
@@ -39,7 +50,7 @@ public class App_activity_reader implements Runnable {
           
           change = System.currentTimeMillis();
           time = (change - lastChange) / 1000;
-          app_activity_log += lastTitle + SPLIT_SIGNAL + lastProcess + SPLIT_SIGNAL + String.valueOf(time) + "\n";
+          app_activity_log += lastTitle + APP_ACTIVITY_DATA_SPLIT_SIGNAL + lastProcess + APP_ACTIVITY_DATA_SPLIT_SIGNAL + String.valueOf(time) + "\n";
      }
      
      public static void set_running_state(boolean running_state) {

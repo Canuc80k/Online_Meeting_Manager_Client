@@ -15,6 +15,7 @@ import java.awt.Font;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -278,7 +279,10 @@ public class Meeting_creator_interface extends JFrame {
 					if (meeting_id != null) {
 						Meeting_creator_notify_interface.set_meeting_ID(meeting_id);
 						Meeting_creator_notify_interface.create_new_window();
-						FileTool.write_file(meetingDataString, MEETING_CREATED_FOLDER_PATH + meeting_id + ".txt");
+						File file = new File(MEETING_CREATED_FOLDER_PATH + meeting_id);
+						if (!file.exists()) file.mkdirs();
+						
+						FileTool.write_file(meetingDataString, file.getPath() + "/meeting_information.txt");
 					}
 				} catch (Exception e1) {}
 				dispose();

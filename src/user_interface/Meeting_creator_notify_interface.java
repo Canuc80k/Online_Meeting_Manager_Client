@@ -24,7 +24,7 @@ public class Meeting_creator_notify_interface extends JFrame {
 
 	public Meeting_creator_notify_interface() {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 350, 230);
+		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -33,7 +33,7 @@ public class Meeting_creator_notify_interface extends JFrame {
 		JLabel notifyLabel = new JLabel();
 		notifyLabel.setText("ID cuộc họp là: " + meetingID);
 		notifyLabel.setFont(Font_init.SanFranciscoText_Medium.deriveFont(20f));
-		notifyLabel.setBounds(37, 31, 270, 116);
+		notifyLabel.setBounds(85, 66, 270, 116);
 		contentPane.add(notifyLabel);
 	}
 	

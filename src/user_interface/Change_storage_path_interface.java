@@ -17,23 +17,20 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 
 @SuppressWarnings("serial")
-public class Meeting_joiner_interface extends JFrame {
+public class Change_storage_path_interface extends JFrame {
 	public static final String MEETING_JOINED_FOLDER_PATH = "meeting/meeting_joined/";
 	public static final String ACCOUNT_ID_FILE_PATH = "account/account_id.txt";
-	public static final Font FONT = new Font("SansSerif", Font.BOLD, 14);
+	public static final String STORAGE_PATH_FILE_PATH = "config/storage_path.txt";
 
-	private JPanel contentPane;
-	private static String meetingID;
-	private JTextField meetingIDTextField;
-	private static String meetingData;
-	private static String accountID;
+	private static JPanel contentPane;
+	private static JTextField meetingIDTextField;
 	
 	public static void create_new_window() {
-		Meeting_joiner_interface frame = new Meeting_joiner_interface();
+		Change_storage_path_interface frame = new Change_storage_path_interface();
 		frame.setVisible(true);
 	}
-
-	public Meeting_joiner_interface() {
+	
+	public Change_storage_path_interface() {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -43,33 +40,27 @@ public class Meeting_joiner_interface extends JFrame {
 		
 		JLabel meetingIDLabel = new JLabel();
 		meetingIDLabel.setFont(Font_init.SanFranciscoText_Medium.deriveFont(15f));
-		meetingIDLabel.setText("Nhập ID cuộc họp");
-		meetingIDLabel.setBounds(33, 47, 119, 82);
+		meetingIDLabel.setText("Thư mục lưu trữ cuộc họp");
+		meetingIDLabel.setBounds(24, 10, 214, 82);
 		contentPane.add(meetingIDLabel);
 		
 		meetingIDTextField = new JTextField();
-		meetingIDTextField.setBounds(216, 62, 173, 54);
+		try {
+			meetingIDTextField.setText(FileTool.read_file(STORAGE_PATH_FILE_PATH).trim());
+		} catch (Exception e1) {}
+		meetingIDTextField.setBounds(24, 84, 382, 75);
 		meetingIDTextField.setFont(Font_init.SanFranciscoText_Medium.deriveFont(15f));
 		contentPane.add(meetingIDTextField);
 		meetingIDTextField.setColumns(10);
 		
-		JButton joinMeetingButton = new JButton("Tham gia");
-		joinMeetingButton.setBounds(270, 175, 119, 60);
+		JButton joinMeetingButton = new JButton("Thay đổi");
+		joinMeetingButton.setBounds(287, 180, 119, 60);
 		joinMeetingButton.setFont(Font_init.SanFranciscoText_Medium.deriveFont(15f));
 		joinMeetingButton.addActionListener(e -> {
-			meetingID = meetingIDTextField.getText();
-			try {accountID = FileTool.read_file(ACCOUNT_ID_FILE_PATH).trim();} catch (Exception e2) {}
-
-			File meetingIDFile = new File(MEETING_JOINED_FOLDER_PATH + meetingID + ".txt");
-			if (!meetingIDFile.exists()) {
-				try {
-					meetingData = Client.join_meeting(meetingID, accountID);
-					if (meetingData != null) {
-						FileTool.write_file(meetingData, meetingIDFile.getPath());
-						dispose();
-					}
-				} catch (Exception e1) {}
-			}
+			try {
+				FileTool.write_file(meetingIDTextField.getText().trim(), STORAGE_PATH_FILE_PATH);
+				dispose();
+			} catch (Exception e1) {}
 		});
 		contentPane.add(joinMeetingButton);
 	}
