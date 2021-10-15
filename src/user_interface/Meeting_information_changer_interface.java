@@ -18,6 +18,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -26,10 +27,8 @@ import javax.swing.JComboBox;
 import javax.swing.JRadioButton;
 
 @SuppressWarnings("serial")
-public class Meeting_creator_interface extends JFrame {
+public class Meeting_information_changer_interface extends JFrame {
 	public static final String MEETING_CREATED_FOLDER_PATH = "meeting/meeting_created/";
-	public static final Font FONT = new Font("SansSerif", Font.BOLD, 14);
-
 	private JPanel contentPane;
 
 	private static JLabel meetingNameLabel;
@@ -66,14 +65,15 @@ public class Meeting_creator_interface extends JFrame {
 	private static String dayStartDate;
 	private static List<Integer> daysInWeekHaveMeeting;
 	
-	public static void create_new_window() {
-		if (!(new File(MEETING_CREATED_FOLDER_PATH)).exists()) new File(MEETING_CREATED_FOLDER_PATH).mkdirs();
-		
-		Meeting_creator_interface frame = new Meeting_creator_interface();
+	private static String meeting_id;
+	
+	public static void create_new_window(String meeting_id) {
+		Meeting_information_changer_interface frame = new Meeting_information_changer_interface();
+		init(meeting_id);
 		frame.setVisible(true);
 	}
-
-	public Meeting_creator_interface() {
+	
+	public Meeting_information_changer_interface() {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 700, 700);
 		contentPane = new JPanel();
@@ -264,7 +264,7 @@ public class Meeting_creator_interface extends JFrame {
 		contentPane.add(sundayBox);
 
 		// @part JButton setup
-		JButton createMeetingButton = new JButton("Tạo cuộc họp");
+		JButton createMeetingButton = new JButton("Lưu Thay Đổi");
 		createMeetingButton.setBounds(505, 558, 158, 80);
 		createMeetingButton.setFont(Font_init.SanFranciscoText_Medium.deriveFont(15f));
 		createMeetingButton.addActionListener(e -> {
@@ -278,15 +278,12 @@ public class Meeting_creator_interface extends JFrame {
 							daysInWeekHaveMeeting
 					);
 					
-					String meeting_id = Client.create_meeting(meetingDataString);
-					if (meeting_id != null) {
-						Meeting_creator_notify_interface.set_meeting_ID(meeting_id);
-						Meeting_creator_notify_interface.create_new_window();
-						File file = new File(MEETING_CREATED_FOLDER_PATH + meeting_id);
-						if (!file.exists()) file.mkdirs();
-						
-						FileTool.write_file(meetingDataString, file.getPath() + "/meeting_information");
+					boolean change_successfully = Client.change_meeting_information(meeting_id, meetingDataString);
+					if (change_successfully) {
+						FileTool.write_file(meetingDataString, MEETING_CREATED_FOLDER_PATH + meeting_id + "/meeting_information");
 					}
+					Created_meeting_interface.frame.dispose();
+					Created_meeting_interface.create_new_window();
 				} catch (Exception e1) {}
 				dispose();
 			});
@@ -331,5 +328,60 @@ public class Meeting_creator_interface extends JFrame {
 			if (sundayBox.isSelected()) daysInWeekHaveMeeting.add(8);
 		}
 		else daysInWeekHaveMeeting = null;
+	}
+	
+	private static void init(String meeting_id) {
+		Meeting_information_changer_interface.meeting_id = meeting_id;
+		String meeting_information = Meeting_handler.getMeetingInfomation(meeting_id);
+		List<String> meeting_information_list = Arrays.asList(meeting_information.split("\n"));
+		
+		meetingNameTextField.setText(meeting_information_list.get(0));
+		hourStartTextField.setText(Arrays.asList(meeting_information_list.get(1).split(" ")).get(0));
+		minuteStartTextField.setText(Arrays.asList(meeting_information_list.get(1).split(" ")).get(1));
+		
+		int meeting_length = Integer.parseInt(meeting_information_list.get(2));
+		hourLengthTextField.setText(String.valueOf(meeting_length / 60));
+		minuteLengthTextField.setText(String.valueOf(meeting_length % 60));
+		
+		String dayStartDateString = meeting_information_list.get(3);
+		String daysInWeekHaveMeetingString = meeting_information_list.get(4);
+		
+		if (!daysInWeekHaveMeetingString.equals("null")) {
+			weeklyMeetingRadioButton.setSelected(true);
+			dayDate.setEnabled(false);
+			monthDate.setEnabled(false);
+			yearDate.setEnabled(false);		
+			
+			List<String> daysInWeekHaveMeetingList = Arrays.asList(daysInWeekHaveMeetingString.split(" "));
+			for (int i = 0; i < daysInWeekHaveMeetingList.size(); i ++) {
+				if (daysInWeekHaveMeetingList.get(i).equals("2")) mondayBox.setSelected(true);
+				if (daysInWeekHaveMeetingList.get(i).equals("3")) tuesdayBox.setSelected(true);
+				if (daysInWeekHaveMeetingList.get(i).equals("4")) wednesdayBox.setSelected(true);
+				if (daysInWeekHaveMeetingList.get(i).equals("5")) thursdayBox.setSelected(true);
+				if (daysInWeekHaveMeetingList.get(i).equals("6")) fridayBox.setSelected(true);
+				if (daysInWeekHaveMeetingList.get(i).equals("7")) saturdayBox.setSelected(true);
+				if (daysInWeekHaveMeetingList.get(i).equals("8")) sundayBox.setSelected(true);
+			}
+		}
+		
+		if (!dayStartDateString.equals("null")) {
+			oneTimeMeetingRadioButton.setSelected(true);
+			mondayBox.setEnabled(false);
+			tuesdayBox.setEnabled(false);
+			wednesdayBox.setEnabled(false);
+			thursdayBox.setEnabled(false);
+			fridayBox.setEnabled(false);
+			saturdayBox.setEnabled(false);
+			sundayBox.setEnabled(false);
+		
+			List<String> dayStartDateList = Arrays.asList(dayStartDateString.split(" "));
+			Integer day = Integer.parseInt(dayStartDateList.get(0));
+			Integer month = Integer.parseInt(dayStartDateList.get(1));
+			Integer year = Integer.parseInt(dayStartDateList.get(2));
+		
+			dayDate.setSelectedItem(day);
+			monthDate.setSelectedItem(month);
+			yearDate.setSelectedItem(year);
+		}
 	}
 }

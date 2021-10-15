@@ -14,7 +14,7 @@ import general_function.FileTool;
 
 public class Meeting_thread implements Runnable {
 	public static final String JOINED_MEETING_FILE_PATH = "meeting/meeting_joined/";
-	public static final String ACCOUNT_ID_FILE_PATH = "account/account_id.txt";
+	public static final String ACCOUNT_ID_FILE_PATH = "account/account_id";
 	
 	@Override
 	public void run() {

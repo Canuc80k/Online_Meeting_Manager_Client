@@ -89,6 +89,20 @@ public class Client {
 		return meeting_data;
 	}
 	
+
+	public static boolean change_meeting_information(String meeting_id, String meetingDataString) throws Exception {
+		Client.start();
+		dos.writeUTF("CHANGE_MEETING_INFO\n" + meeting_id + '\n' + meetingDataString);
+
+		boolean change_succesfully = Boolean.parseBoolean(dis.readUTF());
+		
+		dos.close();
+		dis.close();
+		socket.close();
+		
+		return change_succesfully;
+	}
+	
 	public static void start() {
 		try {
 			socket = new Socket(hostname, port);

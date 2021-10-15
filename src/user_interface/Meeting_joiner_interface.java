@@ -19,7 +19,7 @@ import javax.swing.JButton;
 @SuppressWarnings("serial")
 public class Meeting_joiner_interface extends JFrame {
 	public static final String MEETING_JOINED_FOLDER_PATH = "meeting/meeting_joined/";
-	public static final String ACCOUNT_ID_FILE_PATH = "account/account_id.txt";
+	public static final String ACCOUNT_ID_FILE_PATH = "account/account_id";
 	public static final Font FONT = new Font("SansSerif", Font.BOLD, 14);
 
 	private JPanel contentPane;
@@ -60,12 +60,13 @@ public class Meeting_joiner_interface extends JFrame {
 			meetingID = meetingIDTextField.getText();
 			try {accountID = FileTool.read_file(ACCOUNT_ID_FILE_PATH).trim();} catch (Exception e2) {}
 
-			File meetingIDFile = new File(MEETING_JOINED_FOLDER_PATH + meetingID + ".txt");
+			File meetingIDFile = new File(MEETING_JOINED_FOLDER_PATH + meetingID);
 			if (!meetingIDFile.exists()) {
 				try {
 					meetingData = Client.join_meeting(meetingID, accountID);
 					if (meetingData != null) {
-						FileTool.write_file(meetingData, meetingIDFile.getPath());
+						meetingIDFile.mkdirs();
+						FileTool.write_file(meetingData, meetingIDFile.getPath() + "/meeting_information.txt");
 						dispose();
 					}
 				} catch (Exception e1) {}

@@ -25,7 +25,7 @@ import init.Font_init;
 
 @SuppressWarnings("serial")
 public class Main_interface extends JFrame {
-	public static final String IS_LOGINED_FILE_PATH = "config/is_logined.txt"; 
+	public static final String IS_LOGINED_FILE_PATH = "config/is_logined"; 
 	public static final Font FONT = new Font("Comic Sans MS", Font.PLAIN, 12);
 	
 	private JPanel contentPane;

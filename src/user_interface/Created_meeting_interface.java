@@ -23,13 +23,13 @@ import java.util.List;
 
 @SuppressWarnings("serial")
 public class Created_meeting_interface extends JFrame {
-	public static final String CREATED_MEETING_FILE_PATH = "meeting/meeting_created/";
-	public static final Font FONT = new Font("SansSerif", Font.BOLD, 14);
+	public static final String CREATED_MEETING_FOLDER_PATH = "meeting/meeting_created/";
 	public static final Dimension BUTTON_SIZE = new Dimension(400, 150);
 	private static final String JOINER_APP_ACTIVITY_SPLIT_SIGNAL = "\n~!~#@~\n";
 	
 	private JPanel contentPane;
 	public static JPanel panel = new JPanel();
+	public static Created_meeting_interface frame;
 	
 	private static List<Pair<String, String>> created_meeting_list;
 	private static List<JButton> created_meeting_button;
@@ -37,8 +37,10 @@ public class Created_meeting_interface extends JFrame {
 	private static String focused_meeting_id;
 	
 	public static void create_new_window() throws Exception {
+		if (!(new File(CREATED_MEETING_FOLDER_PATH)).exists()) new File(CREATED_MEETING_FOLDER_PATH).mkdirs();
+		
 		init();
-		Created_meeting_interface frame = new Created_meeting_interface();
+		frame = new Created_meeting_interface();
 		frame.setVisible(true);
 	}
 
@@ -75,8 +77,10 @@ public class Created_meeting_interface extends JFrame {
 		moreDetailButton.setBounds(399, 26, 177, 68);
 		moreDetailButton.setFont(Font_init.SanFranciscoText_Bold.deriveFont(15f));
 		moreDetailButton.addActionListener(e -> {
-			// System.out.println(focused_meeting_id);
-			get_and_storage_joiner_app_activity(focused_meeting_id);
+			try {
+				get_and_storage_joiner_app_activity(focused_meeting_id);
+				Meeting_information_changer_interface.create_new_window(focused_meeting_id);
+			} catch (Exception e1) {}
 		});
 		contentPane.add(moreDetailButton);
 	}
@@ -85,11 +89,11 @@ public class Created_meeting_interface extends JFrame {
 		created_meeting_list = new ArrayList<Pair<String, String>>();
 		created_meeting_button = new ArrayList<JButton>();
 		
-		File[] files = new File(CREATED_MEETING_FILE_PATH).listFiles();
+		File[] files = new File(CREATED_MEETING_FOLDER_PATH).listFiles();
 
 		for (File file : files) {
 			String file_name = file.getName().trim();
-			String file_data = FileTool.read_file(CREATED_MEETING_FILE_PATH + file_name + "/meeting_information.txt");
+			String file_data = FileTool.read_file(CREATED_MEETING_FOLDER_PATH + file_name + "/meeting_information");
 			created_meeting_list.add(new Pair<String, String>(file_name, file_data));
 			created_meeting_button.add(create_created_meeting_button(file_name, file_data));
 		}
@@ -117,7 +121,7 @@ public class Created_meeting_interface extends JFrame {
 		try {
 			String all_joiner_app_activity_data = Client.get_joiner_app_activity(meeting_id);
 			if (!all_joiner_app_activity_data.equals("FAIL_TO_GET")) {
-				String meeting_joiner_app_activity_data_file_path = CREATED_MEETING_FILE_PATH + meeting_id + "/joiner_app_activity/";
+				String meeting_joiner_app_activity_data_file_path = CREATED_MEETING_FOLDER_PATH + meeting_id + "/joiner_app_activity/";
 				File file = new File(meeting_joiner_app_activity_data_file_path);
 				if (file.exists()) {
 					
@@ -132,7 +136,7 @@ public class Created_meeting_interface extends JFrame {
 						for (int j = 1; j < joiner_app_activity_data_list.size(); j ++) {
 							file_data += joiner_app_activity_data_list.get(j) + '\n';
 						}
-						FileTool.write_file(file_data, meeting_joiner_app_activity_data_file_path + file_name + ".txt");
+						FileTool.write_file(file_data, meeting_joiner_app_activity_data_file_path + file_name);
 					}
 				}
 			}

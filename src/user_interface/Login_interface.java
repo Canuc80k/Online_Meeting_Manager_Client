@@ -20,8 +20,9 @@ import javax.swing.JButton;
 
 @SuppressWarnings("serial")
 public class Login_interface extends JFrame {
-	public static final String IS_LOGINED_FILE_PATH = "config/is_logined.txt"; 
-	public static final String ACCOUNT_ID_FILE_PATH = "account/account_id.txt";
+	public static final String IS_LOGINED_FILE_PATH = "config/is_logined"; 
+	public static final String ACCOUNT_ID_FILE_PATH = "account/account_id";
+	private static final String FAIL_TO_LOGIN_SIGNAL = "FAIL_TO_LOGIN";
 	
 	private JPanel contentPane;
 	private static JTextField username_textField;
@@ -93,7 +94,7 @@ public class Login_interface extends JFrame {
 		login_submit_button.addActionListener(e -> {
 			try {
 				String account_id = Client.login(username_textField.getText(), password_textField.getText());
-				if (account_id != null) {
+				if (!account_id.equals(FAIL_TO_LOGIN_SIGNAL)) {
 					FileTool.write_file("true", IS_LOGINED_FILE_PATH);
 					FileTool.write_file(account_id, ACCOUNT_ID_FILE_PATH);
 					Main_interface.create_new_window();
