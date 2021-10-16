@@ -6,13 +6,19 @@ import javax.swing.border.EmptyBorder;
 
 import init.Font_init;
 import meeting.Meeting_handler;
+import storage.Storage_statistic;
 
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.font.TextAttribute;
 import java.io.File;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -61,7 +67,7 @@ public class Meeting_information_viewer_interface extends JFrame {
 	
 	public Meeting_information_viewer_interface() {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 700, 600);
+		setBounds(100, 100, 700, 700);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -248,6 +254,24 @@ public class Meeting_information_viewer_interface extends JFrame {
 
 		sundayBox.setBounds(330, 480, 100, 30);
 		contentPane.add(sundayBox);
+		
+		JLabel statisticLabel = new JLabel("Đi Đến Thư Mục Thống Kê");
+		statisticLabel.setBounds(60, 568, 244, 60);
+		Map<TextAttribute, Object> attributes = new HashMap<>(Font_init.SanFranciscoText_Medium.getAttributes());
+		attributes.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);
+		statisticLabel.setFont(Font_init.SanFranciscoText_Medium.deriveFont(attributes));
+		statisticLabel.setFont(statisticLabel.getFont().deriveFont(15f));
+		statisticLabel.addMouseListener(new MouseListener() {
+			public void mouseClicked(MouseEvent e) {
+				try {Storage_statistic.show_recieved_user_statistic_folder();} 
+				catch (Exception e1) {}
+			}
+			public void mousePressed(MouseEvent e) {}
+			public void mouseReleased(MouseEvent e) {}
+			public void mouseEntered(MouseEvent e) {}
+			public void mouseExited(MouseEvent e) {}
+		});
+		contentPane.add(statisticLabel);
 	}
 	
 	private static void init(String meeting_id) {

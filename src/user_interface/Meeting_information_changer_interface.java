@@ -8,6 +8,7 @@ import client.Client;
 import general_function.FileTool;
 import init.Font_init;
 import meeting.Meeting_handler;
+import storage.Storage_statistic;
 
 import javax.swing.JLabel;
 import javax.swing.JTextField;
@@ -16,10 +17,15 @@ import java.awt.Font;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.font.TextAttribute;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -299,6 +305,24 @@ public class Meeting_information_changer_interface extends JFrame {
 			}
 		});
 		contentPane.add(cancelButton);
+		
+		JLabel statisticLabel = new JLabel("Đi Đến Thư Mục Thống Kê");
+		statisticLabel.setBounds(60, 568, 244, 60);
+		Map<TextAttribute, Object> attributes = new HashMap<>(Font_init.SanFranciscoText_Medium.getAttributes());
+		attributes.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);
+		statisticLabel.setFont(Font_init.SanFranciscoText_Medium.deriveFont(attributes));
+		statisticLabel.setFont(statisticLabel.getFont().deriveFont(15f));
+		statisticLabel.addMouseListener(new MouseListener() {
+			public void mouseClicked(MouseEvent e) {
+				try {Storage_statistic.show_recieved_user_statistic_folder();} 
+				catch (Exception e1) {}
+			}
+			public void mousePressed(MouseEvent e) {}
+			public void mouseReleased(MouseEvent e) {}
+			public void mouseEntered(MouseEvent e) {}
+			public void mouseExited(MouseEvent e) {}
+		});
+		contentPane.add(statisticLabel);
 	}
 
 	private static void updateInputMeetingData() {

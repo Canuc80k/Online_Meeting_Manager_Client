@@ -66,7 +66,7 @@ public class Meeting_joiner_interface extends JFrame {
 					meetingData = Client.join_meeting(meetingID, accountID);
 					if (meetingData != null) {
 						meetingIDFile.mkdirs();
-						FileTool.write_file(meetingData, meetingIDFile.getPath() + "/meeting_information.txt");
+						FileTool.write_file(meetingData, meetingIDFile.getPath() + "/meeting_information");
 						dispose();
 					}
 				} catch (Exception e1) {}

@@ -8,7 +8,7 @@ import com.sun.jna.ptr.PointerByReference;
 public class App_activity_reader implements Runnable {
      private static final int MAX_TITLE_LENGTH = 1024;	
      private static final int TIME_THREAD_SLEEP = 200;
-     private static final String APP_ACTIVITY_DATA_SPLIT_SIGNAL = " !~//*-=-<>()}[{]\\|.,-=asd ";
+     private static final String APP_ACTIVITY_DATA_SPLIT_SIGNAL = " _-.,1sdSA22efa,.-_ ";
      
      private static boolean is_reading_app_activity;
      private static String app_activity_log;

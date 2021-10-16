@@ -6,6 +6,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 
+import app_activity.App_activity_analyst;
 import general_function.FileTool;
 import init.Font_init;
 import javafx.util.Pair;
@@ -65,13 +66,13 @@ public class Joined_meeting_interface extends JFrame {
 		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		contentPane.add(scrollPane);
 
-		JLabel title = new JLabel("Những Cuộc Họp Đã Tham Gia");
+		JLabel title = new JLabel("Cuộc Họp Đã Tham Gia");
 		title.setBounds(25, 10, 349, 84);
 		title.setFont(Font_init.SanFranciscoText_Bold.deriveFont(20f));
 		contentPane.add(title);
 		
 		JButton moreDetailButton = new JButton("Chi Tiết Cuộc Họp");
-		moreDetailButton.setBounds(399, 26, 177, 68);
+		moreDetailButton.setBounds(399, 18, 177, 68);
 		moreDetailButton.setFont(Font_init.SanFranciscoText_Bold.deriveFont(15f));
 		moreDetailButton.addActionListener(e -> {
 			try {
@@ -79,6 +80,17 @@ public class Joined_meeting_interface extends JFrame {
 			} catch (Exception e1) {}
 		});
 		contentPane.add(moreDetailButton);
+		
+		JButton statisticButton = new JButton("🔬");
+		statisticButton.setFont(statisticButton.getFont().deriveFont(Font.BOLD));
+		statisticButton.setBounds(307, 18, 82, 68);
+		statisticButton.addActionListener(e -> {
+			try {
+				new App_activity_analyst("JOINED_MEETING", focused_meeting_id);
+				dispose();
+			} catch (Exception e1) {}
+		});
+		contentPane.add(statisticButton);
 	}
 	
 	public static void init() throws Exception {
@@ -89,7 +101,7 @@ public class Joined_meeting_interface extends JFrame {
 
 		for (File file : files) {
 			String file_name = file.getName();
-			String file_data = FileTool.read_file(JOINED_MEETING_FILE_PATH + file_name + "/meeting_information.txt");
+			String file_data = FileTool.read_file(JOINED_MEETING_FILE_PATH + file_name + "/meeting_information");
 			created_meeting_list.add(new Pair<String, String>(file_name, file_data));
 			created_meeting_button.add(create_created_meeting_button(file_name, file_data));
 		}

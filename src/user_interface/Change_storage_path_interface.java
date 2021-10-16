@@ -18,8 +18,6 @@ import javax.swing.JButton;
 
 @SuppressWarnings("serial")
 public class Change_storage_path_interface extends JFrame {
-	public static final String MEETING_JOINED_FOLDER_PATH = "meeting/meeting_joined/";
-	public static final String ACCOUNT_ID_FILE_PATH = "account/account_id";
 	public static final String STORAGE_PATH_FILE_PATH = "config/storage_path";
 
 	private static JPanel contentPane;

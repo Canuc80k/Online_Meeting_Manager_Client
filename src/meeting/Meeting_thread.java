@@ -13,7 +13,7 @@ import client.Client;
 import general_function.FileTool;
 
 public class Meeting_thread implements Runnable {
-	public static final String JOINED_MEETING_FILE_PATH = "meeting/meeting_joined/";
+	public static final String JOINED_MEETING_FOLDER_PATH = "meeting/meeting_joined/";
 	public static final String ACCOUNT_ID_FILE_PATH = "account/account_id";
 	
 	@Override
@@ -44,13 +44,19 @@ public class Meeting_thread implements Runnable {
 							read_app_activity_thread = new Thread(new App_activity_reader());
 						} catch (Exception e1) {}
 						
-						if (Client.send_meeting_data(user_account_id, last_running_meeting_id, App_activity_reader.get_app_activity_log())) {
+						String app__activity_log = App_activity_reader.get_app_activity_log();
+						if (Client.send_meeting_data(user_account_id, last_running_meeting_id, app__activity_log)) {
+							File joiner_app_activity_folder_path = new File(JOINED_MEETING_FOLDER_PATH + last_running_meeting_id + "/joiner_app_activity/");
+							if (!joiner_app_activity_folder_path.exists()) joiner_app_activity_folder_path.mkdirs();
+							FileTool.write_file(app__activity_log, JOINED_MEETING_FOLDER_PATH + last_running_meeting_id + "/joiner_app_activity/" + user_account_id);
+							
 							JFrame frame = new JFrame();
 					        JOptionPane.showMessageDialog(frame,
 					        		"Cuộc họp " + last_running_meeting_id + " đã kết thúc",
 					                "Thông báo",
 					                JOptionPane.INFORMATION_MESSAGE);
 						}
+						
 					}
 					else try {Thread.sleep(200);} catch(Exception e) {}
 				}
@@ -59,14 +65,14 @@ public class Meeting_thread implements Runnable {
 	}
 	
 	public static String get_running_meeting_id() throws Exception {
-		LocalDateTime current_time = LocalDateTime.now();  
+		LocalDateTime current_time = LocalDateTime.now();
 		String running_meeting_id = null;
 		
-		File[] files = new File(JOINED_MEETING_FILE_PATH).listFiles();
+		File[] files = new File(JOINED_MEETING_FOLDER_PATH).listFiles();
 
 		for (File file : files) {
 			String file_name = file.getName();
-			String file_data = FileTool.read_file(JOINED_MEETING_FILE_PATH + file_name);
+			String file_data = FileTool.read_file(JOINED_MEETING_FOLDER_PATH + file_name + "/meeting_information");
 			
 			List<String> file_data_list = Arrays.asList(file_data.split("\n")); 
 			String starting_meeting_time_data = file_data_list.get(1);
@@ -80,7 +86,7 @@ public class Meeting_thread implements Runnable {
 			
 				if (current_time.getDayOfMonth() == day && current_time.getMonthValue() == month && current_time.getYear() == year) {
 					if (is_meeting_running_now(current_time, starting_meeting_time_data, meeting_length)) {
-						running_meeting_id = file_name.substring(0, file_name.length() - 4);
+						running_meeting_id = file_name.trim();
 						break;
 					}
 				}
@@ -90,7 +96,7 @@ public class Meeting_thread implements Runnable {
 				for (int i = 0; i < meeting_starting_date_list.size(); i ++) {
 					if (Integer.parseInt(meeting_starting_date_list.get(i)) == current_time.getDayOfWeek().getValue() + 1) {
 						if (is_meeting_running_now(current_time, starting_meeting_time_data, meeting_length)) {
-							running_meeting_id = file_name.substring(0, file_name.length() - 4);
+							running_meeting_id = file_name.trim();
 							break;
 						}
 					}
