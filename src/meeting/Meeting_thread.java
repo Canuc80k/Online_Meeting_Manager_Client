@@ -2,8 +2,11 @@ package meeting;
 
 import java.io.File;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -16,57 +19,87 @@ public class Meeting_thread implements Runnable {
 	public static final String JOINED_MEETING_FOLDER_PATH = "meeting/meeting_joined/";
 	public static final String ACCOUNT_ID_FILE_PATH = "account/account_id";
 	
+	private static String meeting_id = "";
+	private static String user_account_id = null;
+	private static List<String> previous_running_meetings_id = new ArrayList<>();
+	private static Map<String, App_activity_reader> map = new HashMap<String, App_activity_reader>();
+	
 	@Override
 	public void run() {
-		String last_running_meeting_id = "";
-		String user_account_id = null;
 		try {user_account_id = FileTool.read_file(ACCOUNT_ID_FILE_PATH).trim();} catch (Exception e2) {}
-		
-		Thread read_app_activity_thread = new Thread(new App_activity_reader());
+
 		try {
 			while (true) {
-				String running_meeting_id = get_running_meeting_id();
-				
-				if (running_meeting_id != null) {
-					System.out.println("Meeting is running");
-					last_running_meeting_id = running_meeting_id;
-					
-					App_activity_reader.set_running_state(true);
-					if (!read_app_activity_thread.isAlive()) {
-						read_app_activity_thread.start();
-					}
-				}
-				else {
-					if (read_app_activity_thread.isAlive()) {
-						App_activity_reader.set_running_state(false);
-						try {
-							read_app_activity_thread.join();
-							read_app_activity_thread = new Thread(new App_activity_reader());
-						} catch (Exception e1) {}
-						
-						String app__activity_log = App_activity_reader.get_app_activity_log();
-						if (Client.send_meeting_data(user_account_id, last_running_meeting_id, app__activity_log)) {
-							File joiner_app_activity_folder_path = new File(JOINED_MEETING_FOLDER_PATH + last_running_meeting_id + "/joiner_app_activity/");
-							if (!joiner_app_activity_folder_path.exists()) joiner_app_activity_folder_path.mkdirs();
-							FileTool.write_file(app__activity_log, JOINED_MEETING_FOLDER_PATH + last_running_meeting_id + "/joiner_app_activity/" + user_account_id);
-							
-							JFrame frame = new JFrame();
-					        JOptionPane.showMessageDialog(frame,
-					        		"Cuộc họp " + last_running_meeting_id + " đã kết thúc",
-					                "Thông báo",
-					                JOptionPane.INFORMATION_MESSAGE);
+				List<String> running_meetings_id = get_running_meetings_id();
+
+				for (int i = 0; i < running_meetings_id.size(); i++) {
+					String id = running_meetings_id.get(i);
+					boolean is_new_running_meeting = true;
+
+					for (int j = 0; j < previous_running_meetings_id.size(); j++) {
+						String old_id = previous_running_meetings_id.get(j);
+						if (id.equals(old_id)) {
+							System.out.println("Meeting " + id + " is running");
+							is_new_running_meeting = false;
 						}
-						
 					}
-					else try {Thread.sleep(200);} catch(Exception e) {}
+
+					if (is_new_running_meeting) {
+						App_activity_reader thread = new App_activity_reader();
+						map.put(id, thread);
+						map.get(id).set_running_state(true);
+						map.get(id).start();
+
+						System.out.println("Meeting " + id + " is start");
+					}
 				}
+
+				for (int i = 0; i < previous_running_meetings_id.size(); i++) {
+					String id = previous_running_meetings_id.get(i);
+					boolean is_meeting_end = true;
+
+					for (int j = 0; j < running_meetings_id.size(); j++) {
+						String new_id = running_meetings_id.get(j);
+						if (id.equals(new_id)) {
+							is_meeting_end = false;
+						}
+					}
+
+					if (is_meeting_end) {
+						System.out.println("Meeting " + id + " is end");
+						map.get(id).set_running_state(false);
+						map.get(id).join();
+
+						String app__activity_log = map.get(id).get_app_activity_log();
+						if (Client.send_meeting_data(user_account_id, id, app__activity_log)) {
+							File joiner_app_activity_folder_path = new File(
+									JOINED_MEETING_FOLDER_PATH + id + "/joiner_app_activity/");
+							if (!joiner_app_activity_folder_path.exists())
+								joiner_app_activity_folder_path.mkdirs();
+							FileTool.write_file(app__activity_log,
+									JOINED_MEETING_FOLDER_PATH + id + "/joiner_app_activity/" + user_account_id);
+
+							JFrame frame = new JFrame();
+							JOptionPane.showMessageDialog(frame, "Cuộc họp " + id + " đã kết thúc", "Thông báo",
+									JOptionPane.INFORMATION_MESSAGE);
+						}
+					}
+				}
+
+				try {
+					Thread.sleep(200);
+				} catch (Exception e) {
+				}
+
+				previous_running_meetings_id = running_meetings_id;
 			}
-		} catch(Exception e) {}
+		} catch (Exception e) {
+		}
 	}
 	
-	public static String get_running_meeting_id() throws Exception {
+	public static List<String> get_running_meetings_id() throws Exception {
 		LocalDateTime current_time = LocalDateTime.now();
-		String running_meeting_id = null;
+		List<String> running_meeting_id = new ArrayList<String>();
 		
 		File[] files = new File(JOINED_MEETING_FOLDER_PATH).listFiles();
 
@@ -86,8 +119,7 @@ public class Meeting_thread implements Runnable {
 			
 				if (current_time.getDayOfMonth() == day && current_time.getMonthValue() == month && current_time.getYear() == year) {
 					if (is_meeting_running_now(current_time, starting_meeting_time_data, meeting_length)) {
-						running_meeting_id = file_name.trim();
-						break;
+						running_meeting_id.add(file_name.trim());
 					}
 				}
 			}
@@ -96,8 +128,7 @@ public class Meeting_thread implements Runnable {
 				for (int i = 0; i < meeting_starting_date_list.size(); i ++) {
 					if (Integer.parseInt(meeting_starting_date_list.get(i)) == current_time.getDayOfWeek().getValue() + 1) {
 						if (is_meeting_running_now(current_time, starting_meeting_time_data, meeting_length)) {
-							running_meeting_id = file_name.trim();
-							break;
+							running_meeting_id.add(file_name.trim());
 						}
 					}
 				}

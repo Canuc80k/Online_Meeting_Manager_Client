@@ -5,13 +5,17 @@ import com.sun.jna.Pointer;
 import com.sun.jna.platform.win32.WinDef.HWND;
 import com.sun.jna.ptr.PointerByReference;
  
-public class App_activity_reader implements Runnable {
+public class App_activity_reader extends Thread {
      private static final int MAX_TITLE_LENGTH = 1024;	
      private static final int TIME_THREAD_SLEEP = 200;
      private static final String APP_ACTIVITY_DATA_SPLIT_SIGNAL = " _-.,1sdSA22efa,.-_ ";
      
-     private static boolean is_reading_app_activity;
-     private static String app_activity_log;
+     private boolean is_reading_app_activity;
+     private String app_activity_log;
+     
+     public App_activity_reader() {
+    	 
+     }
      
      /*
       * @do update global variable String app_activity_log
@@ -24,6 +28,7 @@ public class App_activity_reader implements Runnable {
       * 		(1) when app title change (means change tab / change app)
       * 		(2) last update, when thread.join()
       */
+     
      @Override
      public void run() {
     	  app_activity_log = "";
@@ -53,11 +58,11 @@ public class App_activity_reader implements Runnable {
           app_activity_log += lastTitle + APP_ACTIVITY_DATA_SPLIT_SIGNAL + lastProcess + APP_ACTIVITY_DATA_SPLIT_SIGNAL + String.valueOf(time) + "\n";
      }
      
-     public static void set_running_state(boolean running_state) {
+     public void set_running_state(boolean running_state) {
     	 is_reading_app_activity = running_state;
      }
      
-     public static String get_app_activity_log() {
+     public String get_app_activity_log() {
 		return app_activity_log;
     	 
      }

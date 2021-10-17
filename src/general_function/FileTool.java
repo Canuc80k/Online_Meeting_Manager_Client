@@ -25,7 +25,7 @@ public class FileTool {
 		return result;
 	}
 
-	public static void write_file(String data, String path) throws Exception {
+	public static synchronized void write_file(String data, String path) throws Exception {
 		try (Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(path), "utf-8"))) {
 			writer.write(data);
 		}

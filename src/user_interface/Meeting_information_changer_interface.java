@@ -74,6 +74,7 @@ public class Meeting_information_changer_interface extends JFrame {
 	private static String meeting_id;
 	
 	public static void create_new_window(String meeting_id) {
+		Meeting_information_changer_interface.meeting_id = meeting_id;
 		Meeting_information_changer_interface frame = new Meeting_information_changer_interface();
 		init(meeting_id);
 		frame.setVisible(true);
@@ -314,7 +315,7 @@ public class Meeting_information_changer_interface extends JFrame {
 		statisticLabel.setFont(statisticLabel.getFont().deriveFont(15f));
 		statisticLabel.addMouseListener(new MouseListener() {
 			public void mouseClicked(MouseEvent e) {
-				try {Storage_statistic.show_recieved_user_statistic_folder();} 
+				try {Storage_statistic.show_recieved_user_statistic_folder(meeting_id);} 
 				catch (Exception e1) {}
 			}
 			public void mousePressed(MouseEvent e) {}

@@ -57,9 +57,12 @@ public class Meeting_information_viewer_interface extends JFrame {
 	private static JCheckBox saturdayBox;
 	private static JCheckBox sundayBox;
 	
+	private static String meeting_id;
+	
 	public static void create_new_window(String meeting_id) {
 		if (!(new File(MEETING_JOINED_FOLDER_PATH)).exists()) new File(MEETING_JOINED_FOLDER_PATH).mkdirs();
 		
+		Meeting_information_viewer_interface.meeting_id = meeting_id;
 		Meeting_information_viewer_interface frame = new Meeting_information_viewer_interface();
 		init(meeting_id);
 		frame.setVisible(true);
@@ -263,7 +266,7 @@ public class Meeting_information_viewer_interface extends JFrame {
 		statisticLabel.setFont(statisticLabel.getFont().deriveFont(15f));
 		statisticLabel.addMouseListener(new MouseListener() {
 			public void mouseClicked(MouseEvent e) {
-				try {Storage_statistic.show_recieved_user_statistic_folder();} 
+				try {Storage_statistic.show_my_statistic_folder(meeting_id);} 
 				catch (Exception e1) {}
 			}
 			public void mousePressed(MouseEvent e) {}
