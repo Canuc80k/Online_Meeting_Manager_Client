@@ -22,6 +22,8 @@ import javax.swing.JButton;
 public class Login_interface extends JFrame {
 	public static final String IS_LOGINED_FILE_PATH = "config/is_logined"; 
 	public static final String ACCOUNT_ID_FILE_PATH = "account/account_id";
+	public static final String ACCOUNT_INFO_FILE_PATH = "account/account_info";
+	public static final String ACCOUNT_USERNAME_FILE_PATH = "account/account_username";
 	private static final String FAIL_TO_LOGIN_SIGNAL = "FAIL_TO_LOGIN";
 	
 	private JPanel contentPane;
@@ -97,6 +99,8 @@ public class Login_interface extends JFrame {
 				if (!account_id.equals(FAIL_TO_LOGIN_SIGNAL)) {
 					FileTool.write_file("true", IS_LOGINED_FILE_PATH);
 					FileTool.write_file(account_id, ACCOUNT_ID_FILE_PATH);
+					FileTool.write_file(username_textField.getText(), ACCOUNT_USERNAME_FILE_PATH);
+					FileTool.write_file(Client.get_account_info(account_id), ACCOUNT_INFO_FILE_PATH);
 					Main_interface.create_new_window();
 					dispose();
 				}

@@ -52,7 +52,7 @@ public class Main_interface extends JFrame {
 		JMenuBar menuBar = new JMenuBar();  
 		JMenu notificationMenu, featureMenu, settingMenu, helplMenu;
 		JMenuItem createMeetingMenuItem, joinMeetingMenuItem, createdMeetingMenuItem, joinedMeetingMenuItem, sendMeetingDataMenuItem;
-		JMenuItem setAccountInfomationMenuItem, changeStoragePathMenuItem, changePasswordMenuItem; 
+		JMenuItem changeAccountInfomationMenuItem, changeStoragePathMenuItem, changePasswordMenuItem; 
 		JMenuItem helpingMenuItem, bugReportMenuItem;
 		JButton logOutButton;
 		
@@ -67,7 +67,7 @@ public class Main_interface extends JFrame {
 		createdMeetingMenuItem = new JMenuItem("Cuộc họp đã tạo");
 		joinedMeetingMenuItem = new JMenuItem("Cuộc họp đã tham gia");
 		sendMeetingDataMenuItem = new JMenuItem("Gửi thông tin cuộc họp");
-		setAccountInfomationMenuItem = new JMenuItem("Sửa thông tin tài khoản");
+		changeAccountInfomationMenuItem = new JMenuItem("Sửa thông tin tài khoản");
 		changeStoragePathMenuItem = new JMenuItem("Lưu trữ cuộc họp");
 		changePasswordMenuItem = new JMenuItem("Đổi mật khẩu");
 		helpingMenuItem = new JMenuItem("Trợ giúp");
@@ -82,7 +82,7 @@ public class Main_interface extends JFrame {
 		featureMenu.add(createdMeetingMenuItem);
 		featureMenu.add(joinedMeetingMenuItem);
 		featureMenu.add(sendMeetingDataMenuItem);
-		settingMenu.add(setAccountInfomationMenuItem);
+		settingMenu.add(changeAccountInfomationMenuItem);
 		settingMenu.add(changeStoragePathMenuItem);
 		settingMenu.add(changePasswordMenuItem);
 		helplMenu.add(helpingMenuItem);
@@ -116,6 +116,10 @@ public class Main_interface extends JFrame {
 		
 		changeStoragePathMenuItem.addActionListener(e -> {
 			Change_storage_path_interface.create_new_window();
+		});
+		
+		changeAccountInfomationMenuItem.addActionListener(e -> {
+			try {Change_account_information_interface.create_new_window();} catch (Exception e1) {}
 		});
 		
 		logOutButton.addActionListener(e -> {

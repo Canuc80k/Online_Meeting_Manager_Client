@@ -103,6 +103,32 @@ public class Client {
 		return change_succesfully;
 	}
 	
+	public static boolean change_account_information(String account_id, String account_info) throws Exception {
+		Client.start();
+		dos.writeUTF("CHANGE_ACCOUNT_INFO\n" + account_id + '\n' + account_info);
+
+		boolean change_succesfully = Boolean.parseBoolean(dis.readUTF());
+		
+		dos.close();
+		dis.close();
+		socket.close();
+		
+		return change_succesfully;
+	}
+	
+	public static String get_account_info(String account_id) throws IOException {
+		Client.start();
+		dos.writeUTF("GET_ACCOUNT_INFO\n" + account_id);
+		
+		String account_info = dis.readUTF();
+		
+		dos.close();
+		dis.close();
+		socket.close();
+		
+		return account_info;
+	}
+	
 	public static void start() {
 		try {
 			socket = new Socket(hostname, port);
