@@ -35,7 +35,9 @@ public class Meeting_joiner_interface extends JFrame {
 
 	public Meeting_joiner_interface() {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setSize(450, 300);
+		setResizable(false);
+		setLocationRelativeTo(null);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -58,20 +60,42 @@ public class Meeting_joiner_interface extends JFrame {
 		joinMeetingButton.setFont(Font_init.SanFranciscoText_Medium.deriveFont(15f));
 		joinMeetingButton.addActionListener(e -> {
 			meetingID = meetingIDTextField.getText();
+			if (!check_valid_meeting_id(meetingID)) return;
 			try {accountID = FileTool.read_file(ACCOUNT_ID_FILE_PATH).trim();} catch (Exception e2) {}
 
 			File meetingIDFile = new File(MEETING_JOINED_FOLDER_PATH + meetingID);
 			if (!meetingIDFile.exists()) {
 				try {
 					meetingData = Client.join_meeting(meetingID, accountID);
-					if (meetingData != null) {
-						meetingIDFile.mkdirs();
-						FileTool.write_file(meetingData, meetingIDFile.getPath() + "/meeting_information");
-						dispose();
+					if (meetingData.equals("FAIL_TO_JOIN_MEETING")) {
+						return;
 					}
-				} catch (Exception e1) {}
+				} catch (Exception e1) {
+				}
+				
+				if (meetingData != null) {
+					meetingIDFile.mkdirs();
+					try {
+						FileTool.write_file(meetingData, meetingIDFile.getPath() + "/meeting_information");
+					} catch (Exception e1) {}
+					dispose();
+					Notify_interface.create_new_window("Tham Gia Cuộc Họp Thành Công");
+				}
 			}
 		});
 		contentPane.add(joinMeetingButton);
+	}
+	
+	private static boolean check_valid_meeting_id(String meeting_id) {
+		boolean result = true;
+		
+		if (meeting_id.length() != 10) result = false;
+		try {
+			Integer.parseInt(meeting_id);
+		} catch(Exception e) {
+			result = false;
+		}
+		
+		return result;		
 	}
 }

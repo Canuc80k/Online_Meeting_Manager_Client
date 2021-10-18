@@ -51,16 +51,16 @@ public class Client {
 		return meeting_id;
 	}
 	
-	public static String join_meeting(String meeting_id, String joiner_meeting_id) throws Exception {	
+	public static String join_meeting(String meeting_id, String joiner_meeting_id) throws Exception {
 		Client.start();
 		dos.writeUTF("JOIN_MEETING\n" + meeting_id + '\n' + joiner_meeting_id);
 
 		String meeting_information = dis.readUTF();
-		
+
 		dos.close();
 		dis.close();
 		socket.close();
-		
+
 		return meeting_information;
 	}
 

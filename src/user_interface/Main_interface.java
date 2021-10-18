@@ -1,12 +1,7 @@
 package user_interface;
 
-import java.awt.Color;
 import java.awt.Font;
-import java.awt.GraphicsEnvironment;
-import java.awt.Insets;
-import java.io.File;
 import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.List;
 
 import javax.swing.Box;
@@ -16,10 +11,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
-import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
-import javax.swing.plaf.FontUIResource;
-
 import general_function.FileTool;
 import init.Font_init;
 
@@ -43,7 +35,9 @@ public class Main_interface extends JFrame {
     
 	public Main_interface() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setSize(450, 300);
+		setResizable(false);
+		setLocationRelativeTo(null);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);

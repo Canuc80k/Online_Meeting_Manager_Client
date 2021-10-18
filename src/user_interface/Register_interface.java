@@ -31,7 +31,9 @@ public class Register_interface extends JFrame {
 	
 	public Register_interface() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 500, 500);
+		setSize(500, 500);
+		setResizable(false);
+		setLocationRelativeTo(null);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -92,6 +94,7 @@ public class Register_interface extends JFrame {
 				if (Client.register(username_textField.getText(), password_textField.getText())) {
 					Login_interface.create_new_window();
 					dispose();
+					Notify_interface.create_new_window("Đăng Ký Thành Công");
 				}
 			} catch (Exception e1) {}
 		});

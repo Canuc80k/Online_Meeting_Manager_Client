@@ -13,14 +13,12 @@ import storage.Storage_statistic;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
-import java.awt.Font;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.font.TextAttribute;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -82,7 +80,9 @@ public class Meeting_information_changer_interface extends JFrame {
 	
 	public Meeting_information_changer_interface() {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 700, 700);
+		setSize(700, 700);
+		setResizable(false);
+		setLocationRelativeTo(null);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -288,6 +288,7 @@ public class Meeting_information_changer_interface extends JFrame {
 					boolean change_successfully = Client.change_meeting_information(meeting_id, meetingDataString);
 					if (change_successfully) {
 						FileTool.write_file(meetingDataString, MEETING_CREATED_FOLDER_PATH + meeting_id + "/meeting_information");
+						Notify_interface.create_new_window("Thay Đổi Thông Tin Cuộc Họp Thành Công");
 					}
 					Created_meeting_interface.frame.dispose();
 					Created_meeting_interface.create_new_window();

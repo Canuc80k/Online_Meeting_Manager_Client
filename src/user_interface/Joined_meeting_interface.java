@@ -44,7 +44,9 @@ public class Joined_meeting_interface extends JFrame {
 
 	public Joined_meeting_interface() {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 600, 600);
+		setSize(600, 600);
+		setResizable(false);
+		setLocationRelativeTo(null);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -88,6 +90,8 @@ public class Joined_meeting_interface extends JFrame {
 			try {
 				new App_activity_analyst("JOINED_MEETING", focused_meeting_id);
 				dispose();
+				Notify_interface.create_new_window("Phân Tích Dữ Liệu Của Người Dùng Có ID " + focused_meeting_id + " Thành Công");
+				
 			} catch (Exception e1) {}
 		});
 		contentPane.add(statisticButton);

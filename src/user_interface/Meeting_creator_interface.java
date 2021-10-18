@@ -18,6 +18,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -75,7 +76,9 @@ public class Meeting_creator_interface extends JFrame {
 
 	public Meeting_creator_interface() {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 700, 700);
+		setSize(700, 700);
+		setResizable(false);
+		setLocationRelativeTo(null);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -268,7 +271,8 @@ public class Meeting_creator_interface extends JFrame {
 		createMeetingButton.setBounds(505, 558, 158, 80);
 		createMeetingButton.setFont(Font_init.SanFranciscoText_Medium.deriveFont(15f));
 		createMeetingButton.addActionListener(e -> {
-				updateInputMeetingData();				
+				updateInputMeetingData();		
+				if (!checkInputMeetingCondition()) return;
 				try {
 					String meetingDataString = Meeting_handler.covertMeetingDataToString(
 							meetingName,
@@ -280,12 +284,11 @@ public class Meeting_creator_interface extends JFrame {
 					
 					String meeting_id = Client.create_meeting(meetingDataString);
 					if (meeting_id != null) {
-						Meeting_creator_notify_interface.set_meeting_ID(meeting_id);
-						Meeting_creator_notify_interface.create_new_window();
 						File file = new File(MEETING_CREATED_FOLDER_PATH + meeting_id);
 						if (!file.exists()) file.mkdirs();
 						
 						FileTool.write_file(meetingDataString, file.getPath() + "/meeting_information");
+						Notify_interface.create_new_window("Tạo cuộc họp thành công\nID Cuộc Họp Mới Là: " + meeting_id);
 					}
 				} catch (Exception e1) {}
 				dispose();
@@ -303,7 +306,25 @@ public class Meeting_creator_interface extends JFrame {
 		});
 		contentPane.add(cancelButton);
 	}
-
+	
+	private static boolean checkInputMeetingCondition() {
+		boolean result = true;
+		
+		if (timeStartPoint.y > 60) result = false;
+		if (Integer.parseInt(minuteLengthTextField.getText()) > 60) result = false;
+		if (dayStartDate != null) {
+			List<String> list = Arrays.asList(dayStartDate.split(" "));
+			for (int i = 0; i < list.size(); i ++) {
+				if (list.get(i).equals("0")) result = false;
+			}
+		}
+		if (daysInWeekHaveMeeting != null) {
+			if (daysInWeekHaveMeeting.size() == 0) result = false;
+		}
+			
+		return result;
+	}
+	
 	private static void updateInputMeetingData() {
 		meetingName = meetingNameTextField.getText();
 		timeStartPoint = new Point();

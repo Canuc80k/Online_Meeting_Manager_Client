@@ -37,7 +37,9 @@ public class Login_interface extends JFrame {
 	
 	public Login_interface() {			
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 500, 500);	
+		setSize(500, 500);	
+		setResizable(false);
+		setLocationRelativeTo(null);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -103,7 +105,8 @@ public class Login_interface extends JFrame {
 					FileTool.write_file(Client.get_account_info(account_id), ACCOUNT_INFO_FILE_PATH);
 					Main_interface.create_new_window();
 					dispose();
-				}
+					Notify_interface.create_new_window("Đăng Nhập Thành Công");
+				} else Notify_interface.create_new_window("Đăng Nhập Thất Bại");
 			} catch (Exception e1) {}
 		});
 		contentPane.add(login_submit_button);

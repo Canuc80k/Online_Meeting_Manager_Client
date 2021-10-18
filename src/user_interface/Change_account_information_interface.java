@@ -55,7 +55,9 @@ public class Change_account_information_interface extends JFrame {
 
 	public Change_account_information_interface() {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 630, 550);
+		setSize(630, 550);
+		setResizable(false);
+		setLocationRelativeTo(null);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -150,6 +152,7 @@ public class Change_account_information_interface extends JFrame {
 					Client.change_account_information(account_id, user_information);
 					FileTool.write_file(user_information, ACCOUNT_INFORMATION_FILE_PATH);
 					dispose();
+					Notify_interface.create_new_window("Thay Đổi Thông Tin Tài Khoản Thành Công");
 				} catch (Exception e1) {}
 		});
 		contentPane.add(submitButton);

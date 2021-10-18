@@ -47,7 +47,9 @@ public class Created_meeting_interface extends JFrame {
 
 	public Created_meeting_interface() {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 600, 600);
+		setSize(600, 600);
+		setResizable(false);
+		setLocationRelativeTo(null);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -84,24 +86,15 @@ public class Created_meeting_interface extends JFrame {
 		});
 		contentPane.add(moreDetailButton);
 		
-		JButton downloadButton = new JButton("⬇️");
-		downloadButton.setFont(downloadButton.getFont().deriveFont(Font.BOLD));
-		downloadButton.setBounds(243, 18, 68, 68);
-		downloadButton.addActionListener(e -> {
-			try {
-				get_and_storage_joiner_app_activity(focused_meeting_id);
-				dispose();
-			} catch (Exception e1) {}
-		});
-		contentPane.add(downloadButton);
-		
-		JButton statisticButton = new JButton("🔬");
+		JButton statisticButton = new JButton("⬇️ + 🔬");
 		statisticButton.setFont(statisticButton.getFont().deriveFont(Font.BOLD));
 		statisticButton.setBounds(321, 18, 68, 68);
 		statisticButton.addActionListener(e -> {
 			try {
+				get_and_storage_joiner_app_activity(focused_meeting_id);
 				new App_activity_analyst("CREATED_MEETING", focused_meeting_id);
 				dispose();
+				Notify_interface.create_new_window("Tải Và Phân Tích Dữ Liệu Của Người Dùng Có ID " + focused_meeting_id + " Thành Công");
 			} catch (Exception e1) {}
 		});
 		contentPane.add(statisticButton);
