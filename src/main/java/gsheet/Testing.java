@@ -12,6 +12,8 @@ import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.util.store.FileDataStoreFactory;
 import com.google.api.services.sheets.v4.Sheets;
 import com.google.api.services.sheets.v4.SheetsScopes;
+import com.google.api.services.sheets.v4.model.Spreadsheet;
+import com.google.api.services.sheets.v4.model.SpreadsheetProperties;
 import com.google.api.services.sheets.v4.model.ValueRange;
 
 import java.io.FileNotFoundException;
@@ -65,23 +67,18 @@ public class Testing {
     public static void main(String... args) throws IOException, GeneralSecurityException {
         // Build a new authorized API client service.
         final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
-        final String spreadsheetId = "1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms";
+        final String spreadsheetId = "1q2x8DnVQqcSRudq8lpn30d8K5Co26CeImqvaMGUiww8";
         final String range = "Class Data!A2:E";
         Sheets service = new Sheets.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(HTTP_TRANSPORT))
                 .setApplicationName(APPLICATION_NAME)
                 .build();
-        ValueRange response = service.spreadsheets().values()
-                .get(spreadsheetId, range)
+        
+        Spreadsheet spreadsheet = new Spreadsheet()
+                .setProperties(new SpreadsheetProperties()
+                        .setTitle("AAAA"));
+        spreadsheet = service.spreadsheets().create(spreadsheet)
+                .setFields("spreadsheetId")
                 .execute();
-        List<List<Object>> values = response.getValues();
-        if (values == null || values.isEmpty()) {
-            System.out.println("No data found.");
-        } else {
-            System.out.println("Name, Major");
-            for (List row : values) {
-                // Print columns A and E, which correspond to indices 0 and 4.
-                System.out.printf("%s, %s\n", row.get(0), row.get(4));
-            }
-        }
+        System.out.println("Spreadsheet ID: " + spreadsheet.getSpreadsheetId());
     }
 }

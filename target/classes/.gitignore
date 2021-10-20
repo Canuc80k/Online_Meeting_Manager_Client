@@ -1,9 +1,2 @@
-/app_activity/
-/client/
-/general_function/
 /gsheet/
-/init/
-/laucher/
-/resources/
-/storage/
-/user_interface/
+/meeting/
