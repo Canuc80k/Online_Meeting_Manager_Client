@@ -26,7 +26,7 @@ import javax.swing.JRadioButton;
 
 @SuppressWarnings("serial")
 public class Meeting_information_viewer_interface extends JFrame {
-	public static final String MEETING_JOINED_FOLDER_PATH = "meeting/meeting_joined/";
+	public static final String MEETING_JOINED_FOLDER_PATH = "src/main/resources/meeting/meeting_joined/";
 	private JPanel contentPane;
 
 	private static JLabel meetingNameLabel;

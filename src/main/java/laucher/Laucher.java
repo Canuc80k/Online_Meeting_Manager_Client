@@ -3,11 +3,11 @@ package laucher;
 import general_function.FileTool;
 import init.Font_init;
 import meeting.Meeting_thread;
-import user_interface.Login_interface;
 import user_interface.Main_interface;
+import user_interface.login_and_register.Login_interface;
 
 public class Laucher implements Runnable {
-	public static final String IS_LOGINED_FILE_PATH = "config/is_logined";
+	public static final String IS_LOGINED_FILE_PATH = "src/main/resources/config/is_logined";
 	
 	public static boolean isLogined;
 	public static Thread main_thread, meeting_thread;

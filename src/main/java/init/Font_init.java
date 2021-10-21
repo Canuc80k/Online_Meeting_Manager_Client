@@ -32,13 +32,13 @@ public class Font_init {
 		try {
 			GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
 
-			SanFranciscoText_Medium = Font.createFont(Font.TRUETYPE_FONT, new File("font/San Francisco/SanFranciscoText-Medium.otf")).deriveFont(15f);
+			SanFranciscoText_Medium = Font.createFont(Font.TRUETYPE_FONT, new File("src/main/resources/font/San Francisco/SanFranciscoText-Medium.otf")).deriveFont(15f);
 			ge.registerFont(SanFranciscoText_Medium);
 			
-			SanFranciscoDisplay_Medium = Font.createFont(Font.TRUETYPE_FONT, new File("font/San Francisco/SanFranciscoDisplay-Medium.otf")).deriveFont(12f);
+			SanFranciscoDisplay_Medium = Font.createFont(Font.TRUETYPE_FONT, new File("src/main/resources/font/San Francisco/SanFranciscoDisplay-Medium.otf")).deriveFont(12f);
 			ge.registerFont(SanFranciscoDisplay_Medium);
 			
-			SanFranciscoText_Bold = Font.createFont(Font.TRUETYPE_FONT, new File("font/San Francisco/SanFranciscoText-Bold.otf")).deriveFont(20f);
+			SanFranciscoText_Bold = Font.createFont(Font.TRUETYPE_FONT, new File("src/main/resources/font/San Francisco/SanFranciscoText-Bold.otf")).deriveFont(20f);
 			ge.registerFont(SanFranciscoText_Bold);
 		} catch (Exception e) {}
 

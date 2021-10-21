@@ -14,10 +14,11 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import general_function.FileTool;
 import init.Font_init;
+import user_interface.login_and_register.Login_interface;
 
 @SuppressWarnings("serial")
 public class Main_interface extends JFrame {
-	public static final String IS_LOGINED_FILE_PATH = "config/is_logined"; 
+	public static final String IS_LOGINED_FILE_PATH = "src/main/resources/config/is_logined"; 
 	public static final Font FONT = new Font("Comic Sans MS", Font.PLAIN, 12);
 	
 	private JPanel contentPane;

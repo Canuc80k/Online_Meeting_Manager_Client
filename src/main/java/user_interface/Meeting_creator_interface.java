@@ -28,7 +28,7 @@ import javax.swing.JRadioButton;
 
 @SuppressWarnings("serial")
 public class Meeting_creator_interface extends JFrame {
-	public static final String MEETING_CREATED_FOLDER_PATH = "meeting/meeting_created/";
+	public static final String MEETING_CREATED_FOLDER_PATH = "src/main/resources/meeting/meeting_created/";
 	public static final Font FONT = new Font("SansSerif", Font.BOLD, 14);
 
 	private JPanel contentPane;

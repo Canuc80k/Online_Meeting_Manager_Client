@@ -18,8 +18,8 @@ import javax.swing.JButton;
 
 @SuppressWarnings("serial")
 public class Meeting_joiner_interface extends JFrame {
-	public static final String MEETING_JOINED_FOLDER_PATH = "meeting/meeting_joined/";
-	public static final String ACCOUNT_ID_FILE_PATH = "account/account_id";
+	public static final String MEETING_JOINED_FOLDER_PATH = "src/main/resources/meeting/meeting_joined/";
+	public static final String ACCOUNT_ID_FILE_PATH = "src/main/resources/account/account_id";
 	public static final Font FONT = new Font("SansSerif", Font.BOLD, 14);
 
 	private JPanel contentPane;

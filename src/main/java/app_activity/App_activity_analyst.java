@@ -12,8 +12,8 @@ import general_function.FileTool;
 import storage.Storage_statistic;
 
 public class App_activity_analyst {
-	public static final String CREATED_MEETING_FOLDER_PATH = "meeting/meeting_created/";
-	public static final String JOINED_MEETING_FOLDER_PATH = "meeting/meeting_joined/";
+	public static final String CREATED_MEETING_FOLDER_PATH = "src/main/resources/meeting/meeting_created/";
+	public static final String JOINED_MEETING_FOLDER_PATH = "src/main/resources/meeting/meeting_joined/";
 	private static final String APP_ACTIVITY_DATA_SPLIT_SIGNAL = " _-.,1sdSA22efa,.-_ ";
     
 	private static Map<String, String> map;
@@ -102,7 +102,7 @@ public class App_activity_analyst {
 		result += String.valueOf(change_app_times) + '\n';
 		result += String.valueOf(change_tab_times) + '\n';
 		for (Entry<String, Double> entry : time_use_app.entrySet()) {
-			result += "Tên Ứng Dụng:" + entry.getKey() + "&& Thời Gian Sử Dụng:" + String.valueOf(entry.getValue()) + '\n';
+			result += "TÃªn á»¨ng Dá»¥ng:" + entry.getKey() + "&& Thá»�i Gian Sá»­ Dá»¥ng:" + String.valueOf(entry.getValue()) + '\n';
 		}
 		
 		return result;

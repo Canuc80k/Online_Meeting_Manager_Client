@@ -1,13 +1,16 @@
 eclipse.preferences.version=1
+encoding//src/main/java/app_activity/App_activity_analyst.java=UTF-8
 encoding//src/main/java/gsheet/SpreadsheetSnippets.java=UTF-8
 encoding//src/main/java/gsheet/Testing.java=UTF-8
+encoding//src/main/java/meeting/Meeting_thread.java=UTF-8
 encoding//src/main/java/user_interface/Change_account_information_interface.java=UTF-8
 encoding//src/main/java/user_interface/Change_storage_path_interface.java=UTF-8
 encoding//src/main/java/user_interface/Created_meeting_interface.java=UTF-8
 encoding//src/main/java/user_interface/Joined_meeting_interface.java=UTF-8
-encoding//src/main/java/user_interface/Login_interface.java=UTF-8
 encoding//src/main/java/user_interface/Main_interface.java=UTF-8
 encoding//src/main/java/user_interface/Meeting_creator_interface.java=UTF-8
 encoding//src/main/java/user_interface/Meeting_information_changer_interface.java=UTF-8
 encoding//src/main/java/user_interface/Meeting_information_viewer_interface.java=UTF-8
 encoding//src/main/java/user_interface/Meeting_joiner_interface.java=UTF-8
+encoding//src/main/java/user_interface/login_and_register/Login_interface.java=UTF-8
+encoding//src/main/java/user_interface/login_and_register/Register_interface.java=UTF-8

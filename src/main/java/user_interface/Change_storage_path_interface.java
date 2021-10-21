@@ -14,7 +14,7 @@ import javax.swing.JButton;
 
 @SuppressWarnings("serial")
 public class Change_storage_path_interface extends JFrame {
-	public static final String STORAGE_PATH_FILE_PATH = "config/storage_path";
+	public static final String STORAGE_PATH_FILE_PATH = "src/main/resources/config/storage_path";
 
 	private static JPanel contentPane;
 	private static JTextField storagePathTextField;

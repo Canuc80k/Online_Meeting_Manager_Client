@@ -16,8 +16,8 @@ import client.Client;
 import general_function.FileTool;
 
 public class Meeting_thread implements Runnable {
-	public static final String JOINED_MEETING_FOLDER_PATH = "meeting/meeting_joined/";
-	public static final String ACCOUNT_ID_FILE_PATH = "account/account_id";
+	public static final String JOINED_MEETING_FOLDER_PATH = "src/main/resources/meeting/meeting_joined/";
+	public static final String ACCOUNT_ID_FILE_PATH = "src/main/resources/account/account_id";
 	
 	private static String meeting_id = "";
 	private static String user_account_id = null;
@@ -80,7 +80,7 @@ public class Meeting_thread implements Runnable {
 									JOINED_MEETING_FOLDER_PATH + id + "/joiner_app_activity/" + user_account_id);
 
 							JFrame frame = new JFrame();
-							JOptionPane.showMessageDialog(frame, "Cuộc họp " + id + " đã kết thúc", "Thông báo",
+							JOptionPane.showMessageDialog(frame, "Cuá»™c há»�p " + id + " Ä‘Ã£ káº¿t thÃºc", "ThÃ´ng bÃ¡o",
 									JOptionPane.INFORMATION_MESSAGE);
 						}
 					}

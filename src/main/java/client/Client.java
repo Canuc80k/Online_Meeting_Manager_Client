@@ -25,9 +25,9 @@ public class Client {
 		return account_id;
 	}
 	
-	public static boolean register(String username, String password) throws Exception {
+	public static boolean register(String register_data) throws Exception {
 		Client.start();
-		dos.writeUTF("REGISTER\n" + username + " " + password);
+		dos.writeUTF("REGISTER\n" + register_data);
 
 		boolean register_successful = Boolean.parseBoolean(dis.readUTF());
 		

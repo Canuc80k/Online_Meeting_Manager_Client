@@ -6,7 +6,7 @@ import java.io.File;
 import general_function.FileTool;
 
 public class Storage_statistic {
-	public static final String STORAGE_PATH_FILE_PATH = "config/storage_path";
+	public static final String STORAGE_PATH_FILE_PATH = "src/main/resources/config/storage_path";
 	
 	public static String get_storage_path() {
 		String path = "";

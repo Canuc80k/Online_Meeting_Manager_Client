@@ -32,7 +32,7 @@ import javax.swing.JRadioButton;
 
 @SuppressWarnings("serial")
 public class Meeting_information_changer_interface extends JFrame {
-	public static final String MEETING_CREATED_FOLDER_PATH = "meeting/meeting_created/";
+	public static final String MEETING_CREATED_FOLDER_PATH = "src/main/resources/meeting/meeting_created/";
 	private JPanel contentPane;
 
 	private static JLabel meetingNameLabel;

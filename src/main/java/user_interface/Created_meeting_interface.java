@@ -24,7 +24,7 @@ import java.util.List;
 
 @SuppressWarnings("serial")
 public class Created_meeting_interface extends JFrame {
-	public static final String CREATED_MEETING_FOLDER_PATH = "meeting/meeting_created/";
+	public static final String CREATED_MEETING_FOLDER_PATH = "src/main/resources/meeting/meeting_created/";
 	public static final Dimension BUTTON_SIZE = new Dimension(400, 150);
 	private static final String JOINER_APP_ACTIVITY_SPLIT_SIGNAL = "\n~!~#@~\n";
 	

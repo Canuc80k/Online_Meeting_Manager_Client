@@ -6,8 +6,8 @@ import java.util.List;
 import general_function.FileTool;
 
 public class Meeting_handler {
-	public static final String MEETING_CREATED_FOLDER_PATH = "meeting/meeting_created/";
-	public static final String JOINED_MEETING_FILE_PATH = "meeting/meeting_joined/";
+	public static final String MEETING_CREATED_FOLDER_PATH = "src/main/resources/meeting/meeting_created/";
+	public static final String JOINED_MEETING_FILE_PATH = "src/main/resources/meeting/meeting_joined/";
 	
 	public static String covertMeetingDataToString(String meetingName, Point timeStartPoint, int meetingLength, String dayStartDate, List<Integer> daysInWeekHaveMeeting) {
 		String meeting_data_string = "";

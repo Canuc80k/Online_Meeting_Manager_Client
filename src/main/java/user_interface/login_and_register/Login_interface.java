@@ -1,15 +1,17 @@
-package user_interface;
+package user_interface.login_and_register;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import client.Client;
+import general_function.FileTool;
 import init.Font_init;
+import user_interface.Main_interface;
+import user_interface.Notify_interface;
 
 import javax.swing.JLabel;
 import javax.swing.JTextField;
-
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.font.TextAttribute;
@@ -19,30 +21,34 @@ import java.util.Map;
 import javax.swing.JButton;
 
 @SuppressWarnings("serial")
-public class Register_interface extends JFrame {
+public class Login_interface extends JFrame {
+	private static final String IS_LOGINED_FILE_PATH = "src/main/resources/config/is_logined"; 
+	private static final String ACCOUNT_ID_FILE_PATH = "src/main/resources/account/account_id";
+	private static final String FAIL_TO_LOGIN_SIGNAL = "FAIL_TO_LOGIN";
+	
 	private JPanel contentPane;
 	private static JTextField username_textField;
 	private static JTextField password_textField;
 
 	public static void create_new_window() {
-		Register_interface frame = new Register_interface();
+		Login_interface frame = new Login_interface();
 		frame.setVisible(true);
 	}
 	
-	public Register_interface() {
+	public Login_interface() {			
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setSize(500, 500);
+		setSize(500, 500);	
 		setResizable(false);
 		setLocationRelativeTo(null);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-
-		JLabel register_page_label = new JLabel("Trang Đăng Ký");
-		register_page_label.setBounds(148, 21, 261, 69);
-		register_page_label.setFont(Font_init.SanFranciscoText_Bold.deriveFont(22f));
-		contentPane.add(register_page_label);
+		
+		JLabel login_page_label = new JLabel("Trang Đăng Nhập");
+		login_page_label.setBounds(148, 21, 261, 69);
+		login_page_label.setFont(Font_init.SanFranciscoText_Bold.deriveFont(22f));
+		contentPane.add(login_page_label);
 		
 		JLabel username_label = new JLabel("Tên Đăng Nhập");
 		username_label.setBounds(33, 145, 128, 34);
@@ -54,16 +60,16 @@ public class Register_interface extends JFrame {
 		password_label.setFont(Font_init.SanFranciscoText_Medium.deriveFont(15f));
 		contentPane.add(password_label);
 		
-		JLabel login_label = new JLabel("Đã có tài khoản");
+		JLabel register_label = new JLabel("Chưa có tài khoản");
 		Map<TextAttribute, Object> attributes = new HashMap<>(Font_init.SanFranciscoText_Medium.getAttributes());
 		attributes.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);
-		login_label.setFont(Font_init.SanFranciscoText_Medium.deriveFont(attributes));
-		login_label.setFont(login_label.getFont().deriveFont(12f));
-		login_label.setBounds(33, 387, 150, 13);
-		login_label.addMouseListener(new MouseListener() {
+		register_label.setFont(Font_init.SanFranciscoText_Medium.deriveFont(attributes));
+		register_label.setFont(register_label.getFont().deriveFont(12f));
+		register_label.setBounds(33, 387, 150, 13);
+		register_label.addMouseListener(new MouseListener() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				Login_interface.create_new_window();
+				Register_interface.create_new_window();
 				dispose();
 			}
 			
@@ -72,7 +78,7 @@ public class Register_interface extends JFrame {
 			@Override public void mouseEntered(MouseEvent e) {}
 			@Override public void mouseExited(MouseEvent e) {}
 		});
-		contentPane.add(login_label);
+		contentPane.add(register_label);
 		
 		username_textField = new JTextField();
 		username_textField.setBounds(224, 133, 210, 60);
@@ -86,18 +92,21 @@ public class Register_interface extends JFrame {
 		contentPane.add(password_textField);
 		password_textField.setColumns(10);
 		
-		JButton register_submit_button = new JButton("Đăng Ký");
-		register_submit_button.setBounds(342, 364, 119, 59);
-		register_submit_button.setFont(Font_init.SanFranciscoText_Medium.deriveFont(15f));
-		register_submit_button.addActionListener(e -> {
+		JButton login_submit_button = new JButton("Đăng Nhập");
+		login_submit_button.setBounds(342, 364, 119, 59);
+		login_submit_button.setFont(Font_init.SanFranciscoText_Medium.deriveFont(15f));
+		login_submit_button.addActionListener(e -> {
 			try {
-				if (Client.register(username_textField.getText(), password_textField.getText())) {
-					Login_interface.create_new_window();
+				String account_id = Client.login(username_textField.getText(), password_textField.getText());
+				if (!account_id.equals(FAIL_TO_LOGIN_SIGNAL)) {
+					FileTool.write_file("true", IS_LOGINED_FILE_PATH);
+					FileTool.write_file(account_id, ACCOUNT_ID_FILE_PATH);
+					Main_interface.create_new_window();
 					dispose();
-					Notify_interface.create_new_window("Đăng Ký Thành Công");
-				}
+					Notify_interface.create_new_window("Đăng Nhập Thành Công");
+				} 
 			} catch (Exception e1) {}
 		});
-		contentPane.add(register_submit_button);
+		contentPane.add(login_submit_button);
 	}
 }

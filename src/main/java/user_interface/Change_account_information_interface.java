@@ -20,8 +20,8 @@ import javax.swing.JRadioButton;
 
 @SuppressWarnings("serial")
 public class Change_account_information_interface extends JFrame {
-	public static final String ACCOUNT_ID_FILE_PATH = "account/account_id";
-	public static final String ACCOUNT_INFORMATION_FILE_PATH = "account/account_info";
+	public static final String ACCOUNT_ID_FILE_PATH = "src/main/resources/account/account_id";
+	public static final String ACCOUNT_INFORMATION_FILE_PATH = "src/main/resources/account/account_info";
 	
 	private JPanel contentPane;
 

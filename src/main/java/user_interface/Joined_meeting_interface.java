@@ -23,7 +23,7 @@ import java.util.List;
 
 @SuppressWarnings("serial")
 public class Joined_meeting_interface extends JFrame {
-	public static final String JOINED_MEETING_FILE_PATH = "meeting/meeting_joined/";
+	public static final String JOINED_MEETING_FILE_PATH = "src/main/resources/meeting/meeting_joined/";
 	public static final Font FONT = new Font("SansSerif", Font.BOLD, 14);
 	public static final Dimension BUTTON_SIZE = new Dimension(400, 150);
 	
