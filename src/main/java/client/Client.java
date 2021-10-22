@@ -38,9 +38,9 @@ public class Client {
 		return register_successful;
 	}
 
-	public static String create_meeting(String meeting_data) throws Exception {	
+	public static String create_meeting(String meeting_info) throws Exception {	
 		Client.start();
-		dos.writeUTF("CREATE_MEETING\n" + meeting_data);
+		dos.writeUTF("CREATE_MEETING\n" + meeting_info);
 
 		String meeting_id = dis.readUTF();
 		

@@ -1,4 +1,4 @@
-package user_interface;
+package user_interface.meeting_creator_and_joiner;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -7,6 +7,7 @@ import javax.swing.border.EmptyBorder;
 import client.Client;
 import general_function.FileTool;
 import init.Font_init;
+import user_interface.Notify_interface;
 
 import javax.swing.JLabel;
 

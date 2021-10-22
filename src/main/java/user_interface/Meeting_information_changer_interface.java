@@ -277,13 +277,13 @@ public class Meeting_information_changer_interface extends JFrame {
 		createMeetingButton.addActionListener(e -> {
 				updateInputMeetingData();				
 				try {
-					String meetingDataString = Meeting_handler.covertMeetingDataToString(
+					String meetingDataString = "";/*Meeting_handler.covertMeetingDataToString(
 							meetingName,
 							timeStartPoint, 
 							meetingLengthValue, 
 							dayStartDate, 
 							daysInWeekHaveMeeting
-					);
+					);*/
 					
 					boolean change_successfully = Client.change_meeting_information(meeting_id, meetingDataString);
 					if (change_successfully) {
