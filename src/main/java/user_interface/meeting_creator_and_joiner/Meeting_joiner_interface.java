@@ -12,7 +12,6 @@ import user_interface.Notify_interface;
 import javax.swing.JLabel;
 
 import java.awt.Font;
-import java.io.File;
 
 import javax.swing.JTextField;
 import javax.swing.JButton;
@@ -26,7 +25,6 @@ public class Meeting_joiner_interface extends JFrame {
 	private JPanel contentPane;
 	private static String meetingID;
 	private JTextField meetingIDTextField;
-	private static String meetingData;
 	private static String accountID;
 	
 	public static void create_new_window() {
@@ -64,39 +62,22 @@ public class Meeting_joiner_interface extends JFrame {
 			if (!check_valid_meeting_id(meetingID)) return;
 			try {accountID = FileTool.read_file(ACCOUNT_ID_FILE_PATH).trim();} catch (Exception e2) {}
 
-			File meetingIDFile = new File(MEETING_JOINED_FOLDER_PATH + meetingID);
-			if (!meetingIDFile.exists()) {
-				try {
-					meetingData = Client.join_meeting(meetingID, accountID);
-					if (meetingData.equals("FAIL_TO_JOIN_MEETING")) {
-						return;
-					}
-				} catch (Exception e1) {
-				}
+			try {
+				String join_successfully = Client.join_meeting(meetingID, accountID);
+				if (join_successfully.equals("FAIL_TO_JOIN_MEETING")) return;
 				
-				if (meetingData != null) {
-					meetingIDFile.mkdirs();
-					try {
-						FileTool.write_file(meetingData, meetingIDFile.getPath() + "/meeting_information");
-					} catch (Exception e1) {}
-					dispose();
-					Notify_interface.create_new_window("Tham Gia Cuộc Họp Thành Công");
-				}
-			}
+				dispose();
+				Notify_interface.create_new_window("Tham Gia Cuộc Họp Thành Công");
+			} catch(Exception e1) {}
 		});
 		contentPane.add(joinMeetingButton);
 	}
 	
 	private static boolean check_valid_meeting_id(String meeting_id) {
 		boolean result = true;
-		
 		if (meeting_id.length() != 10) result = false;
-		try {
-			Integer.parseInt(meeting_id);
-		} catch(Exception e) {
-			result = false;
-		}
-		
+		try {Integer.parseInt(meeting_id);} 
+		catch(Exception e) {result = false;}
 		return result;		
 	}
 }
