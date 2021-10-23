@@ -13,7 +13,6 @@ import user_interface.Notify_interface;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
-import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -26,8 +25,8 @@ import javax.swing.JComboBox;
 
 @SuppressWarnings("serial")
 public class Meeting_onetime_type_creator extends JFrame {
-	public static final String MEETING_CREATED_FOLDER_PATH = "src/main/resources/meeting/meeting_created/";
-	public static final Font FONT = new Font("SansSerif", Font.BOLD, 14);
+	private static final String ACCOUNT_ID_FILE_PATH = "src/main/resources/account/account_id";
+	private static final String MEETING_CREATED_FOLDER_PATH = "src/main/resources/meeting/meeting_created/";
 
 	private JPanel contentPane;
 
@@ -162,11 +161,13 @@ public class Meeting_onetime_type_creator extends JFrame {
 			);
 			
 			try {
+				String account_id = FileTool.read_file(ACCOUNT_ID_FILE_PATH);
 				String meetingInformation = Meeting_handler.create_meeting_information(
 						"ONE_TIME",
 						meetingNameTextField.getText(),
 						t.get(0), t.get(1), t.get(2), t.get(3), t.get(4), t.get(5), t.get(6),
-						"ON"
+						"ON",
+						account_id
 				);
 
 				String meeting_id = Client.create_meeting(meetingInformation);

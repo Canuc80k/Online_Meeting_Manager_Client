@@ -8,7 +8,9 @@ public class Meeting_handler {
 	public static final String MEETING_CREATED_FOLDER_PATH = "src/main/resources/meeting/meeting_created/";
 	public static final String JOINED_MEETING_FILE_PATH = "src/main/resources/meeting/meeting_joined/";
 	
-	public static String create_meeting_information(String type, String name, List<String> t2, List<String> t3, List<String> t4, List<String> t5, List<String> t6, List<String> t7, List<String> cn, String state) {
+	public static String create_meeting_information(String type, String name, 
+			List<String> t2, List<String> t3, List<String> t4, List<String> t5, List<String> t6,
+			List<String> t7, List<String> cn, String state, String host) {
 		String meeting_information = "";
 		
 		meeting_information += type + '\n';
@@ -57,8 +59,8 @@ public class Meeting_handler {
 			meeting_information += '\n';
 		}
 		
-		meeting_information += state;
-		 
+		meeting_information += state + '\n';
+		meeting_information += host;
 		return meeting_information;
 	}
 	
