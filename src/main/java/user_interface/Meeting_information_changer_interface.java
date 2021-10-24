@@ -357,7 +357,7 @@ public class Meeting_information_changer_interface extends JFrame {
 	}
 	
 	private static void init(String meeting_id) {
-		Meeting_information_changer_interface.meeting_id = meeting_id;
+		/*Meeting_information_changer_interface.meeting_id = meeting_id;
 		String meeting_information = Meeting_handler.getMeetingInfomation(meeting_id);
 		List<String> meeting_information_list = Arrays.asList(meeting_information.split("\n"));
 		
@@ -408,6 +408,6 @@ public class Meeting_information_changer_interface extends JFrame {
 			dayDate.setSelectedItem(day);
 			monthDate.setSelectedItem(month);
 			yearDate.setSelectedItem(year);
-		}
+		}*/
 	}
 }

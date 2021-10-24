@@ -19,7 +19,6 @@ public class Meeting_thread implements Runnable {
 	public static final String JOINED_MEETING_FOLDER_PATH = "src/main/resources/meeting/meeting_joined/";
 	public static final String ACCOUNT_ID_FILE_PATH = "src/main/resources/account/account_id";
 	
-	private static String meeting_id = "";
 	private static String user_account_id = null;
 	private static List<String> previous_running_meetings_id = new ArrayList<>();
 	private static Map<String, App_activity_reader> map = new HashMap<String, App_activity_reader>();

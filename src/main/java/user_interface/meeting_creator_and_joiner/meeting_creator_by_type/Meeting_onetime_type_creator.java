@@ -165,7 +165,7 @@ public class Meeting_onetime_type_creator extends JFrame {
 				String meetingInformation = Meeting_handler.create_meeting_information(
 						"ONE_TIME",
 						meetingNameTextField.getText(),
-						t.get(0), t.get(1), t.get(2), t.get(3), t.get(4), t.get(5), t.get(6),
+						t,
 						"ON",
 						account_id
 				);

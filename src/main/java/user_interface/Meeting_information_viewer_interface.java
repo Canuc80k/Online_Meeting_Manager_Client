@@ -280,7 +280,7 @@ public class Meeting_information_viewer_interface extends JFrame {
 	}
 	
 	private static void init(String meeting_id) {
-		String meeting_information = Meeting_handler.getMeetingInfomation(meeting_id);
+		/*String meeting_information = Meeting_handler.getMeetingInfomation(meeting_id);
 		List<String> meeting_information_list = Arrays.asList(meeting_information.split("\n"));
 		
 		meetingNameTextField.setText(meeting_information_list.get(0));
@@ -330,6 +330,6 @@ public class Meeting_information_viewer_interface extends JFrame {
 			dayDate.setSelectedItem(day);
 			monthDate.setSelectedItem(month);
 			yearDate.setSelectedItem(year);
-		}
+		}*/
 	}
 }
