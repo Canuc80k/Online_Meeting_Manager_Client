@@ -116,7 +116,7 @@ public class Client {
 		return change_succesfully;
 	}
 	
-	public static String get_account_info(String account_id) throws IOException {
+	public static String get_account_info(String account_id) throws Exception {
 		Client.start();
 		dos.writeUTF("GET_ACCOUNT_INFO\n" + account_id);
 		
@@ -127,6 +127,32 @@ public class Client {
 		socket.close();
 		
 		return account_info;
+	}
+	
+	public static String get_joined_meetings(String account_id) throws Exception {
+		Client.start();
+		dos.writeUTF("GET_JOINED_MEETINGS\n" + account_id);
+		
+		String joined_meetings = dis.readUTF();
+		
+		dos.close();
+		dis.close();
+		socket.close();
+		
+		return joined_meetings;
+	}
+	
+	public static String get_meeting_info(String meeting_id) throws Exception {
+		Client.start();
+		dos.writeUTF("GET_MEETING_INFO\n" + meeting_id);
+		
+		String joined_meetings = dis.readUTF();
+		
+		dos.close();
+		dis.close();
+		socket.close();
+		
+		return joined_meetings;
 	}
 	
 	public static void start() {

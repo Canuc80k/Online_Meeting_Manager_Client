@@ -12,10 +12,16 @@ import user_interface.Notify_interface;
 
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.font.TextAttribute;
+import java.io.File;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.swing.JButton;
@@ -24,6 +30,7 @@ import javax.swing.JButton;
 public class Login_interface extends JFrame {
 	private static final String IS_LOGINED_FILE_PATH = "src/main/resources/config/is_logined"; 
 	private static final String ACCOUNT_ID_FILE_PATH = "src/main/resources/account/account_id";
+	private static final String MEETING_JOINED_FOLDER_PATH = "src/main/resources/meeting/meeting_joined/";
 	private static final String FAIL_TO_LOGIN_SIGNAL = "FAIL_TO_LOGIN";
 	
 	private JPanel contentPane;
@@ -95,17 +102,40 @@ public class Login_interface extends JFrame {
 		JButton login_submit_button = new JButton("Đăng Nhập");
 		login_submit_button.setBounds(342, 364, 119, 59);
 		login_submit_button.setFont(Font_init.SanFranciscoText_Medium.deriveFont(15f));
-		login_submit_button.addActionListener(e -> {
-			try {
-				String account_id = Client.login(username_textField.getText(), password_textField.getText());
-				if (!account_id.equals(FAIL_TO_LOGIN_SIGNAL)) {
-					FileTool.write_file("true", IS_LOGINED_FILE_PATH);
-					FileTool.write_file(account_id, ACCOUNT_ID_FILE_PATH);
-					Main_interface.create_new_window();
-					dispose();
-					Notify_interface.create_new_window("Đăng Nhập Thành Công");
-				} 
-			} catch (Exception e1) {}
+		login_submit_button.addActionListener(new ActionListener() {
+			public synchronized void actionPerformed(ActionEvent e) {
+				try {
+					String account_id = Client.login(username_textField.getText(), password_textField.getText());
+					if (!account_id.equals(FAIL_TO_LOGIN_SIGNAL)) {
+						if (! new File(MEETING_JOINED_FOLDER_PATH).exists()) new File(MEETING_JOINED_FOLDER_PATH).mkdirs();
+						
+						FileTool.write_file("true", IS_LOGINED_FILE_PATH);
+						FileTool.write_file(account_id, ACCOUNT_ID_FILE_PATH);
+						Main_interface.create_new_window();
+						
+						Thread load_data_from_database_thread = new Thread(new Runnable() {
+							public void run() {
+								String all_joined_meetings = "";
+								try {all_joined_meetings = Client.get_joined_meetings(account_id).trim();} catch (Exception e) {}
+								if (all_joined_meetings.equals("FAIL_TO_GET_JOINED_MEETINGS")) return;
+								
+								List<String> all_joined_meetings_list = Arrays.asList(all_joined_meetings.split("\n"));
+								for (int i = 0; i < all_joined_meetings_list.size(); i ++)
+									try {
+										FileTool.write_file(
+												Client.get_meeting_info(all_joined_meetings_list.get(i)), 
+												MEETING_JOINED_FOLDER_PATH + all_joined_meetings_list.get(i)
+										);
+									} catch (Exception e) {}
+							}
+						});
+						load_data_from_database_thread.start();
+	
+						dispose();
+						Notify_interface.create_new_window("Đăng Nhập Thành Công");
+					} 
+				} catch (Exception e1) {}
+			}
 		});
 		contentPane.add(login_submit_button);
 	}

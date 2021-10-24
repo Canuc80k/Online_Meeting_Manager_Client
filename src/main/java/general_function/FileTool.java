@@ -2,15 +2,11 @@ package general_function;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
-
-/*
- * readFile(path)
- * writeFile(data, path)
- */
 
 public class FileTool {
 	public static String read_file(String path) throws Exception {
@@ -29,5 +25,11 @@ public class FileTool {
 		try (Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(path), "utf-8"))) {
 			writer.write(data);
 		}
+	}
+	
+	public static synchronized void deleteFolder(File file) {
+	    File[] contents = file.listFiles();
+	    if (contents != null) for (File f : contents) deleteFolder(f);
+	    file.delete();
 	}
 }
