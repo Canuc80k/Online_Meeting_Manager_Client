@@ -122,9 +122,11 @@ public class Login_interface extends JFrame {
 								List<String> all_joined_meetings_list = Arrays.asList(all_joined_meetings.split("\n"));
 								for (int i = 0; i < all_joined_meetings_list.size(); i ++)
 									try {
+										String joined_meeting_data_folder_path = MEETING_JOINED_FOLDER_PATH + all_joined_meetings_list.get(i);
+										if (!new File(joined_meeting_data_folder_path).exists()) new File(joined_meeting_data_folder_path).mkdirs();
 										FileTool.write_file(
 												Client.get_meeting_info(all_joined_meetings_list.get(i)), 
-												MEETING_JOINED_FOLDER_PATH + all_joined_meetings_list.get(i)
+												joined_meeting_data_folder_path + "/meeting_information"
 										);
 									} catch (Exception e) {}
 							}

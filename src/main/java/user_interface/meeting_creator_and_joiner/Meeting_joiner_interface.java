@@ -14,6 +14,7 @@ import javax.swing.JLabel;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 
 import javax.swing.JTextField;
 import javax.swing.JButton;
@@ -68,7 +69,10 @@ public class Meeting_joiner_interface extends JFrame {
 				try {
 					String meeting_information = Client.join_meeting(meetingID, accountID);
 					if (meeting_information.equals("FAIL_TO_JOIN_MEETING")) return;
-					FileTool.write_file(meeting_information, MEETING_JOINED_FOLDER_PATH + meetingID);
+					
+					String joined_meeting_data_folder_path = MEETING_JOINED_FOLDER_PATH + meetingID;
+					if (!new File(joined_meeting_data_folder_path).exists()) new File(joined_meeting_data_folder_path).mkdirs();
+					FileTool.write_file(meeting_information, joined_meeting_data_folder_path + "/meeting_information");
 					
 					dispose();
 					Notify_interface.create_new_window("Tham Gia Cuộc Họp Thành Công");

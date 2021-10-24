@@ -157,7 +157,7 @@ public class Meeting_onetime_type_creator extends JFrame {
 					hourStartTextField.getText() + " " +
 					minuteStartTextField.getText() + " " +
 					hourFinishTextField.getText() + " " +
-					minuteStartTextField.getText() + " "
+					minuteFinishTextField.getText() + " "
 			);
 			
 			try {
