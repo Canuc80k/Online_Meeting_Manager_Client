@@ -1,11 +1,10 @@
-package user_interface;
+package user_interface.manager;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import init.Font_init;
-import meeting.Meeting_handler;
 import storage.Storage_statistic;
 
 import javax.swing.JLabel;
@@ -15,9 +14,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.font.TextAttribute;
 import java.io.File;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.swing.JCheckBox;

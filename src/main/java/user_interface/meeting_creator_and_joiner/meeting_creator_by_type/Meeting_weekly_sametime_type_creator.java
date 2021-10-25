@@ -168,20 +168,7 @@ public class Meeting_weekly_sametime_type_creator extends JFrame {
 		createMeetingButton.setBounds(437, 388, 158, 80);
 		createMeetingButton.setFont(Font_init.SanFranciscoText_Medium.deriveFont(15f));
 		createMeetingButton.addActionListener(e -> {	
-				if (!checkInputMeetingCondition()) return;
-				try {
-					String meetingDataString = "";
-					
-					String meeting_id = Client.create_meeting(meetingDataString);
-					if (meeting_id != null) {
-						File file = new File(MEETING_CREATED_FOLDER_PATH + meeting_id);
-						if (!file.exists()) file.mkdirs();
-						
-						FileTool.write_file(meetingDataString, file.getPath() + "/meeting_information");
-						Notify_interface.create_new_window("Tạo cuộc họp thành công\nID Cuộc Họp Mới Là: " + meeting_id);
-					}
-				} catch (Exception e1) {}
-				dispose();
+
 			});
 		contentPane.add(createMeetingButton);
 

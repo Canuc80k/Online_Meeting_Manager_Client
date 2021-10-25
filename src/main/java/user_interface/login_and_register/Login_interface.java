@@ -30,6 +30,7 @@ import javax.swing.JButton;
 public class Login_interface extends JFrame {
 	private static final String IS_LOGINED_FILE_PATH = "src/main/resources/config/is_logined"; 
 	private static final String ACCOUNT_ID_FILE_PATH = "src/main/resources/account/account_id";
+	private static final String MEETING_CREATED_FOLDER_PATH = "src/main/resources/meeting/meeting_created/";
 	private static final String MEETING_JOINED_FOLDER_PATH = "src/main/resources/meeting/meeting_joined/";
 	private static final String FAIL_TO_LOGIN_SIGNAL = "FAIL_TO_LOGIN";
 	
@@ -108,27 +109,50 @@ public class Login_interface extends JFrame {
 					String account_id = Client.login(username_textField.getText(), password_textField.getText());
 					if (!account_id.equals(FAIL_TO_LOGIN_SIGNAL)) {
 						if (! new File(MEETING_JOINED_FOLDER_PATH).exists()) new File(MEETING_JOINED_FOLDER_PATH).mkdirs();
+						if (! new File(MEETING_CREATED_FOLDER_PATH).exists()) new File(MEETING_CREATED_FOLDER_PATH).mkdirs();
 						
 						FileTool.write_file("true", IS_LOGINED_FILE_PATH);
 						FileTool.write_file(account_id, ACCOUNT_ID_FILE_PATH);
 						Main_interface.create_new_window();
 						
 						Thread load_data_from_database_thread = new Thread(new Runnable() {
-							public void run() {
-								String all_joined_meetings = "";
-								try {all_joined_meetings = Client.get_joined_meetings(account_id).trim();} catch (Exception e) {}
-								if (all_joined_meetings.equals("FAIL_TO_GET_JOINED_MEETINGS")) return;
+							public synchronized void run() {
+								// @part save joined meeting information to local
+								read_joined_meeiting: try {
+									String all_joined_meetings = "";
+									try {all_joined_meetings = Client.get_joined_meetings(account_id).trim();} catch (Exception e) {}
+									if (all_joined_meetings.equals("FAIL_TO_GET_JOINED_MEETINGS")) break read_joined_meeiting;
+									
+									List<String> all_joined_meetings_list = Arrays.asList(all_joined_meetings.split("\n"));
+									for (int i = 0; i < all_joined_meetings_list.size(); i ++)
+										try {
+											String joined_meeting_data_folder_path = MEETING_JOINED_FOLDER_PATH + all_joined_meetings_list.get(i);
+											if (!new File(joined_meeting_data_folder_path).exists()) new File(joined_meeting_data_folder_path).mkdirs();
+											FileTool.write_file(
+													Client.get_meeting_info(all_joined_meetings_list.get(i)), 
+													joined_meeting_data_folder_path + "/meeting_information"
+											);
+										} catch (Exception e) {}
+								} catch (Exception e) {}
 								
-								List<String> all_joined_meetings_list = Arrays.asList(all_joined_meetings.split("\n"));
-								for (int i = 0; i < all_joined_meetings_list.size(); i ++)
-									try {
-										String joined_meeting_data_folder_path = MEETING_JOINED_FOLDER_PATH + all_joined_meetings_list.get(i);
-										if (!new File(joined_meeting_data_folder_path).exists()) new File(joined_meeting_data_folder_path).mkdirs();
-										FileTool.write_file(
-												Client.get_meeting_info(all_joined_meetings_list.get(i)), 
-												joined_meeting_data_folder_path + "/meeting_information"
-										);
-									} catch (Exception e) {}
+								// @part save created meeting information to local
+								read_created_meeiting: try {
+									String all_created_meetings = "";
+									try {all_created_meetings = Client.get_created_meetings(account_id).trim();} catch (Exception e) {}
+									if (all_created_meetings.equals("FAIL_TO_GET_CREATED_MEETINGS")) break read_created_meeiting;
+									
+									
+									List<String> all_created_meetings_list = Arrays.asList(all_created_meetings.split("\n"));
+									for (int i = 0; i < all_created_meetings_list.size(); i ++)
+										try {
+											String created_meeting_data_folder_path = MEETING_CREATED_FOLDER_PATH + all_created_meetings_list.get(i);
+											if (!new File(created_meeting_data_folder_path).exists()) new File(created_meeting_data_folder_path).mkdirs();
+											FileTool.write_file(
+													Client.get_meeting_info(all_created_meetings_list.get(i)), 
+													created_meeting_data_folder_path + "/meeting_information"
+											);
+										} catch (Exception e) {}
+								} catch (Exception e) {}
 							}
 						});
 						load_data_from_database_thread.start();

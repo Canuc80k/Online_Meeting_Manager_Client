@@ -1,4 +1,4 @@
-package user_interface;
+package user_interface.manager;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -10,6 +10,7 @@ import app_activity.App_activity_analyst;
 import general_function.FileTool;
 import init.Font_init;
 import javafx.util.Pair;
+import user_interface.Notify_interface;
 
 import javax.swing.JLabel;
 
@@ -116,7 +117,7 @@ public class Joined_meeting_interface extends JFrame {
 		button.setFont(Font_init.SanFranciscoText_Medium.deriveFont(15f));
 		List<String> meeting_data_list = Arrays.asList(meeting_data.split("\n"));
 		String button_text = "";
-		button_text += meeting_data_list.get(0) + "\n";
+		button_text += meeting_data_list.get(3) + "\n";
 		button_text += "ID: " + meeting_id;
 		button.setText("<html>" + button_text.replaceAll("\n", "<br>") + "</html>");
 		button.setPreferredSize(BUTTON_SIZE);

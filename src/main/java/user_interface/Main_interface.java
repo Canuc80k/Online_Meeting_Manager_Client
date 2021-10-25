@@ -19,12 +19,15 @@ import javax.swing.border.EmptyBorder;
 import general_function.FileTool;
 import init.Font_init;
 import user_interface.login_and_register.Login_interface;
+import user_interface.manager.Created_meeting_interface;
+import user_interface.manager.Joined_meeting_interface;
 import user_interface.meeting_creator_and_joiner.Meeting_creator_interface;
 import user_interface.meeting_creator_and_joiner.Meeting_joiner_interface;
 
 @SuppressWarnings("serial")
 public class Main_interface extends JFrame {
 	private static final String IS_LOGINED_FILE_PATH = "src/main/resources/config/is_logined"; 
+	private static final String MEETING_CREATED_FOLDER_PATH = "src/main/resources/meeting/meeting_created/";
 	private static final String MEETING_JOINED_FOLDER_PATH = "src/main/resources/meeting/meeting_joined/";
 	public static final Font FONT = new Font("Comic Sans MS", Font.PLAIN, 12);
 	
@@ -128,6 +131,7 @@ public class Main_interface extends JFrame {
 			public synchronized void actionPerformed(ActionEvent e) {
 				try {
 					FileTool.deleteFolder(new File(MEETING_JOINED_FOLDER_PATH));
+					FileTool.deleteFolder(new File(MEETING_CREATED_FOLDER_PATH));
 					FileTool.write_file("false", IS_LOGINED_FILE_PATH);
 					Login_interface.create_new_window();
 					dispose();

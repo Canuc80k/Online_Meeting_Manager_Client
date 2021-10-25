@@ -1,4 +1,4 @@
-package user_interface;
+package user_interface.manager;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -11,6 +11,7 @@ import client.Client;
 import general_function.FileTool;
 import init.Font_init;
 import javafx.util.Pair;
+import user_interface.Notify_interface;
 
 import javax.swing.JLabel;
 

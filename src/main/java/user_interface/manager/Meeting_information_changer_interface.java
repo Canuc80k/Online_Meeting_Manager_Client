@@ -1,4 +1,4 @@
-package user_interface;
+package user_interface.manager;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -7,8 +7,8 @@ import javax.swing.border.EmptyBorder;
 import client.Client;
 import general_function.FileTool;
 import init.Font_init;
-import meeting.Meeting_handler;
 import storage.Storage_statistic;
+import user_interface.Notify_interface;
 
 import javax.swing.JLabel;
 import javax.swing.JTextField;
@@ -20,7 +20,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.font.TextAttribute;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

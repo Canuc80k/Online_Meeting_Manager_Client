@@ -170,7 +170,7 @@ public class Meeting_onetime_type_creator extends JFrame {
 						account_id
 				);
 
-				String meeting_id = Client.create_meeting(meetingInformation);
+				String meeting_id = Client.create_meeting(account_id, meetingInformation);
 				if (meeting_id != null) {
 					File file = new File(MEETING_CREATED_FOLDER_PATH + meeting_id);
 					if (!file.exists()) file.mkdirs();

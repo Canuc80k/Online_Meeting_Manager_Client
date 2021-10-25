@@ -38,9 +38,9 @@ public class Client {
 		return register_successful;
 	}
 
-	public static String create_meeting(String meeting_info) throws Exception {	
+	public static String create_meeting(String account_id, String meeting_info) throws Exception {	
 		Client.start();
-		dos.writeUTF("CREATE_MEETING\n" + meeting_info);
+		dos.writeUTF("CREATE_MEETING\n" + account_id + '\n' + meeting_info);
 
 		String meeting_id = dis.readUTF();
 		
@@ -127,6 +127,19 @@ public class Client {
 		socket.close();
 		
 		return account_info;
+	}
+	
+	public static String get_created_meetings(String account_id) throws Exception {
+		Client.start();
+		dos.writeUTF("GET_CREATED_MEETINGS\n" + account_id);
+		
+		String joined_meetings = dis.readUTF();
+		
+		dos.close();
+		dis.close();
+		socket.close();
+		
+		return joined_meetings;
 	}
 	
 	public static String get_joined_meetings(String account_id) throws Exception {
