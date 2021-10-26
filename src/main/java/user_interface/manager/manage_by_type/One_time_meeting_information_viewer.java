@@ -1,4 +1,4 @@
-package user_interface.meeting_creator_and_joiner.meeting_creator_by_type;
+package user_interface.manager.manage_by_type;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -7,8 +7,8 @@ import javax.swing.border.EmptyBorder;
 import client.Client;
 import general_function.FileTool;
 import init.Font_init;
-import meeting.Meeting_handler;
 import user_interface.Notify_interface;
+import user_interface.manager.Joined_meeting_interface;
 
 import javax.swing.JLabel;
 import javax.swing.JTextField;
@@ -16,17 +16,16 @@ import javax.swing.JTextField;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.time.LocalDate;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 
 @SuppressWarnings("serial")
-public class Meeting_onetime_type_creator extends JFrame {
+public class One_time_meeting_information_viewer extends JFrame {
 	private static final String ACCOUNT_ID_FILE_PATH = "src/main/resources/account/account_id";
-	private static final String MEETING_CREATED_FOLDER_PATH = "src/main/resources/meeting/meeting_created/";
+	private static final String MEETING_JOINED_FOLDER_PATH = "src/main/resources/meeting/meeting_joined/";
 
 	private JPanel contentPane;
 
@@ -45,14 +44,20 @@ public class Meeting_onetime_type_creator extends JFrame {
 	private static JComboBox<Integer> monthBox;
 	private static JComboBox<Integer> yearBox;
 	
-	public static void create_new_window() {
-		if (!(new File(MEETING_CREATED_FOLDER_PATH)).exists()) new File(MEETING_CREATED_FOLDER_PATH).mkdirs();
+	private static String meetingID;
+	private static List<String> meeting_information_list;
+	
+	public static void create_new_window(String meetingID, List<String> meeting_information_list) {
+		if (!(new File(MEETING_JOINED_FOLDER_PATH)).exists()) new File(MEETING_JOINED_FOLDER_PATH).mkdirs();
 		
-		Meeting_onetime_type_creator frame = new Meeting_onetime_type_creator();
+		One_time_meeting_information_viewer.meetingID = meetingID;
+		One_time_meeting_information_viewer.meeting_information_list = meeting_information_list;
+		One_time_meeting_information_viewer frame = new One_time_meeting_information_viewer();
+		update_ui();
 		frame.setVisible(true);
 	}
 
-	public Meeting_onetime_type_creator() {
+	public One_time_meeting_information_viewer() {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setSize(650, 480);
 		setResizable(false);
@@ -145,48 +150,23 @@ public class Meeting_onetime_type_creator extends JFrame {
 		contentPane.add(yearBox);
 
 		// @part JButton setup
-		JButton createMeetingButton = new JButton("Tạo cuộc họp");
-		createMeetingButton.setBounds(438, 331, 158, 80);
-		createMeetingButton.setFont(Font_init.SanFranciscoText_Medium.deriveFont(15f));
-		createMeetingButton.addActionListener(e -> {
-			LocalDate date = LocalDate.of((int)yearBox.getSelectedItem(), (int)monthBox.getSelectedItem(), (int)dayBox.getSelectedItem());
-			
-			List<List<String>> t = new ArrayList<List<String>>();
-			for (int i = 0; i < 7; i ++) t.add(new ArrayList<String>());
-			t.get(date.getDayOfWeek().getValue() - 1).add(
-					hourStartTextField.getText() + " " +
-					minuteStartTextField.getText() + " " +
-					hourFinishTextField.getText() + " " +
-					minuteFinishTextField.getText() + " "
-			);
-			
-			
+		JButton outMeetingButton = new JButton("Rời Cuộc Họp");
+		outMeetingButton.setBounds(438, 331, 158, 80);
+		outMeetingButton.setFont(Font_init.SanFranciscoText_Medium.deriveFont(15f));
+		outMeetingButton.addActionListener(e -> {
+			String account_id;
 			try {
-				String account_id = FileTool.read_file(ACCOUNT_ID_FILE_PATH);
-				String start_date = String.valueOf(dayBox.getSelectedItem()).trim() + " " + String.valueOf(monthBox.getSelectedItem()).trim()  + " " + String.valueOf(yearBox.getSelectedItem()).trim();
-						
-				String meetingInformation = Meeting_handler.create_meeting_information(
-						"ONE_TIME",
-						meetingNameTextField.getText(),
-						t,
-						start_date,
-						"ON",
-						account_id
-				);
-
-				String meeting_id = Client.create_meeting(account_id, meetingInformation);
-				if (meeting_id != null) {
-					File file = new File(MEETING_CREATED_FOLDER_PATH + meeting_id);
-					if (!file.exists()) file.mkdirs();
-					
-					meetingInformation = meeting_id + '\n' + meeting_id + '\n' + meetingInformation;
-					FileTool.write_file(meetingInformation, file.getPath() + "/meeting_information");
-					Notify_interface.create_new_window("Tạo cuộc họp thành công\nID Cuộc Họp Mới Là: " + meeting_id);
+				account_id = FileTool.read_file(ACCOUNT_ID_FILE_PATH).trim();
+				if (!Client.out_meeting(account_id, meetingID).equals("FAIL_TO_OUT_MEETING")) {
+					Notify_interface.create_new_window("Thoát Cuộc Họp Thành Công");
+					FileTool.deleteFolder(new File(MEETING_JOINED_FOLDER_PATH + meetingID));
+					Joined_meeting_interface.frame.dispose();
+					Joined_meeting_interface.create_new_window();
+					dispose();
 				}
 			} catch (Exception e1) {}
-			dispose();
 		});
-		contentPane.add(createMeetingButton);
+		contentPane.add(outMeetingButton);
 
 		JButton cancelButton = new JButton("Huỷ");
 		cancelButton.setBounds(348, 331, 80, 80);
@@ -199,4 +179,22 @@ public class Meeting_onetime_type_creator extends JFrame {
 		});
 		contentPane.add(cancelButton);
 	}
+	
+	private static void update_ui() {
+		meetingNameTextField.setText(meeting_information_list.get(3));
+		for (int i = 4; i <= 10; i ++) 
+			if (!meeting_information_list.get(i).equals("null")) {
+				List<String> time_list = Arrays.asList(meeting_information_list.get(i).split(" "));
+				hourStartTextField.setText(time_list.get(0).trim());
+				minuteStartTextField.setText(time_list.get(1).trim());
+				hourFinishTextField.setText(time_list.get(2).trim());
+				minuteFinishTextField.setText(time_list.get(3).trim());
+			}
+		
+		List<String> start_date = Arrays.asList(meeting_information_list.get(11).split(" "));
+		dayBox.setSelectedItem(Integer.parseInt(start_date.get(0).trim()));
+		monthBox.setSelectedItem(Integer.parseInt(start_date.get(1).trim()));
+		yearBox.setSelectedItem(Integer.parseInt(start_date.get(2).trim()));
+	}
+	
 }

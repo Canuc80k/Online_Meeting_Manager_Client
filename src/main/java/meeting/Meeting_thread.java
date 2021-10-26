@@ -117,7 +117,8 @@ public class Meeting_thread implements Runnable {
 			String T6 = file_data_list.get(8).trim();
 			String T7 = file_data_list.get(9).trim();
 			String CN = file_data_list.get(10).trim();
-			String state = file_data_list.get(11).trim();
+			String date_start = file_data_list.get(11).trim();
+			String state = file_data_list.get(12).trim();
 			
 			if (state.equals("OFF")) continue;
 

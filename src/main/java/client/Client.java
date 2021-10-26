@@ -12,7 +12,7 @@ public class Client {
 	private static DataOutputStream dos;
 	private static Socket socket;
 	
-	public static String login(String username, String password) throws Exception {
+	public static synchronized String login(String username, String password) throws Exception {
 		Client.start();
 		dos.writeUTF("LOGIN\n" + username + " " + password);
 
@@ -25,7 +25,7 @@ public class Client {
 		return account_id;
 	}
 	
-	public static boolean register(String register_data) throws Exception {
+	public static synchronized boolean register(String register_data) throws Exception {
 		Client.start();
 		dos.writeUTF("REGISTER\n" + register_data);
 
@@ -38,7 +38,7 @@ public class Client {
 		return register_successful;
 	}
 
-	public static String create_meeting(String account_id, String meeting_info) throws Exception {	
+	public static synchronized String create_meeting(String account_id, String meeting_info) throws Exception {	
 		Client.start();
 		dos.writeUTF("CREATE_MEETING\n" + account_id + '\n' + meeting_info);
 
@@ -51,7 +51,7 @@ public class Client {
 		return meeting_id;
 	}
 	
-	public static String join_meeting(String meeting_id, String joiner_meeting_id) throws Exception {
+	public static synchronized String join_meeting(String meeting_id, String joiner_meeting_id) throws Exception {
 		Client.start();
 		dos.writeUTF("JOIN_MEETING\n" + meeting_id + '\n' + joiner_meeting_id);
 
@@ -64,7 +64,7 @@ public class Client {
 		return meeting_information;
 	}
 
-	public static boolean send_meeting_data(String user_id, String meeting_id, String app_activity_log) throws Exception {
+	public static synchronized boolean send_meeting_data(String user_id, String meeting_id, String app_activity_log) throws Exception {
 		Client.start();
 		dos.writeUTF("SEND_MEETING_DATA\n" + user_id + '\n' + meeting_id + '\n' + app_activity_log);
 
@@ -77,7 +77,7 @@ public class Client {
 		return send_succesfully;
 	}
 	
-	public static String get_joiner_app_activity(String meeting_id) throws Exception {
+	public static synchronized String get_joiner_app_activity(String meeting_id) throws Exception {
 		Client.start();
 		dos.writeUTF("GET_MEETING_DATA\n" + meeting_id);
 		String meeting_data = dis.readUTF();
@@ -89,21 +89,7 @@ public class Client {
 		return meeting_data;
 	}
 	
-
-	public static boolean change_meeting_information(String meeting_id, String meetingDataString) throws Exception {
-		Client.start();
-		dos.writeUTF("CHANGE_MEETING_INFO\n" + meeting_id + '\n' + meetingDataString);
-
-		boolean change_succesfully = Boolean.parseBoolean(dis.readUTF());
-		
-		dos.close();
-		dis.close();
-		socket.close();
-		
-		return change_succesfully;
-	}
-	
-	public static boolean change_account_information(String account_id, String account_info) throws Exception {
+	public static synchronized boolean change_account_information(String account_id, String account_info) throws Exception {
 		Client.start();
 		dos.writeUTF("CHANGE_ACCOUNT_INFO\n" + account_id + '\n' + account_info);
 
@@ -116,7 +102,7 @@ public class Client {
 		return change_succesfully;
 	}
 	
-	public static String get_account_info(String account_id) throws Exception {
+	public static synchronized String get_account_info(String account_id) throws Exception {
 		Client.start();
 		dos.writeUTF("GET_ACCOUNT_INFO\n" + account_id);
 		
@@ -129,7 +115,7 @@ public class Client {
 		return account_info;
 	}
 	
-	public static String get_created_meetings(String account_id) throws Exception {
+	public static synchronized String get_created_meetings(String account_id) throws Exception {
 		Client.start();
 		dos.writeUTF("GET_CREATED_MEETINGS\n" + account_id);
 		
@@ -142,7 +128,7 @@ public class Client {
 		return joined_meetings;
 	}
 	
-	public static String get_joined_meetings(String account_id) throws Exception {
+	public static synchronized String get_joined_meetings(String account_id) throws Exception {
 		Client.start();
 		dos.writeUTF("GET_JOINED_MEETINGS\n" + account_id);
 		
@@ -155,7 +141,7 @@ public class Client {
 		return joined_meetings;
 	}
 	
-	public static String get_meeting_info(String meeting_id) throws Exception {
+	public static synchronized String get_meeting_info(String meeting_id) throws Exception {
 		Client.start();
 		dos.writeUTF("GET_MEETING_INFO\n" + meeting_id);
 		
@@ -168,7 +154,46 @@ public class Client {
 		return joined_meetings;
 	}
 	
-	public static void start() {
+	public static synchronized String stop_meeting(String meeting_id) throws Exception {
+		Client.start();
+		dos.writeUTF("STOP_MEETING\n" + meeting_id);
+		
+		String joined_meetings = dis.readUTF();
+		
+		dos.close();
+		dis.close();
+		socket.close();
+		
+		return joined_meetings;
+	}
+	
+	public static synchronized String start_meeting(String meeting_id) throws Exception {
+		Client.start();
+		dos.writeUTF("START_MEETING\n" + meeting_id);
+		
+		String joined_meetings = dis.readUTF();
+		
+		dos.close();
+		dis.close();
+		socket.close();
+		
+		return joined_meetings;
+	}
+	
+	public static synchronized String out_meeting(String account_id, String meeting_id) throws Exception {
+		Client.start();
+		dos.writeUTF("OUT_MEETING\n" + account_id + '\n' + meeting_id);
+		
+		String joined_meetings = dis.readUTF();
+		
+		dos.close();
+		dis.close();
+		socket.close();
+		
+		return joined_meetings;
+	}
+	
+	public static synchronized void start() {
 		try {
 			socket = new Socket(hostname, port);
 
