@@ -193,6 +193,19 @@ public class Client {
 		return joined_meetings;
 	}
 	
+	public static synchronized String get_spreadSheet_id(String meeting_id) throws Exception {
+		Client.start();
+		dos.writeUTF("GET_SPREADSHEET_ID\n" + meeting_id);
+		
+		String spreadSheetID = dis.readUTF();
+		
+		dos.close();
+		dis.close();
+		socket.close();
+		
+		return spreadSheetID;
+	}
+	
 	public static synchronized void start() {
 		try {
 			socket = new Socket(hostname, port);

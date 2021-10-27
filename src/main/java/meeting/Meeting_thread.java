@@ -31,7 +31,8 @@ public class Meeting_thread implements Runnable {
 		try {
 			while (true) {
 				List<String> running_meetings_id = get_running_meetings_id();
-
+				if (running_meetings_id == null) continue;
+					
 				for (int i = 0; i < running_meetings_id.size(); i++) {
 					String id = running_meetings_id.get(i);
 					boolean is_new_running_meeting = true;
@@ -98,54 +99,59 @@ public class Meeting_thread implements Runnable {
 		}
 	}
 	
-	public static List<String> get_running_meetings_id() throws Exception {
+	public static List<String> get_running_meetings_id() {
 		LocalDateTime current_time = LocalDateTime.now();
 		List<String> running_meeting_id = new ArrayList<String>();
 		
-		File[] files = new File(JOINED_MEETING_FOLDER_PATH).listFiles();
-
-		for (File file : files) {
-			String file_name = file.getName();
-			String file_data = FileTool.read_file(JOINED_MEETING_FOLDER_PATH + file_name + "/meeting_information").trim();
-			
-			List<String> file_data_list = Arrays.asList(file_data.split("\n")); 
-			String index = file_data_list.get(0).trim();
-			String T2 = file_data_list.get(4).trim();
-			String T3 = file_data_list.get(5).trim();
-			String T4 = file_data_list.get(6).trim();
-			String T5 = file_data_list.get(7).trim();
-			String T6 = file_data_list.get(8).trim();
-			String T7 = file_data_list.get(9).trim();
-			String CN = file_data_list.get(10).trim();
-			String date_start = file_data_list.get(11).trim();
-			String state = file_data_list.get(12).trim();
-			
-			if (state.equals("OFF")) continue;
-
-			String meetings_today = null;
-			if (current_time.getDayOfWeek().getValue() == 1) meetings_today = T2;
-			if (current_time.getDayOfWeek().getValue() == 2) meetings_today = T3;
-			if (current_time.getDayOfWeek().getValue() == 3) meetings_today = T4;
-			if (current_time.getDayOfWeek().getValue() == 4) meetings_today = T5;
-			if (current_time.getDayOfWeek().getValue() == 5) meetings_today = T6;
-			if (current_time.getDayOfWeek().getValue() == 6) meetings_today = T7;
-			if (current_time.getDayOfWeek().getValue() == 7) meetings_today = CN;
-			if (meetings_today.equals("null")) continue;
-			
-			List<String> meetings_today_list = Arrays.asList(meetings_today.split(MEETING_IN_SAME_DAY_SPLIT_SIGNAL));
-			for (int i = 0; i < meetings_today_list.size(); i ++) {
-				List<String> times = Arrays.asList(meetings_today_list.get(i).split(" "));
-				int start_time_value = Integer.parseInt(times.get(0).trim()) * 60 + Integer.parseInt(times.get(1).trim());
-				int finish_time_value = Integer.parseInt(times.get(2).trim()) * 60 + Integer.parseInt(times.get(3).trim());
-				int current_time_value = current_time.getHour() * 60 + current_time.getMinute();
+		try {
+			File[] files = new File(JOINED_MEETING_FOLDER_PATH).listFiles();
+			if (files == null) return null;
 				
-				if (start_time_value <= current_time_value && current_time_value < finish_time_value) {
-					running_meeting_id.add(index);
-					break;
+			for (File file : files) {
+				String file_name = file.getName();
+				String file_data = FileTool.read_file(JOINED_MEETING_FOLDER_PATH + file_name + "/meeting_information").trim();
+				
+				List<String> file_data_list = Arrays.asList(file_data.split("\n"));
+				
+				String index = file_data_list.get(0).trim();
+				String T2 = file_data_list.get(4).trim();
+				String T3 = file_data_list.get(5).trim();
+				String T4 = file_data_list.get(6).trim();
+				String T5 = file_data_list.get(7).trim();
+				String T6 = file_data_list.get(8).trim();
+				String T7 = file_data_list.get(9).trim();
+				String CN = file_data_list.get(10).trim();
+				String date_start = file_data_list.get(11).trim();
+				String state = file_data_list.get(12).trim();
+				
+				if (state.equals("OFF")) continue;
+	
+				String meetings_today = null;
+				if (current_time.getDayOfWeek().getValue() == 1) meetings_today = T2;
+				if (current_time.getDayOfWeek().getValue() == 2) meetings_today = T3;
+				if (current_time.getDayOfWeek().getValue() == 3) meetings_today = T4;
+				if (current_time.getDayOfWeek().getValue() == 4) meetings_today = T5;
+				if (current_time.getDayOfWeek().getValue() == 5) meetings_today = T6;
+				if (current_time.getDayOfWeek().getValue() == 6) meetings_today = T7;
+				if (current_time.getDayOfWeek().getValue() == 7) meetings_today = CN;
+				if (meetings_today.equals("null")) continue;
+				
+				List<String> meetings_today_list = Arrays.asList(meetings_today.split(MEETING_IN_SAME_DAY_SPLIT_SIGNAL));
+				for (int i = 0; i < meetings_today_list.size(); i ++) {
+					List<String> times = Arrays.asList(meetings_today_list.get(i).split(" "));
+					int start_time_value = Integer.parseInt(times.get(0).trim()) * 60 + Integer.parseInt(times.get(1).trim());
+					int finish_time_value = Integer.parseInt(times.get(2).trim()) * 60 + Integer.parseInt(times.get(3).trim());
+					int current_time_value = current_time.getHour() * 60 + current_time.getMinute();
+					
+					if (start_time_value <= current_time_value && current_time_value < finish_time_value) {
+						running_meeting_id.add(index);
+						break;
+					}
 				}
 			}
-		}
+			return running_meeting_id;
+		} catch(Exception e) {e.printStackTrace();}
 		
-		return running_meeting_id;
+		return null;
 	}
 }

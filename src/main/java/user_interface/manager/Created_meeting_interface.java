@@ -6,19 +6,18 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 
-import app_activity.App_activity_analyst;
 import client.Client;
 import general_function.FileTool;
 import init.Font_init;
 import javafx.util.Pair;
-import user_interface.Notify_interface;
-
 import javax.swing.JLabel;
 
+import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.io.File;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -27,7 +26,6 @@ import java.util.List;
 public class Created_meeting_interface extends JFrame {
 	public static final String CREATED_MEETING_FOLDER_PATH = "src/main/resources/meeting/meeting_created/";
 	public static final Dimension BUTTON_SIZE = new Dimension(400, 150);
-	private static final String JOINER_APP_ACTIVITY_SPLIT_SIGNAL = "\n~!~#@~\n";
 	
 	private JPanel contentPane;
 	public static JPanel panel = new JPanel();
@@ -87,18 +85,18 @@ public class Created_meeting_interface extends JFrame {
 		});
 		contentPane.add(moreDetailButton);
 		
-		JButton statisticButton = new JButton("⬇️ + 🔬");
-		statisticButton.setFont(statisticButton.getFont().deriveFont(Font.BOLD));
-		statisticButton.setBounds(321, 18, 68, 68);
-		statisticButton.addActionListener(e -> {
+		JButton viewButton = new JButton("👁");
+		viewButton.setFont(viewButton.getFont().deriveFont(Font.BOLD));
+		viewButton.setFont(viewButton.getFont().deriveFont(20f));
+		viewButton.setBounds(321, 14, 68, 68);
+		viewButton.addActionListener(e -> {
 			try {
-				get_and_storage_joiner_app_activity(focused_meeting_id);
-				new App_activity_analyst("CREATED_MEETING", focused_meeting_id);
-				dispose();
-				Notify_interface.create_new_window("Tải Và Phân Tích Dữ Liệu Của Người Dùng Có ID " + focused_meeting_id + " Thành Công");
+				String spreadsheetID = Client.get_spreadSheet_id(focused_meeting_id);
+				Desktop.getDesktop().browse(new URL("https://docs.google.com/spreadsheets/d/" + spreadsheetID).toURI());
+				
 			} catch (Exception e1) {}
 		});
-		contentPane.add(statisticButton);
+		contentPane.add(viewButton);
 	}
 	
 	public static void init() throws Exception {
@@ -130,31 +128,5 @@ public class Created_meeting_interface extends JFrame {
 		});
 		
 		return button;
-	}
-	
-	private static void get_and_storage_joiner_app_activity(String meeting_id) {
-		try {
-			String all_joiner_app_activity_data = Client.get_joiner_app_activity(meeting_id);
-			if (!all_joiner_app_activity_data.equals("FAIL_TO_GET")) {
-				String meeting_joiner_app_activity_data_file_path = CREATED_MEETING_FOLDER_PATH + meeting_id + "/joiner_app_activity/";
-				File file = new File(meeting_joiner_app_activity_data_file_path);
-				if (file.exists()) {
-					
-				} else {
-					file.mkdirs();
-					List<String> all_joiner_app_activity_data_list = Arrays.asList(all_joiner_app_activity_data.split(JOINER_APP_ACTIVITY_SPLIT_SIGNAL));
-					
-					for (int i = 0; i < all_joiner_app_activity_data_list.size(); i ++) {
-						List<String> joiner_app_activity_data_list = Arrays.asList(all_joiner_app_activity_data_list.get(i).split("\n"));
-						String file_name = joiner_app_activity_data_list.get(0);
-						String file_data = "";
-						for (int j = 1; j < joiner_app_activity_data_list.size(); j ++) {
-							file_data += joiner_app_activity_data_list.get(j) + '\n';
-						}
-						FileTool.write_file(file_data, meeting_joiner_app_activity_data_file_path + file_name);
-					}
-				}
-			}
-		} catch (Exception e1) {}
 	}
 }
