@@ -218,12 +218,6 @@ public class Register_interface extends JFrame {
 				bornYearComboBox.addItem(i);
 		contentPane.add(bornYearComboBox);
 		
-		// @part JButton setup
-		JButton cancleButton = new JButton("Huỷ");
-		cancleButton.setFont(null);
-		cancleButton.setBounds(660, 544, 100, 100);
-		contentPane.add(cancleButton);
-		
 		JButton register_submit_button = new JButton("Đăng Ký");
 		register_submit_button.setBounds(782, 544, 177, 100);
 		register_submit_button.setFont(Font_init.SanFranciscoText_Medium.deriveFont(15f));

@@ -10,7 +10,6 @@ import user_interface.meeting_creator_and_joiner.meeting_creator_by_type.Meeting
 import user_interface.meeting_creator_and_joiner.meeting_creator_by_type.Meeting_weekly_sametime_type_creator;
 
 import javax.swing.JLabel;
-import java.awt.Font;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
@@ -19,7 +18,6 @@ import javax.swing.JButton;
 @SuppressWarnings("serial")
 public class Meeting_creator_interface extends JFrame {
 	public static final String MEETING_CREATED_FOLDER_PATH = "src/main/resources/meeting/meeting_created/";
-	public static final Font FONT = new Font("SansSerif", Font.BOLD, 14);
 
 	private JPanel contentPane;
 	

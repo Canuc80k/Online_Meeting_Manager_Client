@@ -1,6 +1,7 @@
 package user_interface.manager;
 
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -17,6 +18,8 @@ import javax.swing.JLabel;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -87,13 +90,24 @@ public class Joined_meeting_interface extends JFrame {
 		JButton statisticButton = new JButton("🔬");
 		statisticButton.setFont(statisticButton.getFont().deriveFont(Font.BOLD));
 		statisticButton.setBounds(307, 18, 82, 68);
-		statisticButton.addActionListener(e -> {
-			try {
-				new App_activity_analyst("JOINED_MEETING", focused_meeting_id);
-				dispose();
-				Notify_interface.create_new_window("Phân Tích Dữ Liệu Của Người Dùng Có ID " + focused_meeting_id + " Thành Công");
-				
-			} catch (Exception e1) {}
+		statisticButton.addActionListener(new ActionListener() {
+			public synchronized void actionPerformed(ActionEvent e) {
+				try {
+					JFileChooser chooser = new JFileChooser();
+					chooser.setSize(600, 400);
+					chooser.setCurrentDirectory(new java.io.File("."));
+					chooser.setDialogTitle("select folder");
+					chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+					chooser.setAcceptAllFileFilterUsed(false);
+					chooser.setVisible(true);
+					
+					if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+						String path_to_write_analytic_data = chooser.getSelectedFile().getPath();
+						new App_activity_analyst(path_to_write_analytic_data, focused_meeting_id);
+						Notify_interface.create_new_window("Phân Tích Dữ Liệu Của Cuộc Họp Có ID Là " + focused_meeting_id + " Thành Công");
+					}
+				} catch (Exception e1) {}
+			}
 		});
 		contentPane.add(statisticButton);
 	}

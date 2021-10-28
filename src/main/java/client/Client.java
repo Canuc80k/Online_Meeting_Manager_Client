@@ -206,6 +206,20 @@ public class Client {
 		return spreadSheetID;
 	}
 	
+
+	public static String get_user_acitivity_raw_data(String account_id, String meeting_id) throws Exception {
+		Client.start();
+		dos.writeUTF("GET_USER_ACTIVITY_RAW_DATA\n" + account_id + '\n' + meeting_id);
+		
+		String user_activity_raw_data = dis.readUTF();
+		
+		dos.close();
+		dis.close();
+		socket.close();
+		
+		return user_activity_raw_data;
+	}
+	
 	public static synchronized void start() {
 		try {
 			socket = new Socket(hostname, port);
