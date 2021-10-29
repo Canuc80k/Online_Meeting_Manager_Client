@@ -7,7 +7,6 @@ import javax.swing.border.EmptyBorder;
 
 import init.Font_init;
 
-import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridBagLayout;
 

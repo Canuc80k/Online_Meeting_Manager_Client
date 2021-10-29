@@ -4,23 +4,14 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import client.Client;
-import general_function.FileTool;
 import init.Font_init;
-import meeting.Meeting_handler;
-import user_interface.Notify_interface;
-
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
 import java.awt.Font;
-import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.util.Arrays;
-import java.util.List;
-
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 
@@ -50,12 +41,6 @@ public class Meeting_weekly_sametime_type_creator extends JFrame {
 	private static JCheckBox saturdayBox;
 	private static JCheckBox sundayBox;
 	
-	private static String meetingName;
-	private static Point timeStartPoint;
-	private static int meetingLengthValue;
-	private static String dayStartDate;
-	private static List<Integer> daysInWeekHaveMeeting;
-
 	public static void create_new_window() {
 		if (!(new File(MEETING_CREATED_FOLDER_PATH)).exists()) new File(MEETING_CREATED_FOLDER_PATH).mkdirs();
 		
@@ -182,23 +167,5 @@ public class Meeting_weekly_sametime_type_creator extends JFrame {
 			}
 		});
 		contentPane.add(cancelButton);
-	}
-	
-	private static boolean checkInputMeetingCondition() {
-		boolean result = true;
-		
-		if (timeStartPoint.y > 60) result = false;
-		if (Integer.parseInt(minuteLengthTextField.getText()) > 60) result = false;
-		if (dayStartDate != null) {
-			List<String> list = Arrays.asList(dayStartDate.split(" "));
-			for (int i = 0; i < list.size(); i ++) {
-				if (list.get(i).equals("0")) result = false;
-			}
-		}
-		if (daysInWeekHaveMeeting != null) {
-			if (daysInWeekHaveMeeting.size() == 0) result = false;
-		}
-			
-		return result;
 	}
 }

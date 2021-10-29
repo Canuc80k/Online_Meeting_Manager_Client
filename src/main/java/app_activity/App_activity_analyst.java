@@ -21,6 +21,11 @@ public class App_activity_analyst {
 	private static String account_id;
 	private static List<String> sheets;
 	
+	@SuppressWarnings("unused")
+	private static int change_app_times = 0;
+	@SuppressWarnings("unused")
+	private static int change_tab_times = 0;
+	
 	public App_activity_analyst(String parent_folder_path, String meeting_id) throws Exception {
 		account_id = FileTool.read_file(ACCOUNT_ID_FILE_PATH).trim();
 		
@@ -31,28 +36,27 @@ public class App_activity_analyst {
 	public static synchronized void read_meeting_data(String meeting_id) throws Exception {
 		String all_raw_data = Client.get_user_acitivity_raw_data(account_id, meeting_id);
 		sheets = Arrays.asList(all_raw_data.split(SHEET_SPLIT_SIGNAL));
-		System.out.println(all_raw_data);
 	}
 	
 	public static synchronized void write_anaysis(String parent_folder_path, String meeting_id) throws Exception {
 		String folder_path = parent_folder_path + "/DATA AFTER ANALYTIC/";
 		if (! new File(folder_path).exists()) new File(folder_path).mkdirs();
 		for (int i = 0; i < sheets.size(); i ++) {
+			String file_path = folder_path + String.valueOf(i + 1);
 			String data = anaylize(sheets.get(i).trim());
-			System.out.println(i + " " + data + "\n\n");
-			FileTool.write_file(data, folder_path + String.valueOf(i + 1));
+			new App_activity_drawer().draw_pieChart_tofile(data, file_path);
 		}
 	}
 	
 	public static synchronized String anaylize(String data) {
+		change_app_times = change_tab_times = 0;
+		
 		List<String> app_title = new ArrayList<String>();
 		List<String> app_process = new ArrayList<String>();
 		List<Double> app_running_time = new ArrayList<Double>();
 		List<String> app_name = new ArrayList<String>();
 		
 		String result = "";
-		int change_app_times = 0;
-		int change_tab_times = 0;
 		Map<String, Double> time_use_app = new HashMap<String, Double>();
 		
 		List<String> data_line_list = Arrays.asList(data.split("\n"));
@@ -80,10 +84,10 @@ public class App_activity_analyst {
 			} catch(Exception e) {e.printStackTrace();}
 		}
 		
-		result += String.valueOf(change_app_times) + '\n';
-		result += String.valueOf(change_tab_times) + '\n';
 		for (Entry<String, Double> entry : time_use_app.entrySet()) {
-			result += "Tên Ứng Dụng: " + entry.getKey() + " && Thời Gian Sử Dụng: " + String.valueOf(entry.getValue()) + '\n';
+			String name = entry.getKey();
+			if (name.trim().equals("")) name = "Unknow";
+			result += name + APP_ACTIVITY_DATA_SPLIT_SIGNAL + String.valueOf(entry.getValue()) + '\n';
 		}
 		
 		return result;
