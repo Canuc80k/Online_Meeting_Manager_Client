@@ -37,11 +37,13 @@ public class App_activity_drawer {
 	            };
 	    pieChart.getStyler().setSeriesColors(sliceColors);
 	    pieChart.getStyler().setLabelType(LabelType.Value);
-	    pieChart.getStyler().setToolTipsAlwaysVisible(true);
 	    pieChart.getStyler().setLabelsDistance(.82);
 	    pieChart.getStyler().setDecimalPattern("#");
-	    pieChart.getStyler().setAnnotationTextFont(Font_init.SanFranciscoText_Medium.deriveFont(18f));
-
+	    pieChart.getStyler().setChartTitleFont(Font_init.SanFranciscoDisplay_Medium.deriveFont(30f));
+	    pieChart.getStyler().setLegendFont(Font_init.SanFranciscoDisplay_Medium.deriveFont(20f));
+	    pieChart.getStyler().setToolTipFont(Font_init.SanFranciscoDisplay_Medium.deriveFont(20f));
+	    pieChart.getStyler().setToolTipsAlwaysVisible(false);
+	    
 	    pieChart.getStyler().setSeriesColors(new BaseSeriesColors().getSeriesColors());
 	    
 		List<String> data_list = Arrays.asList(data.trim().split("\n"));
