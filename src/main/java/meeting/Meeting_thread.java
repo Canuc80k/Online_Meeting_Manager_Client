@@ -14,6 +14,7 @@ import javax.swing.JOptionPane;
 import app_activity.App_activity_reader;
 import client.Client;
 import general_function.FileTool;
+import user_interface.Main_interface;
 
 public class Meeting_thread implements Runnable {
 	public static final String JOINED_MEETING_FOLDER_PATH = "src/main/resources/meeting/meeting_joined/";
@@ -31,8 +32,30 @@ public class Meeting_thread implements Runnable {
 		try {
 			while (true) {
 				List<String> running_meetings_id = get_running_meetings_id();
-				if (running_meetings_id == null) continue;
-					
+				if (running_meetings_id == null) {
+					if (Main_interface.frame == null) continue;
+					Main_interface.stateLabel.setText("Không có cuộc họp nào đang diễn ra");
+					Main_interface.frame.invalidate();
+					Main_interface.frame.validate();
+					Main_interface.frame.repaint();
+					continue;
+				}
+				
+				if (Main_interface.frame != null) {
+					if (running_meetings_id.size() > 0) {
+						String temp = "Các cuộc họp đang diễn ra: ";
+						for (int i = 0; i < running_meetings_id.size(); i ++) {
+							temp += running_meetings_id.get(i) + ", ";
+						}
+						Main_interface.stateLabel.setText(temp);
+					} else {
+						Main_interface.stateLabel.setText("Không có cuộc họp nào đang diễn ra");
+						Main_interface.frame.invalidate();
+						Main_interface.frame.validate();
+						Main_interface.frame.repaint();
+					}
+				}
+				
 				for (int i = 0; i < running_meetings_id.size(); i++) {
 					String id = running_meetings_id.get(i);
 					boolean is_new_running_meeting = true;

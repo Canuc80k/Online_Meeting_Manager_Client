@@ -1,5 +1,6 @@
 package user_interface;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,6 +11,7 @@ import java.util.List;
 import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -18,6 +20,7 @@ import javax.swing.border.EmptyBorder;
 
 import general_function.FileTool;
 import init.Font_init;
+import meeting.Meeting_thread;
 import user_interface.login_and_register.Login_interface;
 import user_interface.manager.Created_meeting_interface;
 import user_interface.manager.Joined_meeting_interface;
@@ -29,22 +32,26 @@ public class Main_interface extends JFrame {
 	private static final String IS_LOGINED_FILE_PATH = "src/main/resources/config/is_logined"; 
 	private static final String MEETING_CREATED_FOLDER_PATH = "src/main/resources/meeting/meeting_created/";
 	private static final String MEETING_JOINED_FOLDER_PATH = "src/main/resources/meeting/meeting_joined/";
+	private static final String ACCOUNT_USER_NAME_FILE_PATH = "src/main/resources/account/account_username";
+	private static final String ACCOUNT_ID_FILE_PATH = "src/main/resources/account/account_id";
 	public static final Font FONT = new Font("Comic Sans MS", Font.PLAIN, 12);
 	
 	private JPanel contentPane;
+	public static Main_interface frame;
+	public static JLabel stateLabel;
 	private static List<JMenuItem> notificationMenuItem;
 	
 	private static void init() {
 		notificationMenuItem = new ArrayList<JMenuItem>();
 	}
     
-	public static void create_new_window() {
+	public static void create_new_window() throws Exception {
 		init();
-		Main_interface frame = new Main_interface();
+		frame = new Main_interface();
 		frame.setVisible(true);
 	}
     
-	public Main_interface() {
+	public Main_interface() throws Exception {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(450, 300);
 		setResizable(false);
@@ -53,6 +60,26 @@ public class Main_interface extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		
+		// @part JLabel setup
+		JLabel nameLabel = new JLabel();
+		nameLabel.setText(FileTool.read_file(ACCOUNT_USER_NAME_FILE_PATH));
+		nameLabel.setFont(Font_init.SanFranciscoText_Medium.deriveFont(30f));
+		nameLabel.setForeground(new Color(164,	189	,218));
+		nameLabel.setBounds(49, 29, 185, 36);
+		contentPane.add(nameLabel);
+		
+		JLabel idLabel = new JLabel();
+		idLabel.setText("ID: " + FileTool.read_file(ACCOUNT_ID_FILE_PATH));
+		idLabel.setFont(Font_init.SanFranciscoText_Medium.deriveFont(18f));
+		idLabel.setBounds(49, 79, 185, 36);
+		contentPane.add(idLabel);
+		
+		stateLabel = new JLabel("Không có cuộc họp nào đang diễn ra");
+		stateLabel.setBounds(49, 129, 377, 36);
+		contentPane.add(stateLabel);
+		
+		// @part JMenu setup 
 		
 		JMenuBar menuBar = new JMenuBar();  
 		JMenu notificationMenu, featureMenu, settingMenu, helplMenu;

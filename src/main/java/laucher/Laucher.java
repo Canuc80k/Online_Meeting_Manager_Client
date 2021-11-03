@@ -11,7 +11,7 @@ public class Laucher implements Runnable {
 	
 	public static boolean isLogined;
 	public static Thread main_thread, meeting_thread;
-    
+    	
 	private static void init() throws Exception {		
 		new Font_init();
 		main_thread = new Thread(new Laucher());
@@ -22,7 +22,7 @@ public class Laucher implements Runnable {
 			FileTool.write_file("false", IS_LOGINED_FILE_PATH);
 			isLogined = Boolean.parseBoolean(FileTool.read_file(IS_LOGINED_FILE_PATH).trim());
 		}
-	}
+	}	
 
 	public static void main(String[] args) throws Exception {
 		init();
