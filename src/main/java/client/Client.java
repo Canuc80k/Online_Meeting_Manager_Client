@@ -64,9 +64,9 @@ public class Client {
 		return meeting_information;
 	}
 
-	public static synchronized boolean send_meeting_data(String user_id, String meeting_id, String app_activity_log) throws Exception {
+	public static synchronized boolean send_meeting_data(String user_id, String meeting_id, String app_activity_data) throws Exception {
 		Client.start();
-		dos.writeUTF("SEND_MEETING_DATA\n" + user_id + '\n' + meeting_id + '\n' + app_activity_log);
+		dos.writeUTF("SEND_MEETING_DATA\n" + user_id + '\n' + meeting_id + '\n' + app_activity_data);
 
 		boolean send_succesfully = Boolean.parseBoolean(dis.readUTF());
 		

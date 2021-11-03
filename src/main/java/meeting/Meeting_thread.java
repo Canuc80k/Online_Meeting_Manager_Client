@@ -11,6 +11,7 @@ import java.util.Map;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
+import app_activity.App_activity_analyst;
 import app_activity.App_activity_reader;
 import client.Client;
 import general_function.FileTool;
@@ -20,13 +21,14 @@ public class Meeting_thread implements Runnable {
 	public static final String JOINED_MEETING_FOLDER_PATH = "src/main/resources/meeting/meeting_joined/";
 	public static final String ACCOUNT_ID_FILE_PATH = "src/main/resources/account/account_id";
 	public static final String MEETING_IN_SAME_DAY_SPLIT_SIGNAL = "AAasdGGasdBB";
+	private static final String COLUMN_SPLIT_SIGNAL = "\nsadwffws\n";
 	
 	private static String user_account_id = null;
 	private static List<String> previous_running_meetings_id = new ArrayList<>();
 	private static Map<String, App_activity_reader> map = new HashMap<String, App_activity_reader>();
 	
 	@Override
-	public void run() {
+	public synchronized void run() {
 		try {user_account_id = FileTool.read_file(ACCOUNT_ID_FILE_PATH).trim();} catch (Exception e2) {}
 
 		try {
@@ -95,13 +97,26 @@ public class Meeting_thread implements Runnable {
 						map.get(id).set_running_state(false);
 						map.get(id).join();
 
-						String app__activity_log = map.get(id).get_app_activity_log();
-						if (Client.send_meeting_data(user_account_id, id, app__activity_log)) {
+						App_activity_analyst analyst = new App_activity_analyst();
+						
+						String app_activity_log = map.get(id).get_app_activity_log();
+						String app_activity_time_usage = analyst.anaylize(app_activity_log);
+						int change_tab_times = analyst.get_tab_change_times();
+						int change_app_times = analyst.get_app_change_times();
+						String clipboard = "@TODO: ADD CLIPBOARD FEATURE";
+						String app_activity_data = "";
+						app_activity_data += String.valueOf(change_tab_times) + COLUMN_SPLIT_SIGNAL;
+						app_activity_data += String.valueOf(change_app_times) + COLUMN_SPLIT_SIGNAL;
+						app_activity_data += app_activity_time_usage + COLUMN_SPLIT_SIGNAL;
+						app_activity_data += app_activity_log + COLUMN_SPLIT_SIGNAL;
+						app_activity_data += clipboard;
+						
+						if (Client.send_meeting_data(user_account_id, id, app_activity_data)) {
 							File joiner_app_activity_folder_path = new File(
 									JOINED_MEETING_FOLDER_PATH + id + "/joiner_app_activity/");
 							if (!joiner_app_activity_folder_path.exists())
 								joiner_app_activity_folder_path.mkdirs();
-							FileTool.write_file(app__activity_log,
+							FileTool.write_file(app_activity_log,
 									JOINED_MEETING_FOLDER_PATH + id + "/joiner_app_activity/" + user_account_id);
 
 							JFrame frame = new JFrame();

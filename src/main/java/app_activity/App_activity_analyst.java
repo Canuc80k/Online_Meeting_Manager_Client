@@ -18,13 +18,15 @@ public class App_activity_analyst {
 	public static final String ACCOUNT_ID_FILE_PATH = "src/main/resources/account/account_id";
 	private static final String SHEET_SPLIT_SIGNAL = "\nPPPPPPPP\n";
 	
-	private static String account_id;
-	private static List<String> sheets;
+	private String account_id;
+	private List<String> sheets;
 	
-	@SuppressWarnings("unused")
-	private static int change_app_times = 0;
-	@SuppressWarnings("unused")
-	private static int change_tab_times = 0;
+	public int change_app_times = 0;
+	public int change_tab_times = 0;
+	
+	public App_activity_analyst() {
+		
+	}
 	
 	public App_activity_analyst(String parent_folder_path, String meeting_id) throws Exception {
 		account_id = FileTool.read_file(ACCOUNT_ID_FILE_PATH).trim();
@@ -33,12 +35,12 @@ public class App_activity_analyst {
 		write_anaysis(parent_folder_path, meeting_id);
 	}
 	
-	public static synchronized void read_meeting_data(String meeting_id) throws Exception {
+	public synchronized void read_meeting_data(String meeting_id) throws Exception {
 		String all_raw_data = Client.get_user_acitivity_raw_data(account_id, meeting_id);
 		sheets = Arrays.asList(all_raw_data.split(SHEET_SPLIT_SIGNAL));
 	}
 	
-	public static synchronized void write_anaysis(String parent_folder_path, String meeting_id) throws Exception {
+	public synchronized void write_anaysis(String parent_folder_path, String meeting_id) throws Exception {
 		String folder_path = parent_folder_path + "/DATA AFTER ANALYTIC/";
 		if (! new File(folder_path).exists()) new File(folder_path).mkdirs();
 		for (int i = 0; i < sheets.size(); i ++) {
@@ -48,7 +50,7 @@ public class App_activity_analyst {
 		}
 	}
 	
-	public static synchronized String anaylize(String data) {
+	public synchronized String anaylize(String data) {
 		change_app_times = change_tab_times = 0;
 		
 		List<String> app_title = new ArrayList<String>();
@@ -91,5 +93,13 @@ public class App_activity_analyst {
 		}
 		
 		return result;
+	}
+	
+	public synchronized int get_app_change_times() {
+		return change_app_times;
+	}
+	
+	public synchronized int get_tab_change_times() {
+		return change_tab_times;
 	}
 }
