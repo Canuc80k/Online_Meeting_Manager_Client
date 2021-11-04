@@ -20,7 +20,6 @@ import javax.swing.border.EmptyBorder;
 
 import general_function.FileTool;
 import init.Font_init;
-import meeting.Meeting_thread;
 import user_interface.login_and_register.Login_interface;
 import user_interface.manager.Created_meeting_interface;
 import user_interface.manager.Joined_meeting_interface;
@@ -52,7 +51,7 @@ public class Main_interface extends JFrame {
 	}
     
 	public Main_interface() throws Exception {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		setSize(450, 300);
 		setResizable(false);
 		setLocationRelativeTo(null);

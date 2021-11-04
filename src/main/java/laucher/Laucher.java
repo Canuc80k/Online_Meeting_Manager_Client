@@ -3,7 +3,7 @@ package laucher;
 import general_function.FileTool;
 import init.Font_init;
 import meeting.Meeting_thread;
-import user_interface.Main_interface;
+import user_interface.Tray_Icon;
 import user_interface.login_and_register.Login_interface;
 
 public class Laucher implements Runnable {
@@ -32,7 +32,10 @@ public class Laucher implements Runnable {
 
 	@Override
 	public void run() {
-		if (isLogined) try {Main_interface.create_new_window();} catch (Exception e) {}
+		if (isLogined) 
+			try {
+				Tray_Icon.create_tray_icon();
+			} catch (Exception e) {}
 		else Login_interface.create_new_window();
 	}
 }
