@@ -23,8 +23,8 @@ import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 
-@SuppressWarnings("serial")
 public class Meeting_onetime_type_creator extends JFrame {
+	private static final String APPLICATION_NAME = "Online Meeting Manager";
 	private static final String ACCOUNT_ID_FILE_PATH = "src/main/resources/account/account_id";
 	private static final String MEETING_CREATED_FOLDER_PATH = "src/main/resources/meeting/meeting_created/";
 
@@ -53,6 +53,7 @@ public class Meeting_onetime_type_creator extends JFrame {
 	}
 
 	public Meeting_onetime_type_creator() {
+		setTitle(APPLICATION_NAME);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setSize(650, 480);
 		setResizable(false);

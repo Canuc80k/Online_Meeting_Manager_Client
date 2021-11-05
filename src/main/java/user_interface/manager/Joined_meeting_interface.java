@@ -25,8 +25,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-@SuppressWarnings("serial")
 public class Joined_meeting_interface extends JFrame {
+	private static final String APPLICATION_NAME = "Online Meeting Manager";
 	public static final String JOINED_MEETING_FILE_PATH = "src/main/resources/meeting/meeting_joined/";
 	public static final Font FONT = new Font("SansSerif", Font.BOLD, 14);
 	public static final Dimension BUTTON_SIZE = new Dimension(400, 150);
@@ -47,6 +47,7 @@ public class Joined_meeting_interface extends JFrame {
 	}
 
 	public Joined_meeting_interface() {
+		setTitle(APPLICATION_NAME);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setSize(600, 600);
 		setResizable(false);

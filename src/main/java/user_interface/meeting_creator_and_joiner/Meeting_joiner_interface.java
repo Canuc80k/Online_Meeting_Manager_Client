@@ -19,8 +19,8 @@ import java.io.File;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 
-@SuppressWarnings("serial")
 public class Meeting_joiner_interface extends JFrame {
+	private static final String APPLICATION_NAME = "Online Meeting Manager";
 	public static final String ACCOUNT_ID_FILE_PATH = "src/main/resources/account/account_id";
 	private static final String MEETING_JOINED_FOLDER_PATH = "src/main/resources/meeting/meeting_joined/";
 	public static final Font FONT = new Font("SansSerif", Font.BOLD, 14);
@@ -36,6 +36,7 @@ public class Meeting_joiner_interface extends JFrame {
 	}
 
 	public Meeting_joiner_interface() {
+		setTitle(APPLICATION_NAME);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setSize(450, 300);
 		setResizable(false);

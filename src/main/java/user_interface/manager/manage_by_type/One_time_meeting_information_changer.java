@@ -21,8 +21,8 @@ import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 
-@SuppressWarnings("serial")
 public class One_time_meeting_information_changer extends JFrame {
+	private static final String APPLICATION_NAME = "Online Meeting Manager";
 	private static final String MEETING_CREATED_FOLDER_PATH = "src/main/resources/meeting/meeting_created/";
 	protected static final int MEETING_INFORMATION_STATE_INDEX = 12;
 
@@ -57,6 +57,7 @@ public class One_time_meeting_information_changer extends JFrame {
 	}
 
 	public One_time_meeting_information_changer() throws Exception {
+		setTitle(APPLICATION_NAME);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setSize(650, 480);
 		setResizable(false);

@@ -20,8 +20,8 @@ import java.util.Map;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 
-@SuppressWarnings("serial")
 public class Register_interface extends JFrame {
+	private static final String APPLICATION_NAME = "Online Meeting Manager";
 	private JPanel contentPane;
 	
 	private static JLabel register_page_label;
@@ -57,6 +57,7 @@ public class Register_interface extends JFrame {
 	}
 
 	public Register_interface() {
+		setTitle(APPLICATION_NAME);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(1000, 700);
 		setResizable(false);

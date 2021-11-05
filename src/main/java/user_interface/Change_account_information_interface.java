@@ -18,8 +18,8 @@ import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JRadioButton;
 
-@SuppressWarnings("serial")
 public class Change_account_information_interface extends JFrame {
+	private static final String APPLICATION_NAME = "Online Meeting Manager";
 	public static final String ACCOUNT_ID_FILE_PATH = "src/main/resources/account/account_id";
 	public static final String ACCOUNT_INFORMATION_FILE_PATH = "src/main/resources/account/account_info";
 	
@@ -54,6 +54,7 @@ public class Change_account_information_interface extends JFrame {
 	}
 
 	public Change_account_information_interface() {
+		setTitle(APPLICATION_NAME);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setSize(630, 550);
 		setResizable(false);

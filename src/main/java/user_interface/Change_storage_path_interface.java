@@ -12,8 +12,8 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 
-@SuppressWarnings("serial")
 public class Change_storage_path_interface extends JFrame {
+	private static final String APPLICATION_NAME = "Online Meeting Manager";
 	public static final String STORAGE_PATH_FILE_PATH = "src/main/resources/config/storage_path";
 
 	private static JPanel contentPane;
@@ -25,6 +25,7 @@ public class Change_storage_path_interface extends JFrame {
 	}
 	
 	public Change_storage_path_interface() {
+		setTitle(APPLICATION_NAME);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setSize(450, 300);
 		setResizable(false);

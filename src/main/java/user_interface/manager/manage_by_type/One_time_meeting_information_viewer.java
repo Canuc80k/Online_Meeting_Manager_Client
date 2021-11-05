@@ -22,8 +22,8 @@ import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 
-@SuppressWarnings("serial")
 public class One_time_meeting_information_viewer extends JFrame {
+	private static final String APPLICATION_NAME = "Online Meeting Manager";
 	private static final String ACCOUNT_ID_FILE_PATH = "src/main/resources/account/account_id";
 	private static final String MEETING_JOINED_FOLDER_PATH = "src/main/resources/meeting/meeting_joined/";
 
@@ -58,6 +58,7 @@ public class One_time_meeting_information_viewer extends JFrame {
 	}
 
 	public One_time_meeting_information_viewer() {
+		setTitle(APPLICATION_NAME);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setSize(650, 480);
 		setResizable(false);

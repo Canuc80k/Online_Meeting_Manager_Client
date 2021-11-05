@@ -15,8 +15,8 @@ import java.io.File;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 
-@SuppressWarnings("serial")
 public class Meeting_weekly_sametime_type_creator extends JFrame {
+	private static final String APPLICATION_NAME = "Online Meeting Manager";
 	public static final String MEETING_CREATED_FOLDER_PATH = "src/main/resources/meeting/meeting_created/";
 	public static final Font FONT = new Font("SansSerif", Font.BOLD, 14);
 
@@ -49,6 +49,7 @@ public class Meeting_weekly_sametime_type_creator extends JFrame {
 	}
 
 	public Meeting_weekly_sametime_type_creator() {
+		setTitle(APPLICATION_NAME);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setSize(650, 550);
 		setResizable(false);

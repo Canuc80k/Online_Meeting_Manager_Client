@@ -1,10 +1,11 @@
 package user_interface;
 
 import java.awt.Color;
-import java.awt.Font;
+import java.awt.Desktop;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,15 +27,16 @@ import user_interface.manager.Joined_meeting_interface;
 import user_interface.meeting_creator_and_joiner.Meeting_creator_interface;
 import user_interface.meeting_creator_and_joiner.Meeting_joiner_interface;
 
-@SuppressWarnings("serial")
 public class Main_interface extends JFrame {
+	private static final String APPLICATION_NAME = "Online Meeting Manager";
 	private static final String IS_LOGINED_FILE_PATH = "src/main/resources/config/is_logined"; 
 	private static final String MEETING_CREATED_FOLDER_PATH = "src/main/resources/meeting/meeting_created/";
 	private static final String MEETING_JOINED_FOLDER_PATH = "src/main/resources/meeting/meeting_joined/";
 	private static final String ACCOUNT_USER_NAME_FILE_PATH = "src/main/resources/account/account_username";
 	private static final String ACCOUNT_ID_FILE_PATH = "src/main/resources/account/account_id";
-	public static final Font FONT = new Font("Comic Sans MS", Font.PLAIN, 12);
-	
+	private static final String BUG_REPORT_LINK = "https://paste.ubuntu.com/p/GkfmsZXfFs/";
+	private static final String HELP_LINK = "https://paste.ubuntu.com/p/HQTpGc6yxB/";
+
 	private JPanel contentPane;
 	public static Main_interface frame;
 	public static JLabel stateLabel;
@@ -51,6 +53,7 @@ public class Main_interface extends JFrame {
 	}
     
 	public Main_interface() throws Exception {
+		setTitle(APPLICATION_NAME);
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		setSize(450, 300);
 		setResizable(false);
@@ -82,7 +85,7 @@ public class Main_interface extends JFrame {
 		
 		JMenuBar menuBar = new JMenuBar();  
 		JMenu notificationMenu, featureMenu, settingMenu, helplMenu;
-		JMenuItem createMeetingMenuItem, joinMeetingMenuItem, createdMeetingMenuItem, joinedMeetingMenuItem, sendMeetingDataMenuItem;
+		JMenuItem createMeetingMenuItem, joinMeetingMenuItem, createdMeetingMenuItem, joinedMeetingMenuItem;
 		JMenuItem changeAccountInfomationMenuItem, changeStoragePathMenuItem, changePasswordMenuItem; 
 		JMenuItem helpingMenuItem, bugReportMenuItem;
 		JButton logOutButton;
@@ -97,7 +100,6 @@ public class Main_interface extends JFrame {
 		joinMeetingMenuItem = new JMenuItem("Tham gia cuộc họp");
 		createdMeetingMenuItem = new JMenuItem("Cuộc họp đã tạo");
 		joinedMeetingMenuItem = new JMenuItem("Cuộc họp đã tham gia");
-		sendMeetingDataMenuItem = new JMenuItem("Gửi thông tin cuộc họp");
 		changeAccountInfomationMenuItem = new JMenuItem("Sửa thông tin tài khoản");
 		changeStoragePathMenuItem = new JMenuItem("Lưu trữ cuộc họp");
 		changePasswordMenuItem = new JMenuItem("Đổi mật khẩu");
@@ -112,7 +114,6 @@ public class Main_interface extends JFrame {
 		featureMenu.add(joinMeetingMenuItem);
 		featureMenu.add(createdMeetingMenuItem);
 		featureMenu.add(joinedMeetingMenuItem);
-		featureMenu.add(sendMeetingDataMenuItem);
 		settingMenu.add(changeAccountInfomationMenuItem);
 		settingMenu.add(changeStoragePathMenuItem);
 		settingMenu.add(changePasswordMenuItem);
@@ -163,6 +164,18 @@ public class Main_interface extends JFrame {
 					dispose();
 				} catch (Exception e1) {}
 			}
+		});
+
+		helpingMenuItem.addActionListener(e -> {
+			try {
+				Desktop.getDesktop().browse(new URL(HELP_LINK).toURI());
+			} catch (Exception e1) {}
+		});
+
+		bugReportMenuItem.addActionListener(e -> {
+			try {
+				Desktop.getDesktop().browse(new URL(BUG_REPORT_LINK).toURI());
+			} catch (Exception e1) {}
 		});
 	}
 }

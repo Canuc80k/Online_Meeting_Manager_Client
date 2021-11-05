@@ -7,12 +7,10 @@ import javax.swing.border.EmptyBorder;
 
 import init.Font_init;
 
-import java.awt.Font;
 import java.awt.GridBagLayout;
 
-@SuppressWarnings("serial")
 public class Notify_interface extends JFrame {
-	public static final Font FONT = new Font("SansSerif", Font.BOLD, 14);
+	private static final String APPLICATION_NAME = "Online Meeting Manager";
 
 	private JPanel contentPane;
 	private static String notify;
@@ -24,7 +22,7 @@ public class Notify_interface extends JFrame {
 	}
 
 	public Notify_interface() {
-		setTitle("Thông Báo");
+		setTitle(APPLICATION_NAME);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setSize(450, 300);
 		setResizable(false);

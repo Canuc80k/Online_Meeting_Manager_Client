@@ -7,7 +7,6 @@ import user_interface.manager.manage_by_type.One_time_meeting_information_viewer
 import java.util.Arrays;
 import java.util.List;
 
-@SuppressWarnings("serial")
 public class Meeting_information_viewer_interface extends JFrame {
 	private static String meeting_id;
 	

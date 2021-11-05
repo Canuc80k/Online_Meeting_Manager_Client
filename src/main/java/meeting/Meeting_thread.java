@@ -47,6 +47,10 @@ public class Meeting_thread implements Runnable {
 					if (running_meetings_id.size() > 0) {
 						String temp = "Các cuộc họp đang diễn ra: ";
 						for (int i = 0; i < running_meetings_id.size(); i ++) {
+							if (i + 1 >= running_meetings_id.size()) {
+								temp += running_meetings_id.get(i) + ".";
+								break;
+							}
 							temp += running_meetings_id.get(i) + ", ";
 						}
 						Main_interface.stateLabel.setText(temp);
@@ -137,7 +141,7 @@ public class Meeting_thread implements Runnable {
 		}
 	}
 	
-	public static List<String> get_running_meetings_id() {
+	public static synchronized List<String> get_running_meetings_id() {
 		LocalDateTime current_time = LocalDateTime.now();
 		List<String> running_meeting_id = new ArrayList<String>();
 		

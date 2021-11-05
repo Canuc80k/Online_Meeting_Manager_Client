@@ -15,8 +15,8 @@ import java.awt.event.MouseListener;
 import java.io.File;
 import javax.swing.JButton;
 
-@SuppressWarnings("serial")
 public class Meeting_creator_interface extends JFrame {
+	private static final String APPLICATION_NAME = "Online Meeting Manager";
 	public static final String MEETING_CREATED_FOLDER_PATH = "src/main/resources/meeting/meeting_created/";
 
 	private JPanel contentPane;
@@ -29,6 +29,7 @@ public class Meeting_creator_interface extends JFrame {
 	}
 
 	public Meeting_creator_interface() {
+		setTitle(APPLICATION_NAME);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setSize(500, 450);
 		setResizable(false);

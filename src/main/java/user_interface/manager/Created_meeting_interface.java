@@ -22,8 +22,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-@SuppressWarnings("serial")
 public class Created_meeting_interface extends JFrame {
+	private static final String APPLICATION_NAME = "Online Meeting Manager";
 	public static final String CREATED_MEETING_FOLDER_PATH = "src/main/resources/meeting/meeting_created/";
 	public static final Dimension BUTTON_SIZE = new Dimension(400, 150);
 	
@@ -45,6 +45,7 @@ public class Created_meeting_interface extends JFrame {
 	}
 
 	public Created_meeting_interface() {
+		setTitle(APPLICATION_NAME);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setSize(600, 600);
 		setResizable(false);

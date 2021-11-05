@@ -26,8 +26,8 @@ import java.util.Map;
 
 import javax.swing.JButton;
 
-@SuppressWarnings("serial")
 public class Login_interface extends JFrame {
+	private static final String APPLICATION_NAME = "Online Meeting Manager";
 	private static final String IS_LOGINED_FILE_PATH = "src/main/resources/config/is_logined"; 
 	private static final String ACCOUNT_ID_FILE_PATH = "src/main/resources/account/account_id";
 	private static final String MEETING_CREATED_FOLDER_PATH = "src/main/resources/meeting/meeting_created/";
@@ -44,6 +44,7 @@ public class Login_interface extends JFrame {
 	}
 	
 	public Login_interface() {			
+		setTitle(APPLICATION_NAME);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(500, 500);	
 		setResizable(false);
