@@ -15,7 +15,7 @@ import org.knowm.xchart.style.colors.BaseSeriesColors;
 import init.Font_init;
 
 public class App_activity_drawer {
-	private static final String APP_ACTIVITY_DATA_SPLIT_SIGNAL = "_ -.,1sdSA22efa,.- _";
+	private static final String APP_ACTIVITY_DATA_SPLIT_SIGNAL = "_   _";
 	private static final int WIDTH = 1000;
 	private static final int HEIGHT = 1000;
 	private static PieChart pieChart;

@@ -14,7 +14,7 @@ import general_function.FileTool;
 public class App_activity_analyst {
 	public static final String CREATED_MEETING_FOLDER_PATH = "src/main/resources/meeting/meeting_created/";
 	public static final String JOINED_MEETING_FOLDER_PATH = "src/main/resources/meeting/meeting_joined/";
-	private static final String APP_ACTIVITY_DATA_SPLIT_SIGNAL = "_ -.,1sdSA22efa,.- _";
+	private static final String APP_ACTIVITY_DATA_SPLIT_SIGNAL = "_   _";
 	public static final String ACCOUNT_ID_FILE_PATH = "src/main/resources/account/account_id";
 	private static final String SHEET_SPLIT_SIGNAL = "\nPPPPPPPP\n";
 	
