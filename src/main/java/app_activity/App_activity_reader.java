@@ -80,7 +80,8 @@ public class App_activity_reader extends Thread {
           PointerByReference pointer = new PointerByReference();
           HWND foregroundWindow = User32DLL.GetForegroundWindow();
           User32DLL.GetWindowThreadProcessId(foregroundWindow, pointer);
-          Pointer process = Kernel32.OpenProcess(Kernel32.PROCESS_QUERY_INFORMATION | Kernel32.PROCESS_VM_READ, false, pointer.getValue());
+          Pointer process = Kernel32.OpenProcess(Kernel32.PROCESS_QUERY_INFORMATION 
+               | Kernel32.PROCESS_VM_READ, false, pointer.getValue());
           Psapi.GetModuleBaseNameW(process, null, buffer, MAX_TITLE_LENGTH);
           String processName = Native.toString(buffer);
           return processName;
@@ -92,7 +93,7 @@ public class App_activity_reader extends Thread {
           }
  
           public static native int GetModuleBaseNameW(Pointer hProcess, Pointer hmodule, char[] lpBaseName, int size);
-   }
+     }
  
      static class Kernel32 {
           static {

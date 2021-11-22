@@ -1,7 +1,15 @@
 package user_interface;
 
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.Image;
+import java.awt.MenuItem;
+import java.awt.PopupMenu;
+import java.awt.SystemTray;
+import java.awt.Toolkit;
+import java.awt.TrayIcon;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class Tray_Icon {
 	private static String TRAY_ICON_FILE_PATH = "src/main/resources/img/a.png";
@@ -17,7 +25,7 @@ public class Tray_Icon {
 	    catch (Exception e) {e.printStackTrace();}
 
 	    final PopupMenu popup = new PopupMenu();
-	    final TrayIcon trayIcon = new TrayIcon(tray_image, "MY PROGRAM NAME", popup);
+	    final TrayIcon trayIcon = new TrayIcon(tray_image, "Online Meeting Manager", popup);
 	    final SystemTray tray = SystemTray.getSystemTray();
 
 	    trayIcon.addMouseListener(new MouseAdapter() {

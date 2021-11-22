@@ -43,6 +43,11 @@ public class Meeting_thread implements Runnable {
 					continue;
 				}
 				
+				/*
+				 * @do
+				 *  + write running meetings 
+				 *  + update main frame screen state
+				 */
 				if (Main_interface.frame != null) {
 					if (running_meetings_id.size() > 0) {
 						String temp = "Các cuộc họp đang diễn ra: ";
@@ -54,14 +59,14 @@ public class Meeting_thread implements Runnable {
 							temp += running_meetings_id.get(i) + ", ";
 						}
 						Main_interface.stateLabel.setText(temp);
-					} else {
-						Main_interface.stateLabel.setText("Không có cuộc họp nào đang diễn ra");
-						Main_interface.frame.invalidate();
-						Main_interface.frame.validate();
-						Main_interface.frame.repaint();
-					}
+					} else Main_interface.stateLabel.setText("Không có cuộc họp nào đang diễn ra");
 				}
 				
+				/*
+				 * @do Create threads for each running meeting
+				 * There are 1 thread:
+				 * 		+ App activity 
+				*/
 				for (int i = 0; i < running_meetings_id.size(); i++) {
 					String id = running_meetings_id.get(i);
 					boolean is_new_running_meeting = true;
@@ -79,12 +84,14 @@ public class Meeting_thread implements Runnable {
 						map.put(id, thread);
 						map.get(id).set_running_state(true);
 						map.get(id).start();
-
 						
 						System.out.println("Meeting " + id + " is start");
 					}
 				}
 
+				/*
+				 * @do Detect end meeting + send data to database
+				*/
 				for (int i = 0; i < previous_running_meetings_id.size(); i++) {
 					String id = previous_running_meetings_id.get(i);
 					boolean is_meeting_end = true;
@@ -107,7 +114,7 @@ public class Meeting_thread implements Runnable {
 						String app_activity_time_usage = analyst.anaylize(app_activity_log);
 						int change_tab_times = analyst.get_tab_change_times();
 						int change_app_times = analyst.get_app_change_times();
-						String clipboard = "@TODO: ADD CLIPBOARD FEATURE";
+						String clipboard = "EMPTY";
 						String app_activity_data = "";
 						app_activity_data += String.valueOf(change_tab_times) + COLUMN_SPLIT_SIGNAL;
 						app_activity_data += String.valueOf(change_app_times) + COLUMN_SPLIT_SIGNAL;
