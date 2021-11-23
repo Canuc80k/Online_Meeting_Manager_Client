@@ -1,8 +1,8 @@
 package client;
 
-import java.net.*;
-
-import java.io.*;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.net.Socket;
 
 public class Client {
 	public static int port = 9000;
@@ -12,6 +12,19 @@ public class Client {
 	private static DataOutputStream dos;
 	private static Socket socket;
 	
+	public static synchronized String send_datapack(String datapack) throws Exception {
+		Client.start();
+		dos.writeUTF("SEND_DATAPACK\n" + datapack);
+		
+		String send_successfully = dis.readUTF();
+		
+		dos.close();
+		dis.close();
+		socket.close();
+		
+		return send_successfully;
+	}
+
 	public static synchronized String login(String username, String password) throws Exception {
 		Client.start();
 		dos.writeUTF("LOGIN\n" + username + " " + password);
@@ -206,7 +219,6 @@ public class Client {
 		return spreadSheetID;
 	}
 	
-
 	public static String get_user_acitivity_raw_data(String account_id, String meeting_id) throws Exception {
 		Client.start();
 		dos.writeUTF("GET_USER_ACTIVITY_RAW_DATA\n" + account_id + '\n' + meeting_id);

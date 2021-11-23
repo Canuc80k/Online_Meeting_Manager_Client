@@ -1,18 +1,5 @@
 package user_interface.login_and_register;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-
-import client.Client;
-import general_function.FileTool;
-import init.Font_init;
-import user_interface.Main_interface;
-import user_interface.Notify_interface;
-
-import javax.swing.JLabel;
-import javax.swing.JTextField;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -25,6 +12,17 @@ import java.util.List;
 import java.util.Map;
 
 import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
+
+import client.Client;
+import general_function.FileTool;
+import init.Font_init;
+import user_interface.Notify_interface;
+import user_interface.Tray_Icon;
 
 public class Login_interface extends JFrame {
 	private static final String APPLICATION_NAME = "Online Meeting Manager";
@@ -114,7 +112,7 @@ public class Login_interface extends JFrame {
 						
 						FileTool.write_file("true", IS_LOGINED_FILE_PATH);
 						FileTool.write_file(account_id, ACCOUNT_ID_FILE_PATH);
-						Main_interface.create_new_window();
+						Tray_Icon.create_tray_icon();
 						
 						Thread load_data_from_database_thread = new Thread(new Runnable() {
 							public synchronized void run() {

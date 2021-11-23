@@ -13,10 +13,6 @@ public class App_activity_reader extends Thread {
      private boolean is_reading_app_activity;
      private String app_activity_log;
      
-     public App_activity_reader() {
-    	 
-     }
-     
      /*
       * @do update global variable String app_activity_log
       * 	> app_activity_log = String contain data of app activity in LAST RUN
@@ -30,27 +26,33 @@ public class App_activity_reader extends Thread {
       */
      
      @Override
-     public void run() {
-    	  app_activity_log = "";
+     public synchronized void run() {
+    	     app_activity_log = "";
           String lastTitle = "", lastProcess = "";
           
           double lastChange = System.currentTimeMillis();
           double time = 0, change;
           
           while (is_reading_app_activity) {
+               try {Thread.sleep(TIME_THREAD_SLEEP);} catch (Exception e) {}
                String currentTitle = getActiveWindowTitle();
                String currentProcess = getActiveWindowProcess();
-               if (!lastTitle.equals(currentTitle)) {
-                    change = System.currentTimeMillis();
-                    time = (change - lastChange) / 1000;
-                    lastChange = change;
-                    
-                    app_activity_log += lastTitle + APP_ACTIVITY_DATA_SPLIT_SIGNAL + lastProcess + APP_ACTIVITY_DATA_SPLIT_SIGNAL + String.valueOf(time) + "\n";
-                    
-                    lastTitle = currentTitle;
-                    lastProcess = currentProcess;
+               
+               /*
+               * Exception for system app go here
+               */
+              if (currentProcess.equals("ShellExperienceHost.exe")) continue;
+              
+              if (!lastTitle.equals(currentTitle)) {
+                   change = System.currentTimeMillis();
+                   time = (change - lastChange) / 1000;
+                   lastChange = change;
+                   
+                   app_activity_log += lastTitle + APP_ACTIVITY_DATA_SPLIT_SIGNAL + lastProcess + APP_ACTIVITY_DATA_SPLIT_SIGNAL + String.valueOf(time) + "\n";
+                   
+                   lastTitle = currentTitle;
+                   lastProcess = currentProcess;
                }
-               try {Thread.sleep(TIME_THREAD_SLEEP);} catch (Exception ex){}
           }
           
           change = System.currentTimeMillis();
@@ -59,12 +61,11 @@ public class App_activity_reader extends Thread {
      }
      
      public void set_running_state(boolean running_state) {
-    	 is_reading_app_activity = running_state;
+    	     is_reading_app_activity = running_state;
      }
      
      public String get_app_activity_log() {
 		return app_activity_log;
-    	 
      }
      
      private static String getActiveWindowTitle() {

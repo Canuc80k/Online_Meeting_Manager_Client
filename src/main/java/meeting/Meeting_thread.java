@@ -14,6 +14,7 @@ import javax.swing.JOptionPane;
 import app_activity.App_activity_analyst;
 import app_activity.App_activity_reader;
 import client.Client;
+import clipboard.Clipboard_reader;
 import general_function.FileTool;
 import user_interface.Main_interface;
 
@@ -25,7 +26,7 @@ public class Meeting_thread implements Runnable {
 	
 	private static String user_account_id = null;
 	private static List<String> previous_running_meetings_id = new ArrayList<>();
-	private static Map<String, App_activity_reader> map = new HashMap<String, App_activity_reader>();
+	public static Map<String, List<Object>> map = new HashMap<String, List<Object>>();
 	
 	@Override
 	public synchronized void run() {
@@ -80,10 +81,16 @@ public class Meeting_thread implements Runnable {
 					}
 
 					if (is_new_running_meeting) {
-						App_activity_reader thread = new App_activity_reader();
-						map.put(id, thread);
-						map.get(id).set_running_state(true);
-						map.get(id).start();
+						App_activity_reader app_log_thread = new App_activity_reader();
+						Clipboard_reader clipboard_log_thread = new Clipboard_reader();
+						List<Object> objects = new ArrayList<Object>();
+						objects.add(app_log_thread); 
+						objects.add(clipboard_log_thread);
+						map.put(id, objects);
+						((App_activity_reader) map.get(id).get(0)).set_running_state(true);
+						((App_activity_reader) map.get(id).get(0)).start();
+						((Clipboard_reader) map.get(id).get(1)).set_running_state(true);
+						((Clipboard_reader) map.get(id).get(1)).start();
 						
 						System.out.println("Meeting " + id + " is start");
 					}
@@ -105,16 +112,18 @@ public class Meeting_thread implements Runnable {
 
 					if (is_meeting_end) {
 						System.out.println("Meeting " + id + " is end");
-						map.get(id).set_running_state(false);
-						map.get(id).join();
+						((App_activity_reader) map.get(id).get(0)).set_running_state(false);
+						((App_activity_reader) map.get(id).get(0)).join();
+						((Clipboard_reader) map.get(id).get(1)).set_running_state(false);
+						((Clipboard_reader) map.get(id).get(1)).join();
 
 						App_activity_analyst analyst = new App_activity_analyst();
 						
-						String app_activity_log = map.get(id).get_app_activity_log();
+						String app_activity_log = ((App_activity_reader) map.get(id).get(0)).get_app_activity_log();
 						String app_activity_time_usage = analyst.anaylize(app_activity_log);
 						int change_tab_times = analyst.get_tab_change_times();
 						int change_app_times = analyst.get_app_change_times();
-						String clipboard = "EMPTY";
+						String clipboard = ((Clipboard_reader) map.get(id).get(1)).get_clipboard_log();
 						String app_activity_data = "";
 						app_activity_data += String.valueOf(change_tab_times) + COLUMN_SPLIT_SIGNAL;
 						app_activity_data += String.valueOf(change_app_times) + COLUMN_SPLIT_SIGNAL;
@@ -122,6 +131,7 @@ public class Meeting_thread implements Runnable {
 						app_activity_data += app_activity_log + COLUMN_SPLIT_SIGNAL;
 						app_activity_data += clipboard;
 						
+						System.out.println(app_activity_data);
 						if (Client.send_meeting_data(user_account_id, id, app_activity_data)) {
 							File joiner_app_activity_folder_path = new File(
 									JOINED_MEETING_FOLDER_PATH + id + "/joiner_app_activity/");

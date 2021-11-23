@@ -14,6 +14,7 @@ import java.awt.event.MouseEvent;
 public class Tray_Icon {
 	private static String TRAY_ICON_FILE_PATH = "src/main/resources/img/a.png";
 	
+	public static TrayIcon trayIcon;
 	public static void create_tray_icon() {
 		if (!SystemTray.isSupported()) {
 	        System.out.println("SystemTray is not supported");
@@ -25,8 +26,8 @@ public class Tray_Icon {
 	    catch (Exception e) {e.printStackTrace();}
 
 	    final PopupMenu popup = new PopupMenu();
-	    final TrayIcon trayIcon = new TrayIcon(tray_image, "Online Meeting Manager", popup);
 	    final SystemTray tray = SystemTray.getSystemTray();
+		trayIcon = new TrayIcon(tray_image, "Online Meeting Manager", popup);
 
 	    trayIcon.addMouseListener(new MouseAdapter() {
 	        @Override
