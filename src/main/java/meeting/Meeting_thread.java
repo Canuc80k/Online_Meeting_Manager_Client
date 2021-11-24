@@ -16,6 +16,7 @@ import app_activity.App_activity_reader;
 import client.Client;
 import clipboard.Clipboard_reader;
 import general_function.FileTool;
+import screenshot.Screenshot_datapack_sender;
 import user_interface.Main_interface;
 
 public class Meeting_thread implements Runnable {
@@ -67,8 +68,9 @@ public class Meeting_thread implements Runnable {
 				 * @do Create threads for each running meeting
 				 * There are 1 thread:
 				 * 		+ App activity 
-				*/
-				for (int i = 0; i < running_meetings_id.size(); i++) {
+				 * 		+ Clipboard
+				 */
+				for (int i = 0; i < running_meetings_id.size(); i ++) {
 					String id = running_meetings_id.get(i);
 					boolean is_new_running_meeting = true;
 
@@ -81,6 +83,16 @@ public class Meeting_thread implements Runnable {
 					}
 
 					if (is_new_running_meeting) {
+						try {
+							if (Screenshot_datapack_sender.screenshot_datapack_thread == null) 
+								new Screenshot_datapack_sender();	
+
+							if (!Screenshot_datapack_sender.screenshot_datapack_thread.isAlive()) {
+								Screenshot_datapack_sender.set_running_state(true);
+								Screenshot_datapack_sender.screenshot_datapack_thread.start();
+							}
+						} catch(Exception e) {e.printStackTrace();}
+						
 						App_activity_reader app_log_thread = new App_activity_reader();
 						Clipboard_reader clipboard_log_thread = new Clipboard_reader();
 						List<Object> objects = new ArrayList<Object>();

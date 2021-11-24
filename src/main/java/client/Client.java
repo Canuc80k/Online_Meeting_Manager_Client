@@ -1,8 +1,11 @@
 package client;
 
+import java.awt.image.BufferedImage;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.net.Socket;
+
+import javax.imageio.ImageIO;
 
 public class Client {
 	public static int port = 9000;
@@ -219,7 +222,7 @@ public class Client {
 		return spreadSheetID;
 	}
 	
-	public static String get_user_acitivity_raw_data(String account_id, String meeting_id) throws Exception {
+	public static synchronized String get_user_acitivity_raw_data(String account_id, String meeting_id) throws Exception {
 		Client.start();
 		dos.writeUTF("GET_USER_ACTIVITY_RAW_DATA\n" + account_id + '\n' + meeting_id);
 		
@@ -232,6 +235,19 @@ public class Client {
 		return user_activity_raw_data;
 	}
 	
+	public static synchronized String send_screenshot(BufferedImage image, String account_id, String meeting_id) throws Exception {
+		Client.start();
+		dos.writeUTF("SEND_SCREENSHOT\n" + account_id + '\n' + meeting_id);
+        ImageIO.write(image, "png", socket.getOutputStream());
+
+		String send_successfully = dis.readUTF();
+		dos.close();
+		dis.close();
+		socket.close();
+
+		return send_successfully;
+	}
+
 	public static synchronized void start() {
 		try {
 			socket = new Socket(hostname, port);
