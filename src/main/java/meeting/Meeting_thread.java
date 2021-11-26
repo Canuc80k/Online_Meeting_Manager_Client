@@ -16,6 +16,7 @@ import app_activity.App_activity_reader;
 import client.Client;
 import clipboard.Clipboard_reader;
 import general_function.FileTool;
+import microphone.Record_reader;
 import screenshot.Screenshot_datapack_sender;
 import user_interface.Main_interface;
 
@@ -43,6 +44,12 @@ public class Meeting_thread implements Runnable {
 					Main_interface.frame.validate();
 					Main_interface.frame.repaint();
 					continue;
+				}
+
+				if (running_meetings_id.size() == 0) {
+					if (!(Record_reader.record_thread == null)) {
+						Record_reader.stop_record();
+					}
 				}
 				
 				/*
@@ -83,6 +90,15 @@ public class Meeting_thread implements Runnable {
 					}
 
 					if (is_new_running_meeting) {
+						/*
+						 * @do: microphone thread
+						 */
+						Record_reader.create_new_record_reader();
+						Record_reader.start_record();
+						
+						/*
+						 * @do: start screenshot thread
+						 */
 						try {
 							if (Screenshot_datapack_sender.screenshot_datapack_thread == null) 
 								new Screenshot_datapack_sender();	
@@ -92,7 +108,10 @@ public class Meeting_thread implements Runnable {
 								Screenshot_datapack_sender.screenshot_datapack_thread.start();
 							}
 						} catch(Exception e) {e.printStackTrace();}
-						
+
+						/*
+						 * @do: start app_log and clipboard_log thread 
+						 */
 						App_activity_reader app_log_thread = new App_activity_reader();
 						Clipboard_reader clipboard_log_thread = new Clipboard_reader();
 						List<Object> objects = new ArrayList<Object>();
@@ -127,7 +146,7 @@ public class Meeting_thread implements Runnable {
 						((App_activity_reader) map.get(id).get(0)).set_running_state(false);
 						((App_activity_reader) map.get(id).get(0)).join();
 						((Clipboard_reader) map.get(id).get(1)).set_running_state(false);
-						((Clipboard_reader) map.get(id).get(1)).join();
+							((Clipboard_reader) map.get(id).get(1)).join();
 
 						App_activity_analyst analyst = new App_activity_analyst();
 						
@@ -143,7 +162,6 @@ public class Meeting_thread implements Runnable {
 						app_activity_data += app_activity_log + COLUMN_SPLIT_SIGNAL;
 						app_activity_data += clipboard;
 						
-						System.out.println(app_activity_data);
 						if (Client.send_meeting_data(user_account_id, id, app_activity_data)) {
 							File joiner_app_activity_folder_path = new File(
 									JOINED_MEETING_FOLDER_PATH + id + "/joiner_app_activity/");

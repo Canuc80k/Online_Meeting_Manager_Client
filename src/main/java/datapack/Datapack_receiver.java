@@ -27,7 +27,6 @@ public class Datapack_receiver {
         
         List<String> meetings_response_list = Arrays.asList(received_datapack.split(MEETING_IN_DATAPACK_SPLIT_SIGNAL));
         
-        System.out.println(meetings_response_list.size());
         for (int i = 0; i < meetings_response_list.size(); i ++) 
             if (!meetings_response_list.get(i).trim().equals("")) {
                     List<String> specified_meeting_response_list = Arrays.asList(meetings_response_list.get(i).split(MEETING_DATA_IN_DATAPACK_SPLIT_SIGNAL));
@@ -42,7 +41,6 @@ public class Datapack_receiver {
         if (meetings_notify == null) return;
 
         for (int i = 0; i < meetings_notify.size(); i ++) {
-            System.out.println(meetings_notify.get(i).change_app_times + " " + meetings_notify.get(i).change_tab_times);
             if (meetings_notify.get(i).change_app_times > 0 || meetings_notify.get(i).change_tab_times > 0) {
                 Tray_Icon.trayIcon.displayMessage(
                     "Không được chuyển ứng dụng khi làm bài", 

@@ -3,9 +3,13 @@ package client;
 import java.awt.image.BufferedImage;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.net.Socket;
 
 import javax.imageio.ImageIO;
+
+import org.apache.pdfbox.io.IOUtils;
 
 public class Client {
 	public static int port = 9000;
@@ -239,6 +243,22 @@ public class Client {
 		Client.start();
 		dos.writeUTF("SEND_SCREENSHOT\n" + account_id + '\n' + meeting_id);
         ImageIO.write(image, "png", socket.getOutputStream());
+
+		String send_successfully = dis.readUTF();
+		dos.close();
+		dis.close();
+		socket.close();
+
+		return send_successfully;
+	}
+
+	public static synchronized String send_microphone_record(String account_id, String meeting_id) throws Exception {
+		Client.start();
+		dos.writeUTF("SEND_MICROPHONE_RECORD\n" + account_id + '\n' + meeting_id);
+		byte[] file = IOUtils.toByteArray(new FileInputStream(new File("Record.wav")));
+		dos.writeLong(file.length);
+		dos.write(file, 0, file.length);
+		dos.flush();
 
 		String send_successfully = dis.readUTF();
 		dos.close();

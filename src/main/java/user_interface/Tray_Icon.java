@@ -17,7 +17,6 @@ public class Tray_Icon {
 	public static TrayIcon trayIcon;
 	public static void create_tray_icon() {
 		if (!SystemTray.isSupported()) {
-	        System.out.println("SystemTray is not supported");
 	        return;
 	    }
 	    
@@ -55,7 +54,6 @@ public class Tray_Icon {
 	    try {
 	        tray.add(trayIcon);
 	    } catch (Exception e) {
-	        System.out.println("TrayIcon could not be added.");
 	    }
 	}
 }
