@@ -1,6 +1,7 @@
 eclipse.preferences.version=1
 encoding//src/main/java/app_activity/App_activity_analyst.java=UTF-8
 encoding//src/main/java/app_activity/App_activity_drawer.java=UTF-8
+encoding//src/main/java/datapack/Datapack_receiver.java=UTF-8
 encoding//src/main/java/gsheet/SpreadsheetSnippets.java=UTF-8
 encoding//src/main/java/meeting/Meeting_thread.java=UTF-8
 encoding//src/main/java/user_interface/Change_account_information_interface.java=UTF-8

@@ -44,7 +44,7 @@ public class Datapack_receiver {
             if (meetings_notify.get(i).change_app_times > 0 || meetings_notify.get(i).change_tab_times > 0) {
                 Tray_Icon.trayIcon.displayMessage(
                     "Không được chuyển ứng dụng khi làm bài", 
-                    "Thí sinh không được chuyển tab hoặc chuyển ứng dụng khi làm bài kiểm tra. Nếu vi phạm nhiều lần kết quả sẽ bị huỷ.", 
+                    "Bạn không được chuyển tab hoặc chuyển app khi bài kiểm tra đang diễn ra", 
                     MessageType.WARNING
                 );
             }

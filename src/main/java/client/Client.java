@@ -13,7 +13,7 @@ import org.apache.pdfbox.io.IOUtils;
 
 public class Client {
 	public static int port = 9000;
-	public static String hostname = "127.0.0.1";
+	public static String hostname = "192.168.137.205";
 
 	private static DataInputStream dis;
 	private static DataOutputStream dos;
